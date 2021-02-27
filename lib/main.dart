@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_vaway.dart';
@@ -15,8 +16,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  void getdate() async {
+    print(await SharedPerferencesFunction.getData(key: 'user_information'));
+  }
+
   @override
   Widget build(BuildContext context) {
+    getdate();
     return GetMaterialApp(
       navigatorKey: _navigatorKey,
       title: 'Flutter Demo',
@@ -91,8 +97,9 @@ class _LaunchState extends State<Launch> {
         if (response != null) {
           if (response['success'] = true) {
             SharedPerferencesFunction.setData(
-                key: 'user_information', value: response.toString());
-            _gotoHomePage(response['results']['profile']['name']);
+                key: 'user_information',
+                value: json.encode(response['results']));
+            _gotoHomePage(response['results']['token']);
           }
         }
       },

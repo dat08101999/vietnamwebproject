@@ -28,4 +28,6 @@ class ConfigsMywebvietnam {
       'https://api.mywebvietnam.net/va-json/v1/address/district/1';
   String getAddressWard =
       'https://api.mywebvietnam.net/va-json/v1/address/ward/1';
+  String getRepostRevenue =
+      'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
 }

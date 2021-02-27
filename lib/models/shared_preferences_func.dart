@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPerferencesFunction {
+  static var userinfo = 'user_information';
   SharedPreferences _sharedPreferences;
   static SharedPerferencesFunction _function;
 

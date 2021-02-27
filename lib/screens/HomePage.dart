@@ -13,7 +13,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         child: Column(
-          children: [Text('Hello ${widget.name}')],
+          children: [
+            Text('Hello ${widget.name}'),
+          ],
         ),
       ),
     );
