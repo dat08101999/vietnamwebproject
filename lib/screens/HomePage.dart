@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/widgets/widget_chart.dart';
 
 class HomePage extends StatefulWidget {
   String name;
@@ -13,9 +14,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         child: Column(
-          children: [
-            Text('Hello ${widget.name}'),
-          ],
+          children: [WidgetChart()],
         ),
       ),
     );

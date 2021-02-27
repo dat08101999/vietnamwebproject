@@ -29,5 +29,5 @@ class ConfigsMywebvietnam {
   String getAddressWard =
       'https://api.mywebvietnam.net/va-json/v1/address/ward/1';
   String getRepostRevenue =
-      'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
+      'https://api.mywebvietnam.net/va-json/v1/reports/revenue';
 }

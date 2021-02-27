@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_vaway.dart';
 import 'package:flutter_back_end/models/shared_preferences_func.dart';
 import 'package:flutter_back_end/screens/HomePage.dart';
+import 'package:flutter_back_end/widgets/widget_chart.dart';
 import 'package:get/get.dart';
 import 'package:vaid/VAID.dart';
 
@@ -30,7 +31,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Launch(),
+      home: Material(
+        child: Scaffold(
+          body: WidgetChart(),
+        ),
+      ),
     );
   }
 }

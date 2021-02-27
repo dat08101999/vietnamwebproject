@@ -24,7 +24,6 @@ class Barcolor {
 class Chart extends StatelessWidget {
   final List<ChartModel> data;
   Chart({this.data});
-
   @override
   Widget build(BuildContext context) {
     List<charts.Series<ChartModel, String>> series = [
@@ -35,6 +34,21 @@ class Chart extends StatelessWidget {
           measureFn: (ChartModel series, _) => series.y,
           colorFn: (ChartModel series, _) => series.barcolor)
     ];
-    return charts.BarChart(series, animate: true);
+    return charts.BarChart(
+      series,
+      animate: true,
+      primaryMeasureAxis: charts.NumericAxisSpec(),
+      behaviors: [
+        new charts.SlidingViewport(),
+        new charts.PanAndZoomBehavior(),
+      ],
+      domainAxis: new charts.OrdinalAxisSpec(
+          renderSpec: new charts.SmallTickRendererSpec(
+            labelStyle: new charts.TextStyleSpec(
+                fontSize: 9, // size in Pts.
+                color: charts.MaterialPalette.black),
+          ),
+          viewport: new charts.OrdinalViewport('01', 7)),
+    );
   }
 }
