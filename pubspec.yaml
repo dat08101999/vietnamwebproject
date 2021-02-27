@@ -26,6 +26,7 @@ dependencies:
   vaid:
     git:
       url: https://trongtin045@bitbucket.org/vaway/vaid.git
+  cached_network_image: ^2.5.0
   crypto: ^2.1.5
   cupertino_icons: ^1.0.0
   device_info: ^1.0.0
