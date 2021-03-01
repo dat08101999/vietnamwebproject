@@ -4,6 +4,8 @@ import 'package:flutter_back_end/controllers/blogs_and_chart_controller.dart';
 import 'package:flutter_back_end/models/blog.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_blog.dart';
+import 'package:flutter_back_end/widgets/widget_chart.dart';
+import 'package:flutter_back_end/widgets/widget_chart_month.dart';
 import 'package:get/get.dart';
 
 class BlogsAndChart extends StatefulWidget {
@@ -24,19 +26,26 @@ class _BlogsAndChartState extends State<BlogsAndChart> {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (ctlScroll) {
-            if (ctlScroll is ScrollEndNotification) if (ctlScroll
-                    .metrics.pixels ==
-                ctlScroll.metrics.maxScrollExtent) {
-              if (_blogsAndChartController.limit < 80) {
-                _blogsAndChartController.limit = 10;
-              }
-              return true;
-            }
-            return false;
-          },
-          child: _buildBlogs(),
+        child: Column(
+          children: [
+            ChartMonth(),
+            Expanded(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (ctlScroll) {
+                  if (ctlScroll is ScrollEndNotification) if (ctlScroll
+                          .metrics.pixels ==
+                      ctlScroll.metrics.maxScrollExtent) {
+                    if (_blogsAndChartController.limit < 80) {
+                      _blogsAndChartController.limit = 10;
+                    }
+                    return true;
+                  }
+                  return false;
+                },
+                child: _buildBlogs(),
+              ),
+            )
+          ],
         ));
   }
 }

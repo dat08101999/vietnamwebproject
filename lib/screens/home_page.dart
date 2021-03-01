@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/screens/blogs_and_chart_page.dart';
 import 'package:flutter_back_end/screens/oders_page.dart';
+import 'package:flutter_back_end/screens/products_page.dart';
+import 'package:flutter_back_end/screens/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.name});
@@ -12,7 +14,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  List<Widget> listpage = [BlogsAndChart(), OrdersPage()];
+  List<Widget> listpage = [
+    BlogsAndChart(),
+    OrdersPage(),
+    ProductsPage(),
+    SettingsPage()
+  ];
   @override
   void initState() {
     super.initState();
@@ -21,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: listpage.elementAt(_selectedIndex),
+      body: SafeArea(child: listpage.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blue[200],
         unselectedItemColor: Colors.black45,
