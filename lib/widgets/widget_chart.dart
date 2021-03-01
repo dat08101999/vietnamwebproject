@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/controllers/controller_revuen.dart';
-import 'package:flutter_back_end/main.dart';
-import 'package:flutter_back_end/models/charts.dart';
-import 'package:flutter_back_end/models/models_revenue.dart';
+import 'package:flutter_back_end/widgets/widget_chart_month.dart';
+import 'package:flutter_back_end/widgets/widget_chart_week.dart';
 import 'package:get/get.dart';
 
 class WidgetChart extends StatefulWidget {
@@ -22,7 +21,7 @@ class _WidgetChartgetState extends State<WidgetChart>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
+    _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     _tabController.addListener(() {
       int index = _tabController.index;
       switch (index) {
@@ -60,47 +59,11 @@ class _WidgetChartgetState extends State<WidgetChart>
     }
   }
 
-  FutureBuilder buildTapbarView(DateTime from, DateTime to, String type) {
-    sumText = _todaysum.toString();
-    if (type == 'month') controllerReveun.update();
-    return FutureBuilder<List<ChartModel>>(
-      future: getListChartModel(from, to, type),
-      builder: (buil, snapshot) {
-        if (!snapshot.hasData)
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        return Chart(
-          data: snapshot.data,
-        );
-      },
-    );
-  }
-
-  Future<List<ChartModel>> getListChartModel(
-      DateTime from, DateTime to, String type) async {
-    List<ChartModel> chartModels = List<ChartModel>();
-    dynamic reponse = await Revenue.getRevenueData(from, to);
-    dynamic data = reponse['data'];
-    for (int i = 0; i < data['labels'].length; i++) {
-      getSumary(type, int.parse(data['counts'][i].toString()));
-      chartModels.add(ChartModel(
-          x: getdataLable(data['labels'][i].toString().split('/')),
-          y: int.parse(data['counts'][i].toString()),
-          barcolor: data['labels'][i] == DateTime.now()
-              ? Barcolor.barcolor(Colors.grey)
-              : Barcolor.barcolor(Colors.blue)));
-    }
-    return chartModels;
-  }
-
-  String getdataLable(List<String> daySplit) {
-    List<String> dayinWeek = ["mon", "tue", "wed", "thur", "fri", "sat", "sun"];
-    int weekDayindex = DateTime(int.parse(daySplit[2]), int.parse(daySplit[1]),
-            int.parse(daySplit[0]))
-        .weekday;
-    return daySplit[0] + '.' + dayinWeek[weekDayindex - 1];
-  }
+  // FutureBuilder buildTapbarView(DateTime from, DateTime to, String type) {
+  //   sumText = _todaysum.toString();
+  //   if (type == 'month') controllerReveun.update();
+  //   return FutureBuilder<List<ChartModel>>();
+  // }
 
   DateTime now = DateTime.now();
   DateTime today() {
@@ -130,9 +93,9 @@ class _WidgetChartgetState extends State<WidgetChart>
 
   BoxDecoration decorationTitle() {
     return BoxDecoration(
-        borderRadius: BorderRadius.circular(10), color: Colors.white,
-        //shape: BoxShape.values,
-        boxShadow: [BoxShadow(blurRadius: 20)]);
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.white,
+    );
   }
 
   Widget buildChartArea() {
@@ -140,10 +103,14 @@ class _WidgetChartgetState extends State<WidgetChart>
       child: TabBarView(
         controller: _tabController,
         children: [
-          buildTapbarView(today(), today(), 'day'),
-          buildTapbarView(yesterday(), yesterday(), 'yesterday'),
-          buildTapbarView(startThisWeek(), endThisWeek(), 'week'),
-          buildTapbarView(startThisMonth(), endThisMonth(), 'month')
+          WeekChart(
+            startday: startThisWeek(),
+            endday: endThisWeek(),
+          ),
+          ChartMonth(
+            startday: startThisMonth(),
+            endday: endThisMonth(),
+          )
         ],
       ),
     );
@@ -151,7 +118,7 @@ class _WidgetChartgetState extends State<WidgetChart>
 
   Widget buildCenterArea() {
     return Container(
-      height: currentContext.height * 0.15,
+      //height: currentContext.height * 0.15,
       child: Center(
         child: Text('Tổng: ' + sumText),
       ),
@@ -159,52 +126,46 @@ class _WidgetChartgetState extends State<WidgetChart>
   }
 
   Widget buildTitleArea() {
-    return Container(
-      color: Colors.blue,
-      child: Row(children: [
-        Text('Báo Cáo tài Chính'),
-        Container(
-          decoration: decorationTitle(),
-          width: MediaQuery.of(context).size.width * 0.65,
-          child: TabBar(
-            indicatorColor: Colors.black,
-            unselectedLabelColor: Colors.white,
-            controller: _tabController,
-            tabs: [
-              Tab(
-                  child: Text(
-                'Hôm nay',
-                style: TextStyle(color: Colors.black, fontSize: 9),
-              )),
-              Tab(
-                  child: Text('Hôm qua',
-                      style: TextStyle(color: Colors.black, fontSize: 9))),
-              Tab(
-                  child: Text('Tuần này',
-                      style: TextStyle(color: Colors.black, fontSize: 9))),
-              Tab(
-                  child: Text('Tháng này',
-                      style: TextStyle(color: Colors.black, fontSize: 9))),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        // color: Colors.blue,
+        child: Row(children: [
+          // Text('Báo Cáo tài Chính'),
+          Container(
+            decoration: decorationTitle(),
+            width: MediaQuery.of(context).size.width * 0.55,
+            child: TabBar(
+              indicatorColor: Colors.black,
+              unselectedLabelColor: Colors.white,
+              controller: _tabController,
+              tabs: [
+                Tab(
+                    child: Text('Tuần này',
+                        style: TextStyle(color: Colors.black, fontSize: 14))),
+                Tab(
+                    child: Text('Tháng này',
+                        style: TextStyle(color: Colors.black, fontSize: 14))),
+              ],
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.of(context).size.height * 0.6,
         color: Colors.white,
         child: Column(children: [
           buildTitleArea(),
           GetBuilder<ControllerReveun>(
             builder: (builder) {
-              return buildCenterArea();
+              return buildChartArea();
             },
           ),
-          buildChartArea()
         ]));
   }
 }

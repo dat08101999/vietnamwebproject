@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_back_end/screens/blogs_and_chart_page.dart';
+import 'package:flutter_back_end/screens/main_page.dart';
 import 'package:flutter_back_end/screens/oders_page.dart';
 import 'package:flutter_back_end/screens/products_page.dart';
 import 'package:flutter_back_end/screens/settings_page.dart';
@@ -15,7 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> listpage = [
-    BlogsAndChart(),
+    // BlogsAndChart(),
+    MainPage(),
     OrdersPage(),
     ProductsPage(),
     SettingsPage()

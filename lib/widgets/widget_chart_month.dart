@@ -4,10 +4,13 @@ import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 
 class ChartMonth extends StatelessWidget {
+  final DateTime startday;
+  final DateTime endday;
+  ChartMonth({this.startday, this.endday});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getRevenueMonth(),
+        future: getRevenueData(startday, endday),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<BarChartGroupData> _barCharGroupData = snapshot.data;
@@ -44,7 +47,7 @@ class ChartMonth extends StatelessWidget {
                             'Báo cáo tài chính',
                             style: TextStyle(
                                 color: Colors.white54,
-                                fontSize: 22,
+                                fontSize: 19,
                                 fontWeight: FontWeight.w600),
                           )
                         ],
@@ -70,7 +73,7 @@ class ChartMonth extends StatelessWidget {
                                         color: Color(0xff7589a2),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14),
-                                    margin: 20,
+                                    // margin: 5
                                     reservedSize: 14,
                                     getTitles: (value) {
                                       if (value == 0) {
@@ -155,7 +158,6 @@ class ChartMonth extends StatelessWidget {
 
 final Color leftBarColor = const Color(0xff53fdd7);
 final Color rightBarColor = const Color(0xffff5182);
-
 BarChartGroupData makeGroupData(int x, double y1) {
   return BarChartGroupData(barsSpace: 4, x: x, barRods: [
     BarChartRodData(
@@ -167,11 +169,20 @@ BarChartGroupData makeGroupData(int x, double y1) {
   ]);
 }
 
-Future<List<BarChartGroupData>> getRevenueMonth() async {
+String dateformat(DateTime source) {
+  return source.day.toString() +
+      '/' +
+      source.month.toString() +
+      '/' +
+      source.year.toString();
+}
+
+Future<List<BarChartGroupData>> getRevenueData(
+    DateTime startday, DateTime endday) async {
   var paramas = {
     'token': '4779ce0e8eeb2de09fd04dd38c7d0526',
-    'from': '1/02/2021',
-    'to': '28/02/2021'
+    'from': dateformat(startday),
+    'to': dateformat(endday)
   };
   var response = await RequestDio.get(
       url: ConfigsMywebvietnam.getRepostRevenue, parames: paramas);

@@ -22,10 +22,14 @@ class RequestDio {
     }
   }
 
-  static postWithHeader({@required url, data, @required header}) async {
-    var response = await new Dio()
-        .post(url, data: data, options: Options(headers: header));
+  static postWithHeader(
+      {@required url, data, parameters, @required header}) async {
+    var response = await new Dio().post(url,
+        data: data,
+        queryParameters: parameters,
+        options: Options(headers: header));
     if (response.statusCode == 200 || response.statusCode == 400) {
+      // print(response.request.uri);
       return response.data;
     } else {
       print('postWithHeader Error');
