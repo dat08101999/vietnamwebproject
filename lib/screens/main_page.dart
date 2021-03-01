@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/main.dart';
-import 'package:flutter_back_end/models/models_signinInfo.dart';
 import 'package:flutter_back_end/widgets/widget_chart.dart';
 
 class MainPage extends StatefulWidget {
@@ -126,7 +125,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(SignInInfo.moneyFomat('3000'));
     return Stack(
       children: [
         Container(
