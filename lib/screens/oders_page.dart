@@ -43,7 +43,7 @@ class _OdersPageState extends State<OrdersPage> {
 Widget _buildBlogs() {
   return GetBuilder<OdersController>(builder: (ctl) {
     return FutureBuilder(
-        future: getBlogs(limit: ctl.limit),
+        future: getOrders(limit: ctl.limit),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Order> orders = snapshot.data;
@@ -71,19 +71,19 @@ Widget _buildBlogs() {
   });
 }
 
-Future<List<Order>> getBlogs({int limit = 0}) async {
+Future<List<Order>> getOrders({int limit = 0}) async {
   // var token = await User.getToken();
   var paramas = {
     'token': '4779ce0e8eeb2de09fd04dd38c7d0526',
-    'limit': 7 + limit,
+    'limit': 5 + limit,
     'offset': 0
   };
   var response =
       await RequestDio.get(url: ConfigsMywebvietnam.getOders, parames: paramas);
   if (response['success']) {
-    List orders = response['data'];
+    List _ordres = response['data'];
     return List.generate(
-        orders.length, (index) => Order.fromMap(orders[index]));
+        _ordres.length, (index) => Order.fromMap(_ordres[index]));
   } else {
     print('lấy dữ liệu lỗi');
     return null;

@@ -16,7 +16,7 @@ class TextInColor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(3),
       decoration:
           BoxDecoration(borderRadius: BorderRadius.circular(5), color: color),
       child: Text(

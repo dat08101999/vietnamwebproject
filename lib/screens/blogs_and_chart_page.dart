@@ -4,7 +4,6 @@ import 'package:flutter_back_end/controllers/blogs_and_chart_controller.dart';
 import 'package:flutter_back_end/models/blog.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_blog.dart';
-import 'package:flutter_back_end/widgets/widget_chart.dart';
 import 'package:flutter_back_end/widgets/widget_chart_month.dart';
 import 'package:get/get.dart';
 
