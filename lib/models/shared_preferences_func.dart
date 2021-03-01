@@ -24,10 +24,12 @@ class SharedPerferencesFunction {
 
   Future<String> _getData(key) async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    return _sharedPreferences.getString(key);
+    var respones = _sharedPreferences.getString(key);
+    return respones;
   }
 
-  static Future<String> getData({@required key}) {
-    return getIntance()._getData(key);
+  static Future<String> getData({@required key}) async {
+    var response = await getIntance()._getData(key);
+    return response;
   }
 }

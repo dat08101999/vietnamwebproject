@@ -6,7 +6,7 @@ class Revenue {
     //var token = json.decode(await SharedPerferencesFunction.getData('').toString());
     var token = '4779ce0e8eeb2de09fd04dd38c7d0526';
     var response = await RequestDio.get(
-        url: ConfigsMywebvietnam().getRepostRevenue,
+        url: ConfigsMywebvietnam.getRepostRevenue,
         parames: {
           "token": token,
           "from": dateformat(from),
