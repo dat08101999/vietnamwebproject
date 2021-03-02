@@ -4,21 +4,11 @@ class Customer {
   int id;
   int customerID;
   String name;
-  Map<String, dynamic> address;
+  dynamic address;
   String phone;
   String email;
-  String message;
-  int status;
-  String discount;
-  List<Map<String, dynamic>> product;
   int addedTime;
   String addedDate;
-  int payment;
-  String shipment;
-  Map<String, dynamic> amount;
-  Map<String, dynamic> timeline;
-  List<Map<String, dynamic>> options;
-
   Customer({
     this.id,
     this.customerID,
@@ -26,38 +16,42 @@ class Customer {
     this.address,
     this.phone,
     this.email,
-    this.message,
-    this.status,
-    this.discount,
-    this.product,
     this.addedTime,
     this.addedDate,
-    this.payment,
-    this.shipment,
-    this.amount,
-    this.timeline,
-    this.options,
   });
+
+  Customer copyWith({
+    int id,
+    int customerID,
+    String name,
+    dynamic address,
+    String phone,
+    String email,
+    int addedTime,
+    String addedDate,
+  }) {
+    return Customer(
+      id: id ?? this.id,
+      customerID: customerID ?? this.customerID,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      addedTime: addedTime ?? this.addedTime,
+      addedDate: addedDate ?? this.addedDate,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'customer_id': customerID,
+      'customerID': customerID,
       'name': name,
       'address': address,
       'phone': phone,
       'email': email,
-      'message': message,
-      'status': status,
-      'discount': discount,
-      'product': product,
-      'added_time': addedTime,
-      'added_date': addedDate,
-      'payment': payment,
-      'shipment': shipment,
-      'amount': amount,
-      'timeline': timeline,
-      'options': options,
+      'addedTime': addedTime,
+      'addedDate': addedDate,
     };
   }
 
@@ -68,20 +62,11 @@ class Customer {
       id: map['_id'],
       customerID: map['customer_id'],
       name: map['name'],
-      address: Map<String, dynamic>.from(map['address']),
+      address: map['address'],
       phone: map['phone'],
       email: map['email'],
-      message: map['message'],
-      status: map['status'],
-      discount: map['discount'],
-      product: List<Map<String, dynamic>>.from(map['product']?.map((x) => x)),
-      addedTime: map['added_time'],
-      addedDate: map['added_date'],
-      payment: map['payment'],
-      shipment: map['shipment'],
-      amount: Map<String, dynamic>.from(map['amount']),
-      timeline: Map<String, dynamic>.from(map['timeline']),
-      options: List<Map<String, dynamic>>.from(map['options']?.map((x) => x)),
+      addedTime: map['addedTime'],
+      addedDate: map['addedDate'],
     );
   }
 
@@ -92,6 +77,6 @@ class Customer {
 
   @override
   String toString() {
-    return 'Customer(id: $id, customer_id: $customerID, name: $name, address: $address, phone: $phone, email: $email, message: $message, status: $status, discount: $discount, product: $product, added_time: $addedTime, added_date: $addedDate, payment: $payment, shipment: $shipment, amount: $amount, timeline: $timeline, options: $options)';
+    return 'Customer(id: $id, customerID: $customerID, name: $name, address: $address, phone: $phone, email: $email, addedTime: $addedTime, addedDate: $addedDate)';
   }
 }

@@ -30,6 +30,9 @@ class ConfigsMywebvietnam {
   static String getRepostRevenue =
       'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
 
+  static String title =
+      'Để chỉnh sửa nhiều thông tin hơn , quý khách vui lòng truy cập vào trang quản trị bằng máy tính';
+
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {
     String urlDistrict = '$getAddressDistrict${mapAddress['province']}';
     String urlWard = '$getAddressWard${mapAddress['district']}';
