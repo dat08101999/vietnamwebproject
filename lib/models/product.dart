@@ -8,7 +8,7 @@ class Product {
   String sku;
   List<Map<String, dynamic>> categories;
   List<Map<String, dynamic>> groups;
-  Map<String, dynamic> brand;
+  dynamic brand;
   int priceSale;
   int priceRegular;
   int stock;
@@ -61,7 +61,7 @@ class Product {
       categories:
           List<Map<String, dynamic>>.from(map['categories']?.map((x) => x)),
       groups: List<Map<String, dynamic>>.from(map['groups']?.map((x) => x)),
-      brand: Map<String, dynamic>.from(map['brand']),
+      brand: map['brand'],
       priceSale: map['price_sale'],
       priceRegular: map['price_regular'],
       stock: map['stock'],

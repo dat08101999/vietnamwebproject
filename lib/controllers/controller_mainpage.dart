@@ -17,18 +17,21 @@ class ControllerMainPage extends GetxController {
   String name = '';
   var info;
   var infoDashBoard;
+
   getInforMation() async {
     try {
       info = await SignInInfo.getAllinfo();
       info = json.decode(info)['data'];
-      setTokenWeb(info[0]['token']);
-      infoDashBoard = await SignInInfo.getReportInfo();
-      getDashBoardInfo();
-      name = info[0]['name'];
-      basic = info[0]['plan']['expried'].toString();
-      print(infoDashBoard);
-      basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
-      update();
+      if (webToken == null) {
+        setTokenWeb(info[0]['token']);
+        infoDashBoard = await SignInInfo.getReportInfo();
+        getDashBoardInfo();
+        name = info[0]['name'];
+        basic = info[0]['plan']['expried'].toString();
+        print(infoDashBoard);
+        basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
+        update();
+      }
     } catch (ex, trace) {
       print(ex + trace);
     }

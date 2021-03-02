@@ -8,4 +8,12 @@ class Format {
     }
     return '$price đ';
   }
+
+  static String dateFormat(DateTime source) {
+    return source.day.toString() +
+        '/' +
+        source.month.toString() +
+        '/' +
+        source.year.toString();
+  }
 }

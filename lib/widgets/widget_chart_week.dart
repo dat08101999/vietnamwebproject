@@ -1,5 +1,11 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/models/format.dart';
+import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_chart_month.dart';
 
 class WeekChart extends StatelessWidget {
@@ -9,110 +15,125 @@ class WeekChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getRevenueData(startday, endday),
+      future: _getRevenueData(startday, endday),
       builder: (builder, snapshot) {
         if (snapshot.hasData) {
           List<BarChartGroupData> _barchartGroup = snapshot.data;
           return AspectRatio(
             aspectRatio: 1,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
-              color: const Color(0xff2c4260),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    //* title
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'VAWEB ' + summary.toString(),
-                          style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          'Báo cáo tài chính',
-                          style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                    //* biểu đồ
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 30),
-                        child: BarChart(
-                          BarChartData(
-                            borderData: FlBorderData(show: false),
-                            titlesData: FlTitlesData(
-                              leftTitles: SideTitles(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  //* logo VAWEB
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'VAWEB',
+                        style: TextStyle(
+                            color: Color(0xff7589a2),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  //* biểu đồ
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: BarChart(
+                        BarChartData(
+                          borderData: FlBorderData(
+                              show: true,
+                              border: Border(
+                                  left: BorderSide(
+                                      width: 1, color: Color(0xff7589a2)),
+                                  bottom: BorderSide(
+                                      width: 1, color: Color(0xff7589a2)))),
+                          titlesData: FlTitlesData(
+                            leftTitles: SideTitles(
+                              margin: 15,
+                              showTitles: true,
+                              getTextStyles: (value) => const TextStyle(
+                                  color: Color(0xff7589a2),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10),
+                              reservedSize: 15,
+                              getTitles: (value) {
+                                if (value == 0) {
+                                  return '';
+                                } else if (value == 200000) {
+                                  return '500K';
+                                } else if (value == 1000000) {
+                                  return '1m';
+                                } else if (value == 2000000) {
+                                  return '2m';
+                                } else if (value == 5000000) {
+                                  return '5m';
+                                } else if (value == 10000000) {
+                                  return '10m';
+                                } else if (value == 20000000) {
+                                  return '20m';
+                                } else if (value == 30000000) {
+                                  return '30m';
+                                } else if (value == 40000000) {
+                                  return '40m';
+                                } else if (value == 50000000) {
+                                  return '50m';
+                                } else if (value == 60000000) {
+                                  return '60m';
+                                } else if (value == 70000000) {
+                                  return '70m';
+                                } else if (value == 80000000) {
+                                  return '80m';
+                                } else if (value == 90000000) {
+                                  return '90m';
+                                } else if (value == 100000000) {
+                                  return '100m';
+                                } else {
+                                  return '';
+                                }
+                              },
+                            ),
+                            bottomTitles: SideTitles(
                                 showTitles: true,
-                                getTextStyles: (value) => const TextStyle(
+                                margin: 20,
+                                getTextStyles: (value) => TextStyle(
                                     color: Color(0xff7589a2),
-                                    fontWeight: FontWeight.bold),
-                                margin: 32,
-                                reservedSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10),
                                 getTitles: (value) {
                                   if (value == 0) {
-                                    return '1K';
-                                  } else if (value == 10) {
-                                    return '5K';
-                                  } else if (value == 19) {
-                                    return '10K';
+                                    return 'T2';
+                                  } else if (value == 1) {
+                                    return 'T3';
+                                  } else if (value == 2) {
+                                    return 'T4';
+                                  } else if (value == 3) {
+                                    return 'T5';
+                                  } else if (value == 4) {
+                                    return 'T6';
+                                  } else if (value == 5) {
+                                    return 'T7';
+                                  } else if (value == 6) {
+                                    return 'CN';
                                   } else {
-                                    return '';
+                                    return '|';
                                   }
-                                },
-                              ),
-                              bottomTitles: SideTitles(
-                                  showTitles: true,
-                                  margin: 20,
-                                  getTextStyles: (value) => TextStyle(
-                                      color: Color(0xff7589a2),
-                                      fontWeight: FontWeight.bold),
-                                  getTitles: (value) {
-                                    if (value == 0) {
-                                      return '0';
-                                    } else if (value == 1) {
-                                      return 'Thứ 2';
-                                    } else if (value == 2) {
-                                      return 'Thứ 3';
-                                    } else if (value == 3) {
-                                      return 'Thứ 4';
-                                    } else if (value == 4) {
-                                      return 'Thứ 5';
-                                    } else if (value == 5) {
-                                      return 'Thứ 6';
-                                    } else if (value == 6) {
-                                      return 'Thứ 7';
-                                    } else if (value == 7) {
-                                      return 'CN';
-                                    } else {
-                                      return '';
-                                    }
-                                  }),
-                            ),
-                            barGroups: _barchartGroup,
+                                }),
                           ),
-                          swapAnimationDuration: Duration(seconds: 1),
+                          barGroups: _barchartGroup,
                         ),
+                        swapAnimationDuration: Duration(seconds: 1),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
@@ -128,13 +149,39 @@ class WeekChart extends StatelessWidget {
 final Color leftBarColor = const Color(0xff53fdd7);
 final Color rightBarColor = const Color(0xffff5182);
 
-BarChartGroupData makeGroupData(int x, double y1, double y2) {
-  return BarChartGroupData(barsSpace: 4, x: x, barRods: [
+BarChartGroupData makeGroupData(int x, double y1) {
+  return BarChartGroupData(barsSpace: 1, x: x, barRods: [
     BarChartRodData(
       y: y1,
-      colors: [y1 > 10 ? leftBarColor : rightBarColor],
-      borderRadius: BorderRadius.circular(3),
+      colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
+      borderRadius: BorderRadius.circular(0),
       width: 20,
     ),
   ]);
+}
+
+Future<List<BarChartGroupData>> _getRevenueData(
+    DateTime startday, DateTime endday) async {
+  summary = 0;
+  // Get.find<ControllerReveun>().update();
+  var paramas = {
+    'token': ControllerMainPage.webToken,
+    'from': Format.dateFormat(startday),
+    'to': Format.dateFormat(endday)
+  };
+  print(paramas);
+  var response = await RequestDio.get(
+      url: ConfigsMywebvietnam.getRepostRevenue, parames: paramas);
+  if (response['success']) {
+    List counts = response['data']['counts'];
+    return List.generate(counts.length, (index) {
+      summary += int.parse(counts[index].toString());
+      return makeGroupData(
+          index, double.parse(new Random().nextInt(10000000).toString()));
+      // return makeGroupData(index, double.parse(counts[index].toString()));
+    });
+  } else {
+    print('lỗi getRevenueMonth');
+    return null;
+  }
 }

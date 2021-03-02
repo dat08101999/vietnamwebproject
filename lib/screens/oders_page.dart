@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/oders_controller.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
@@ -47,23 +48,18 @@ Widget _buildBlogs() {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Order> orders = snapshot.data;
-            return ListView.builder(
-                itemCount: orders.length,
-                itemBuilder: (context, index) {
-                  if (index == orders.length) {
-                    return Card(
-                      child: ListTile(
-                        leading: CircularProgressIndicator(),
-                        title: Text(
-                          'Đang tải ...',
-                          style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    );
-                  }
-                  return WidgetOrder(order: orders[index]);
-                });
+            return orders.length == 0
+                ? Center(
+                    child: Text(
+                    'Không có đơn hàng nào cả :((',
+                    style: TextStyle(
+                        color: Colors.black54, fontWeight: FontWeight.bold),
+                  ))
+                : ListView.builder(
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) {
+                      return WidgetOrder(order: orders[index]);
+                    });
           } else {
             return Center(child: CircularProgressIndicator());
           }
@@ -74,14 +70,14 @@ Widget _buildBlogs() {
 Future<List<Order>> getOrders({int limit = 0}) async {
   // var token = await User.getToken();
   var paramas = {
-    'token': '4779ce0e8eeb2de09fd04dd38c7d0526',
+    'token': ControllerMainPage.webToken,
     'limit': 5 + limit,
     'offset': 0
   };
   var response =
       await RequestDio.get(url: ConfigsMywebvietnam.getOders, parames: paramas);
   if (response['success']) {
-    List _ordres = response['data'];
+    List _ordres = response['data'] ?? [];
     return List.generate(
         _ordres.length, (index) => Order.fromMap(_ordres[index]));
   } else {
