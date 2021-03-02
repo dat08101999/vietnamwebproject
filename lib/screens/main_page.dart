@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/widgets/widget_chart.dart';
+import 'package:get/get.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -8,7 +12,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _dropdownValue = 0;
+  bool isShowmenu = false;
+  ControllerMainPage controllerMainPage = Get.put(ControllerMainPage());
+  String selecteditem = '';
   BoxDecoration decorationBody() {
     return BoxDecoration(
         color: Colors.amber,
@@ -22,32 +28,68 @@ class _MainPageState extends State<MainPage> {
       child: Container(
         color: Colors.white,
         child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage:
-                NetworkImage('https://i.stack.imgur.com/5swJm.png'),
-          ),
-          title: Text('Demo'),
-          subtitle: Text('Basic'),
-          trailing: DropdownButton(
-            value: _dropdownValue,
-            onChanged: (value) {
-              _dropdownValue = value;
-              setState(() {});
-            },
-            icon: Icon(Icons.arrow_drop_down_rounded),
-            items: [
-              DropdownMenuItem(
-                value: 0,
-                child: Text(''),
-              )
-            ],
-          ),
-        ),
+            leading: CircleAvatar(
+              backgroundImage:
+                  NetworkImage('https://i.stack.imgur.com/5swJm.png'),
+            ),
+            title: Text(controllerMainPage.name),
+            subtitle: Text('Basic ' + controllerMainPage.basic),
+            trailing: IconButton(
+              icon: Icon(Icons.arrow_drop_down),
+              onPressed: () {
+                dropdown();
+              },
+            )),
       ),
     );
   }
 
-  Widget buildGridViewItem(String title, String count) {
+  dropdown() {
+    List<InkWell> list = List<InkWell>();
+    try {
+      for (int i = 0; i < controllerMainPage.info.length; i++) {
+        list.add(InkWell(
+          highlightColor: Colors.amber,
+          splashColor: Colors.amber,
+          onTap: () {
+            controllerMainPage.changeData(i);
+            Navigator.pop(currentContext);
+          },
+          child: Container(
+            height: 50,
+            child: Row(children: [
+              Text(
+                controllerMainPage.info[i]['name'],
+                style: TextStyle(fontSize: 14),
+              ),
+            ]),
+          ),
+        ));
+      }
+    } catch (ex) {
+      return list;
+    }
+    popUpChosing(list)..show();
+  }
+
+  popUpChosing(list) {
+    return YYDialog().build(context)
+      ..width = MediaQuery.of(context).size.width * 0.5
+      ..gravity = Gravity.rightTop
+      ..margin = EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.15,
+          right: MediaQuery.of(context).size.width * 0.1)
+      ..widget(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+            height: 400,
+            child: ListView(
+              children: list,
+            )),
+      ));
+  }
+
+  Widget buildGridViewItem(String title, String count, {bool isIncrease}) {
     return Container(
       height: 100,
       decoration: BoxDecoration(
@@ -58,13 +100,19 @@ class _MainPageState extends State<MainPage> {
         child: RichText(
           text: TextSpan(children: [
             WidgetSpan(
-                child: Center(
-              child: Text(count,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(count,
                   style: TextStyle(
                       fontSize: 30,
                       fontFamily: 'Bold',
                       fontWeight: FontWeight.bold)),
-            )),
+              isIncrease != null
+                  ? (isIncrease
+                      ? Icon(Icons.arrow_upward)
+                      : Icon(Icons.arrow_downward))
+                  : Container()
+            ])),
             WidgetSpan(
                 child: Center(
               child: Text(title,
@@ -88,10 +136,15 @@ class _MainPageState extends State<MainPage> {
               mainAxisSpacing: 5.0,
               childAspectRatio: 1.5),
           children: [
-            buildGridViewItem('Đơn Hàng', '11'),
-            buildGridViewItem('Khách Hàng', '12'),
-            buildGridViewItem('Sản Phẩm', '12'),
-            buildGridViewItem('Title Lable', '12'),
+            buildGridViewItem('Đơn Hàng', controllerMainPage.oders.toString(),
+                isIncrease: controllerMainPage.oderIncrease),
+            buildGridViewItem(
+                'Khách Hàng', controllerMainPage.customers.toString(),
+                isIncrease: controllerMainPage.customerIncease),
+            buildGridViewItem(
+                'Sản Phẩm', controllerMainPage.products.toString()),
+            buildGridViewItem('Thu nhập', controllerMainPage.money.toString(),
+                isIncrease: controllerMainPage.moneyIncrase),
           ],
         ),
       ),
@@ -110,21 +163,24 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buildBodyArea() {
-    return Container(
-      height: MediaQuery.of(currentContext).size.height * 0.85,
-      decoration: decorationBody(),
-      child: ListView(
-        children: [
-          buildBodyHeadArea(),
-          buildBodyCenterArea(),
-          buildChartArea()
-        ],
-      ),
-    );
+    return GetBuilder<ControllerMainPage>(builder: (builder) {
+      return Container(
+        height: MediaQuery.of(currentContext).size.height * 0.85,
+        decoration: decorationBody(),
+        child: ListView(
+          children: [
+            buildBodyHeadArea(),
+            buildBodyCenterArea(),
+            buildChartArea()
+          ],
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    controllerMainPage.getInforMation();
     return Stack(
       children: [
         Container(

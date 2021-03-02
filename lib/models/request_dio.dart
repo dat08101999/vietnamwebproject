@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class RequestDio {
   static get({@required url, parames}) async {
@@ -19,6 +20,19 @@ class RequestDio {
     } else {
       print('Post Error');
       return null;
+    }
+  }
+
+  static httpPost({headers, url, body, token}) async {
+    headers = headers;
+    var request = http.Request('POST', Uri.parse(url));
+    request.bodyFields = body;
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      return await response.stream.bytesToString();
+    } else {
+      print(response.reasonPhrase);
     }
   }
 

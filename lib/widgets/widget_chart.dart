@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/controller_revuen.dart';
 import 'package:flutter_back_end/widgets/widget_chart_month.dart';
 import 'package:flutter_back_end/widgets/widget_chart_week.dart';
@@ -13,57 +14,11 @@ class _WidgetChartgetState extends State<WidgetChart>
     with SingleTickerProviderStateMixin {
   ControllerReveun controllerReveun = Get.put(ControllerReveun());
   TabController _tabController;
-  int _todaysum = 0;
-  int _weeksum = 0;
-  int _yesterdaysum = 0;
-  int _monthsum = 0;
-  String sumText = '';
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
-    _tabController.addListener(() {
-      int index = _tabController.index;
-      switch (index) {
-        case 0:
-          sumText = _todaysum.toString();
-          break;
-        case 1:
-          sumText = _yesterdaysum.toString();
-          break;
-        case 2:
-          sumText = _weeksum.toString();
-          break;
-        case 3:
-          sumText = _monthsum.toString();
-          break;
-      }
-      controllerReveun.update();
-    });
   }
-
-  void getSumary(String type, int sumParam) {
-    switch (type) {
-      case 'day':
-        _todaysum += sumParam;
-        break;
-      case 'yesterday':
-        _yesterdaysum += sumParam;
-        break;
-      case 'week':
-        _weeksum += sumParam;
-        break;
-      case 'month':
-        _monthsum += sumParam;
-        break;
-    }
-  }
-
-  // FutureBuilder buildTapbarView(DateTime from, DateTime to, String type) {
-  //   sumText = _todaysum.toString();
-  //   if (type == 'month') controllerReveun.update();
-  //   return FutureBuilder<List<ChartModel>>();
-  // }
 
   DateTime now = DateTime.now();
   DateTime today() {
@@ -116,15 +71,6 @@ class _WidgetChartgetState extends State<WidgetChart>
     );
   }
 
-  Widget buildCenterArea() {
-    return Container(
-      //height: currentContext.height * 0.15,
-      child: Center(
-        child: Text('Tổng: ' + sumText),
-      ),
-    );
-  }
-
   Widget buildTitleArea() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -159,13 +105,10 @@ class _WidgetChartgetState extends State<WidgetChart>
     return Container(
         height: MediaQuery.of(context).size.height * 0.6,
         color: Colors.white,
-        child: Column(children: [
-          buildTitleArea(),
-          GetBuilder<ControllerReveun>(
-            builder: (builder) {
-              return buildChartArea();
-            },
-          ),
-        ]));
+        child: GetBuilder<ControllerMainPage>(
+          builder: (build) {
+            return Column(children: [buildTitleArea(), buildChartArea()]);
+          },
+        ));
   }
 }

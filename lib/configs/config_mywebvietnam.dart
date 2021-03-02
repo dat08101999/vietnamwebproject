@@ -27,4 +27,6 @@ class ConfigsMywebvietnam {
       'https://api.mywebvietnam.net/va-json/v1/address/ward';
   static String getRepostRevenue =
       'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
+  static String getDashboard =
+      'https://api.mywebvietnam.net/va-json/v1/reports/dashboard';
 }

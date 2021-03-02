@@ -1,30 +1,37 @@
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/models/models_revenue.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 
 class SignInInfo {
   static getAllinfo() async {
-    String token = '4779ce0e8eeb2de09fd04dd38c7d0526';
-    var response = await RequestDio.postWithHeader(
-        url: ConfigsMywebvietnam.signInApi,
-        parameters: {
-          "token": token
-        },
-        data: {
-          "access_token": token,
-        },
-        header: {
+    String accesstoken = '324-1c77cadc-776a-11eb-94d7-fa163ee6c2fe';
+    var response = await RequestDio.httpPost(
+        headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Cookie':
               'dbdad159c321a98161b40cc2ec4ba243=7ed77dd0a588cadef8bf650d4719b546a90cc1e5'
-        });
+        },
+        url: ConfigsMywebvietnam.signInApi,
+        body: {'access_token': accesstoken});
+    // print(response);
     return response;
   }
 
-  static String moneyFomat(String moneyValue) {
-    String result = '';
-    for (int i = moneyValue.length - 1; i >= 0; i - 3) {
-      result += moneyValue[i] + moneyValue[i - 1] + moneyValue[i - 2];
-    }
-    return result;
+  static getReportInfo() async {
+    var header = {
+      'Cookie':
+          'dbdad159c321a98161b40cc2ec4ba243=7ed77dd0a588cadef8bf650d4719b546a90cc1e5'
+    };
+    var url = ConfigsMywebvietnam.getDashboard;
+    var response =
+        await RequestDio.getWithHeader(header: header, url: url, paramas: {
+      'token': ControllerMainPage.webToken,
+      'from': Revenue.dateformat(
+          DateTime(DateTime.now().year, DateTime.now().month, 1)),
+      'to': Revenue.dateformat(DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day))
+    });
+    return response;
   }
 }

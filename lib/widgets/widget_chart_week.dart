@@ -32,7 +32,7 @@ class WeekChart extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'VAWEB',
+                          'VAWEB ' + summary.toString(),
                           style: TextStyle(
                               color: Colors.white54,
                               fontSize: 30,

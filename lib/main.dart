@@ -9,13 +9,11 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaid/VAID.dart';
 
-import 'models/models_signinInfo.dart';
-
 final _navigatorKey = GlobalKey<NavigatorState>();
 BuildContext get currentContext => _navigatorKey.currentContext;
 
 void main() {
-  print(SignInInfo.moneyFomat('3000'));
+  //print(SignInInfo.moneyFomat('3000'));
   runApp(MyApp());
 }
 

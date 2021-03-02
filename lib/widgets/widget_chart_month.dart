@@ -1,7 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/controllers/controller_revuen.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:get/get.dart';
 
 class ChartMonth extends StatelessWidget {
   final DateTime startday;
@@ -34,7 +37,7 @@ class ChartMonth extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'VAWEB',
+                            'VAWEB ' + summary.toString(),
                             style: TextStyle(
                                 color: Colors.white54,
                                 fontSize: 30,
@@ -147,7 +150,6 @@ class ChartMonth extends StatelessWidget {
               ),
             );
           } else {
-            print(snapshot.error);
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -169,6 +171,7 @@ BarChartGroupData makeGroupData(int x, double y1) {
   ]);
 }
 
+int summary = 0;
 String dateformat(DateTime source) {
   return source.day.toString() +
       '/' +
@@ -179,8 +182,10 @@ String dateformat(DateTime source) {
 
 Future<List<BarChartGroupData>> getRevenueData(
     DateTime startday, DateTime endday) async {
+  summary = 0;
+  // Get.find<ControllerReveun>().update();
   var paramas = {
-    'token': '4779ce0e8eeb2de09fd04dd38c7d0526',
+    'token': ControllerMainPage.webToken,
     'from': dateformat(startday),
     'to': dateformat(endday)
   };
@@ -189,6 +194,7 @@ Future<List<BarChartGroupData>> getRevenueData(
   if (response['success']) {
     List counts = response['data']['counts'];
     return List.generate(counts.length, (index) {
+      summary += int.parse(counts[index].toString());
       // if (counts[index] >= 10000)
       return makeGroupData(index, double.parse(counts[index].toString()));
       // return null;
