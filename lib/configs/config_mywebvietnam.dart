@@ -29,4 +29,6 @@ class ConfigsMywebvietnam {
       'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
   static String getDashboard =
       'https://api.mywebvietnam.net/va-json/v1/reports/dashboard';
+  static String getInfoCustomer =
+      'https://api.mywebvietnam.net/va-json/v1/customers';
 }

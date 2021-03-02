@@ -142,10 +142,5 @@ BarChartGroupData makeGroupData(int x, double y1, double y2) {
       borderRadius: BorderRadius.circular(3),
       width: 20,
     ),
-    // BarChartRodData(
-    //   y: y2,
-    //   colors: [rightBarColor],
-    //   width: 10,
-    // ),
   ]);
 }

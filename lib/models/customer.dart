@@ -1,63 +1,76 @@
 import 'dart:convert';
 
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/models/request_dio.dart';
+
 class Customer {
   int id;
-  int customerID;
   String name;
-  Map<String, dynamic> address;
+  String address;
   String phone;
   String email;
-  String message;
-  int status;
-  String discount;
-  List<Map<String, dynamic>> product;
-  int addedTime;
-  String addedDate;
-  int payment;
-  String shipment;
-  Map<String, dynamic> amount;
-  Map<String, dynamic> timeline;
-  List<Map<String, dynamic>> options;
-
+  int province;
+  int district;
+  int ward;
+  int addedtime;
+  String addeddate;
+  // bool block;
   Customer({
     this.id,
-    this.customerID,
     this.name,
     this.address,
     this.phone,
     this.email,
-    this.message,
-    this.status,
-    this.discount,
-    this.product,
-    this.addedTime,
-    this.addedDate,
-    this.payment,
-    this.shipment,
-    this.amount,
-    this.timeline,
-    this.options,
+    this.province,
+    this.district,
+    this.ward,
+    this.addedtime,
+    this.addeddate,
+    // this.block,
   });
+
+  Customer copyWith({
+    int id,
+    String name,
+    String address,
+    String phone,
+    String email,
+    int province,
+    int district,
+    int ward,
+    int addedtime,
+    String addeddate,
+    // bool block,
+  }) {
+    return Customer(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      province: province ?? this.province,
+      district: district ?? this.district,
+      ward: ward ?? this.ward,
+      addedtime: addedtime ?? this.addedtime,
+      addeddate: addeddate ?? this.addeddate,
+      //block: block ?? this.block,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'customer_id': customerID,
       'name': name,
       'address': address,
       'phone': phone,
       'email': email,
-      'message': message,
-      'status': status,
-      'discount': discount,
-      'product': product,
-      'added_time': addedTime,
-      'added_date': addedDate,
-      'payment': payment,
-      'shipment': shipment,
-      'amount': amount,
-      'timeline': timeline,
-      'options': options,
+      'province': province,
+      'district': district,
+      'ward': ward,
+      'added_time': addedtime,
+      'added_date': addeddate,
+      // 'block': block,
     };
   }
 
@@ -65,23 +78,17 @@ class Customer {
     if (map == null) return null;
 
     return Customer(
-      id: map['_id'],
-      customerID: map['customer_id'],
+      id: map['id'],
       name: map['name'],
-      address: Map<String, dynamic>.from(map['address']),
+      address: map['address'],
       phone: map['phone'],
       email: map['email'],
-      message: map['message'],
-      status: map['status'],
-      discount: map['discount'],
-      product: List<Map<String, dynamic>>.from(map['product']?.map((x) => x)),
-      addedTime: map['added_time'],
-      addedDate: map['added_date'],
-      payment: map['payment'],
-      shipment: map['shipment'],
-      amount: Map<String, dynamic>.from(map['amount']),
-      timeline: Map<String, dynamic>.from(map['timeline']),
-      options: List<Map<String, dynamic>>.from(map['options']?.map((x) => x)),
+      province: map['province'],
+      district: map['district'],
+      ward: map['ward'],
+      addedtime: map['added_time'],
+      addeddate: map['added_date'],
+      // block: map['block'],
     );
   }
 
@@ -92,6 +99,54 @@ class Customer {
 
   @override
   String toString() {
-    return 'Customer(id: $id, customer_id: $customerID, name: $name, address: $address, phone: $phone, email: $email, message: $message, status: $status, discount: $discount, product: $product, added_time: $addedTime, added_date: $addedDate, payment: $payment, shipment: $shipment, amount: $amount, timeline: $timeline, options: $options)';
+    return 'Customer(id: $id, name: $name, address: $address, phone: $phone, email: $email, province: $province, district: $district, ward: $ward, added_time: $addedtime, added_date: $addeddate)';
+  }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is Customer &&
+        o.id == id &&
+        o.name == name &&
+        o.address == address &&
+        o.phone == phone &&
+        o.email == email &&
+        o.province == province &&
+        o.district == district &&
+        o.ward == ward &&
+        o.addedtime == addedtime &&
+        o.addeddate == addeddate;
+    //  o.block == block;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        address.hashCode ^
+        phone.hashCode ^
+        email.hashCode ^
+        province.hashCode ^
+        district.hashCode ^
+        ward.hashCode ^
+        addedtime.hashCode ^
+        addeddate.hashCode;
+    //  block.hashCode;
+  }
+
+  static Future<Customer> infoOneCustomer(int customerId) async {
+    Customer customer = Customer();
+    var response = await RequestDio.get(
+        url: ConfigsMywebvietnam.getInfoCustomer + '/' + customerId.toString(),
+        parames: {'token': ControllerMainPage.webToken});
+    // response = json.decode(response);
+    if (response['success']) {
+      customer = Customer.fromMap(response['data'][0]);
+      return customer;
+    } else {
+      print('failed');
+      return null;
+    }
   }
 }

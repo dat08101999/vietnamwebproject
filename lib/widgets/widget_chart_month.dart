@@ -2,9 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
-import 'package:flutter_back_end/controllers/controller_revuen.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
-import 'package:get/get.dart';
 
 class ChartMonth extends StatelessWidget {
   final DateTime startday;
