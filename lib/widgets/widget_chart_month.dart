@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/models/format.dart';
 
 class ChartMonth extends StatelessWidget {
   final DateTime startday;
@@ -11,7 +14,7 @@ class ChartMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getRevenueData(startday, endday),
+        future: _getRevenueData(startday, endday),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<BarChartGroupData> _barCharGroupData = snapshot.data;
@@ -28,29 +31,19 @@ class ChartMonth extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      //* title
+                      //* logo VAWEB
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'VAWEB ' + summary.toString(),
+                            'VAWEB',
                             style: TextStyle(
                                 color: Colors.white54,
-                                fontSize: 30,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text(
-                            'Báo cáo tài chính',
-                            style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 19,
-                                fontWeight: FontWeight.w600),
-                          )
                         ],
                       ),
                       //* biểu đồ
@@ -73,38 +66,38 @@ class ChartMonth extends StatelessWidget {
                                     getTextStyles: (value) => const TextStyle(
                                         color: Color(0xff7589a2),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                    // margin: 5
-                                    reservedSize: 14,
+                                        fontSize: 10),
+                                    margin: 10,
+                                    reservedSize: 15,
                                     getTitles: (value) {
                                       if (value == 0) {
                                         return '';
-                                      } else if (value == 200000) {
-                                        return '200K';
+                                      } else if (value == 500000) {
+                                        return '500K';
                                       } else if (value == 1000000) {
-                                        return '1.m';
+                                        return '1m';
                                       } else if (value == 5000000) {
-                                        return '5.m';
+                                        return '5m';
                                       } else if (value == 10000000) {
-                                        return '10.m';
+                                        return '10m';
                                       } else if (value == 20000000) {
-                                        return '20.m';
+                                        return '20m';
                                       } else if (value == 30000000) {
-                                        return '30.m';
+                                        return '30m';
                                       } else if (value == 40000000) {
-                                        return '40.m';
+                                        return '40m';
                                       } else if (value == 50000000) {
-                                        return '50.m';
+                                        return '50m';
                                       } else if (value == 60000000) {
-                                        return '60.m';
+                                        return '60m';
                                       } else if (value == 70000000) {
-                                        return '70.m';
+                                        return '70m';
                                       } else if (value == 80000000) {
-                                        return '80.m';
+                                        return '80m';
                                       } else if (value == 90000000) {
-                                        return '90.m';
+                                        return '90m';
                                       } else if (value == 100000000) {
-                                        return '100.m';
+                                        return '100m';
                                       } else {
                                         return '';
                                       }
@@ -116,7 +109,7 @@ class ChartMonth extends StatelessWidget {
                                       getTextStyles: (value) => TextStyle(
                                           color: Color(0xff7589a2),
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14),
+                                          fontSize: 10),
                                       getTitles: (value) {
                                         if (value == 0) {
                                           return '1';
@@ -163,39 +156,33 @@ BarChartGroupData makeGroupData(int x, double y1) {
     BarChartRodData(
       y: y1,
       colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
-      borderRadius: BorderRadius.circular(3),
-      width: 5,
+      borderRadius: BorderRadius.circular(0),
+      width: 2,
     ),
   ]);
 }
 
 int summary = 0;
-String dateformat(DateTime source) {
-  return source.day.toString() +
-      '/' +
-      source.month.toString() +
-      '/' +
-      source.year.toString();
-}
 
-Future<List<BarChartGroupData>> getRevenueData(
+Future<List<BarChartGroupData>> _getRevenueData(
     DateTime startday, DateTime endday) async {
   summary = 0;
   // Get.find<ControllerReveun>().update();
   var paramas = {
     'token': ControllerMainPage.webToken,
-    'from': dateformat(startday),
-    'to': dateformat(endday)
+    'from': Format.dateFormat(startday),
+    'to': Format.dateFormat(endday)
   };
+  print(paramas);
   var response = await RequestDio.get(
       url: ConfigsMywebvietnam.getRepostRevenue, parames: paramas);
   if (response['success']) {
     List counts = response['data']['counts'];
     return List.generate(counts.length, (index) {
       summary += int.parse(counts[index].toString());
-      // if (counts[index] >= 10000)
-      return makeGroupData(index, double.parse(counts[index].toString()));
-      // return null;
+      return makeGroupData(
+          index, double.parse(new Random().nextInt(10000000).toString()));
+      // return makeGroupData(index, double.parse(counts[index].toString()));
     });
   } else {
     print('lỗi getRevenueMonth');

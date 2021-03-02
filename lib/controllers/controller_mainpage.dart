@@ -17,6 +17,7 @@ class ControllerMainPage extends GetxController {
   String name = '';
   var info;
   var infoDashBoard;
+
   getInforMation() async {
     try {
       info = await SignInInfo.getAllinfo();
@@ -27,6 +28,7 @@ class ControllerMainPage extends GetxController {
         getDashBoardInfo();
         name = info[0]['name'];
         basic = info[0]['plan']['expried'].toString();
+        print(infoDashBoard);
         basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
         update();
       }

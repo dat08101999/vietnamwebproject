@@ -74,29 +74,39 @@ class _WidgetChartgetState extends State<WidgetChart>
   Widget buildTitleArea() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        // color: Colors.blue,
-        child: Row(children: [
-          // Text('Báo Cáo tài Chính'),
-          Container(
-            decoration: decorationTitle(),
-            width: MediaQuery.of(context).size.width * 0.55,
+      child: Row(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Thống Kê Tài Chính',
+            style:
+                TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 50,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25), color: Colors.grey),
             child: TabBar(
-              indicatorColor: Colors.black,
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  25.0,
+                ),
+                color: Colors.white70,
+              ),
+              labelColor: Colors.black,
               unselectedLabelColor: Colors.white,
               controller: _tabController,
               tabs: [
-                Tab(
-                    child: Text('Tuần này',
-                        style: TextStyle(color: Colors.black, fontSize: 14))),
-                Tab(
-                    child: Text('Tháng này',
-                        style: TextStyle(color: Colors.black, fontSize: 14))),
+                Tab(child: Text('Tuần này', style: TextStyle(fontSize: 10))),
+                Tab(child: Text('Tháng này', style: TextStyle(fontSize: 10))),
               ],
             ),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 
@@ -104,7 +114,8 @@ class _WidgetChartgetState extends State<WidgetChart>
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.6,
-        color: Colors.white,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5), color: Colors.white),
         child: GetBuilder<ControllerMainPage>(
           builder: (build) {
             return Column(children: [buildTitleArea(), buildChartArea()]);

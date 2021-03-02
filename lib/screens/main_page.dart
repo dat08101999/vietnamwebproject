@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
@@ -18,20 +19,23 @@ class _MainPageState extends State<MainPage> {
   String selecteditem = '';
   BoxDecoration decorationBody() {
     return BoxDecoration(
-        color: Colors.amber,
+        color: Colors.grey.withOpacity(0.8),
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)));
+            topLeft: Radius.circular(10), topRight: Radius.circular(10)));
   }
 
   Widget buildBodyHeadArea() {
     return Padding(
-      padding: const EdgeInsets.all(7.0),
+      padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+        ),
         child: ListTile(
             leading: CircleAvatar(
               backgroundImage:
-                  NetworkImage('https://i.stack.imgur.com/5swJm.png'),
+                  NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
             ),
             title: Text(controllerMainPage.name),
             subtitle: Text('Basic ' + controllerMainPage.basic),
@@ -94,7 +98,7 @@ class _MainPageState extends State<MainPage> {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(5),
         color: Colors.white,
       ),
       child: Center(
@@ -110,8 +114,14 @@ class _MainPageState extends State<MainPage> {
                       fontWeight: FontWeight.bold)),
               isIncrease != null
                   ? (isIncrease
-                      ? Icon(Icons.arrow_upward)
-                      : Icon(Icons.arrow_downward))
+                      ? Icon(
+                          Icons.arrow_upward,
+                          color: Colors.green,
+                        )
+                      : Icon(
+                          Icons.arrow_downward,
+                          color: Colors.red,
+                        ))
                   : Container()
             ])),
             WidgetSpan(

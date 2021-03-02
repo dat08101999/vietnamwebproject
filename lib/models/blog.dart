@@ -6,7 +6,6 @@ class Blog {
   String link;
   String addedDate;
   Map<String, dynamic> categories;
-  String test111111;
 
   Blog({
     this.id,
@@ -16,7 +15,6 @@ class Blog {
     this.link,
     this.addedDate,
     this.categories,
-    this.test111111,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,7 +26,6 @@ class Blog {
       'link': link,
       'addedDate': addedDate,
       'categories': categories,
-      'test111111': test111111,
     };
   }
 
@@ -43,7 +40,6 @@ class Blog {
       link: map['link'],
       addedDate: map['added_date'],
       categories: Map<String, dynamic>.from(map['categories']),
-      test111111: map['test111111'],
     );
   }
 
