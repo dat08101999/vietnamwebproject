@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class RequestDio {
   static get({@required url, parames}) async {
@@ -22,10 +23,27 @@ class RequestDio {
     }
   }
 
-  static postWithHeader({@required url, data, @required header}) async {
-    var response = await new Dio()
-        .post(url, data: data, options: Options(headers: header));
+  static httpPost({headers, url, body, token}) async {
+    headers = headers;
+    var request = http.Request('POST', Uri.parse(url));
+    request.bodyFields = body;
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      return await response.stream.bytesToString();
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  static postWithHeader(
+      {@required url, data, parameters, @required header}) async {
+    var response = await new Dio().post(url,
+        data: data,
+        queryParameters: parameters,
+        options: Options(headers: header));
     if (response.statusCode == 200 || response.statusCode == 400) {
+      // print(response.request.uri);
       return response.data;
     } else {
       print('postWithHeader Error');

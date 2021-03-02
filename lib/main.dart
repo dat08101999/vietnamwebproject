@@ -13,6 +13,7 @@ final _navigatorKey = GlobalKey<NavigatorState>();
 BuildContext get currentContext => _navigatorKey.currentContext;
 
 void main() {
+  //print(SignInInfo.moneyFomat('3000'));
   runApp(MyApp());
 }
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: Launch());
+        home: HomePage());
   }
 }
 

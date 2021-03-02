@@ -32,6 +32,8 @@ class ConfigsMywebvietnam {
 
   static String title =
       'Để chỉnh sửa nhiều thông tin hơn , quý khách vui lòng truy cập vào trang quản trị bằng máy tính';
+  static String urlAvatarDefalut =
+      'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg';
 
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {
     String urlDistrict = '$getAddressDistrict${mapAddress['province']}';
@@ -72,4 +74,7 @@ class ConfigsMywebvietnam {
       return null;
     }
   }
+
+  static String getDashboard =
+      'https://api.mywebvietnam.net/va-json/v1/reports/dashboard';
 }
