@@ -74,21 +74,26 @@ class _WidgetChartgetState extends State<WidgetChart>
   Widget buildTitleArea() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Thống Kê Tài Chính',
-            style:
-                TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Thống Kê Tài Chính',
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
           ),
-        ),
-        Expanded(
-          child: Container(
-            height: 50,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.432870,
+            height: MediaQuery.of(context).size.height * 0.0507,
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), color: Colors.grey),
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.grey[300]),
             child: TabBar(
               indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(
@@ -105,8 +110,8 @@ class _WidgetChartgetState extends State<WidgetChart>
               ],
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 

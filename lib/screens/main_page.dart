@@ -53,22 +53,19 @@ class _MainPageState extends State<MainPage> {
     try {
       for (int i = 0; i < controllerMainPage.info.length; i++) {
         list.add(InkWell(
-          highlightColor: Colors.amber,
-          splashColor: Colors.amber,
-          onTap: () {
-            controllerMainPage.changeData(i);
-            Navigator.pop(currentContext);
-          },
-          child: Container(
-            height: 50,
-            child: Row(children: [
-              Text(
+            onTap: () {
+              controllerMainPage.changeData(i);
+              Navigator.pop(currentContext);
+            },
+            child: ListTile(
+              leading: Icon(Icons.blur_circular_sharp),
+              title: Text(
                 controllerMainPage.info[i]['name'],
                 style: TextStyle(fontSize: 14),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ]),
-          ),
-        ));
+            )));
       }
     } catch (ex) {
       return list;
@@ -78,19 +75,20 @@ class _MainPageState extends State<MainPage> {
 
   popUpChosing(list) {
     return YYDialog().build(context)
-      ..width = MediaQuery.of(context).size.width * 0.5
+      ..width = MediaQuery.of(context).size.width * 0.7
       ..gravity = Gravity.rightTop
       ..margin = EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.15,
-          right: MediaQuery.of(context).size.width * 0.1)
-      ..widget(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-            height: 400,
-            child: ListView(
-              children: list,
-            )),
-      ));
+          right: MediaQuery.of(context).size.width * 0.05)
+      ..borderRadius = 10
+      ..widget(
+        Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          child: ListView(
+            children: list,
+          ),
+        ),
+      );
   }
 
   Widget buildGridViewItem(String title, String count, {bool isIncrease}) {
