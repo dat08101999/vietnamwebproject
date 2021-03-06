@@ -7,6 +7,7 @@ import 'package:flutter_back_end/screens/home_page.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaid/VAID.dart';
+import 'models/user_profile.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 BuildContext get currentContext => _navigatorKey.currentContext;
@@ -36,18 +37,16 @@ class Launch extends StatefulWidget {
 }
 
 class _LaunchState extends State<Launch> {
-  var _userProfile;
   SharedPreferences _sharedPreferences;
   @override
   void initState() {
     super.initState();
     getUserProfile();
     Timer.periodic(Duration(milliseconds: 500), (timer) {
-      if (_userProfile == null) {
+      if (ConfigUser.userProfile == null) {
         _onload();
       } else {
-        _userProfile = jsonDecode(_userProfile);
-        _gotoHomePage(_userProfile['profile']['name']);
+        _gotoHomePage();
       }
       timer?.cancel();
     });
@@ -92,7 +91,7 @@ class _LaunchState extends State<Launch> {
             SharedPerferencesFunction.setData(
                 key: ConfigsVAWAY.keyUserInformation,
                 value: json.encode(response['results']));
-            _gotoHomePage(response['results']['profile']['name']);
+            _gotoHomePage();
           }
         }
       },
@@ -102,25 +101,28 @@ class _LaunchState extends State<Launch> {
 
   void getUserProfile() async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    var userProfile =
+    var _dataUser =
         _sharedPreferences.getString(ConfigsVAWAY.keyUserInformation);
-    if (userProfile != null) {
-      print(userProfile);
+    if (_dataUser != null) {
       setState(() {
-        _userProfile = userProfile;
+        var data = jsonDecode(_dataUser);
         //* khởi tạo thông tin ng dùng
+        ConfigUser.token = data['token'];
+        var profile = data['profile'];
+        ConfigUser.userProfile = UserProfile.fromMap(profile);
       });
+
     }
   }
 }
 
-void _gotoHomePage(username) {
+void _gotoHomePage() {
   Timer.periodic(Duration(milliseconds: 500), (timer) {
     // Navigator.pushAndRemoveUntil(
     //     currentContext,
     //     MaterialPageRoute(builder: (context) => HomePage(name: username)),
     //     (route) => false);
-    Get.off(() => HomePage(name: username));
+    Get.off(() => HomePage());
     timer?.cancel();
   });
 }

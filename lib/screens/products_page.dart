@@ -6,7 +6,6 @@ import 'package:flutter_back_end/models/product.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_product.dart';
 import 'package:get/get.dart';
-import 'package:pretty_json/pretty_json.dart';
 
 class ProductsPage extends StatefulWidget {
   @override
@@ -80,7 +79,6 @@ Future<List<Product>> getOrders({int limit = 0}) async {
       url: ConfigsMywebvietnam.getProductsApi, parames: paramas);
   if (response['success']) {
     List _products = response['data'] ?? [];
-    print(prettyJson(_products, indent: 5));
     return List.generate(
         _products.length, (index) => Product.fromMap(_products[index]));
   } else {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/main.dart';
 
 class ButtonCustom {
   static Widget buttonBorder(
@@ -21,5 +22,24 @@ class ButtonCustom {
                 color: borderColor,
               ),
             )));
+  }
+
+  static Widget buttonSubmit(
+      {@required String name, @required Function onPress}) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5), color: Colors.blueAccent),
+      margin: EdgeInsets.all(5),
+      width: MediaQuery.of(currentContext).size.width * 0.9,
+      child: TextButton(
+        onPressed: onPress,
+        child: Center(
+          child: Text(
+            name,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
   }
 }

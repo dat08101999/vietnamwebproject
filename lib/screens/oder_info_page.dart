@@ -20,6 +20,7 @@ class _OrderInfoState extends State<OrderInfo> {
         child: Container(
           child: Column(
             children: [
+              //* title
               Container(
                 margin: EdgeInsets.all(5),
                 decoration: BoxDecoration(

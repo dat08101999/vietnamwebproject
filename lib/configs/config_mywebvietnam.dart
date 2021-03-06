@@ -2,38 +2,38 @@ import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 
 class ConfigsMywebvietnam {
-  static String signInApi =
+  static final String signInApi =
       'https://api.mywebvietnam.net/va-json/v1/accounts/signin';
-  static String getProductsApi =
+  static final String getProductsApi =
       'https://api.mywebvietnam.net/va-json/v1/products';
-  static String getProductsBRANDS =
+  static final String getProductsBRANDS =
       'https://api.mywebvietnam.net/va-json/v1/products/brands';
-  static String getCategoriesApi =
+  static final String getCategoriesApi =
       'https://api.mywebvietnam.net/va-json/v1/products/categories';
-  static String getGroupProductApi =
+  static final String getGroupProductApi =
       'https://api.mywebvietnam.net/va-json/v1/products/groups';
-  static String getOders = 'https://api.mywebvietnam.net/va-json/v1/orders';
-  static String getCustomers =
+  static final String getOders = 'https://api.mywebvietnam.net/va-json/v1/orders';
+  static final String getCustomers =
       'https://api.mywebvietnam.net/va-json/v1/customers';
-  static String getCustomersSubscribe =
+  static final String getCustomersSubscribe =
       'https://api.mywebvietnam.net/va-json/v1/customers/subscribe';
-  static String getListPage = 'https://api.mywebvietnam.net/va-json/v1/pages';
-  static String getBlogsCategories =
+  static final String getListPage = 'https://api.mywebvietnam.net/va-json/v1/pages';
+  static final String getBlogsCategories =
       'https://api.mywebvietnam.net/va-json/v1/blogs/categories';
-  static String getBlogs = 'https://api.mywebvietnam.net/va-json/v1/blogs';
-  static String getThemes = 'https://api.mywebvietnam.net/va-json/v1/themes';
-  static String getAddressProvince =
+  static final String getBlogs = 'https://api.mywebvietnam.net/va-json/v1/blogs';
+  static final String getThemes = 'https://api.mywebvietnam.net/va-json/v1/themes';
+  static final String getAddressProvince =
       'https://api.mywebvietnam.net/va-json/v1/address/province';
-  static String getAddressDistrict =
+  static final String getAddressDistrict =
       'https://api.mywebvietnam.net/va-json/v1/address/district/';
-  static String getAddressWard =
+  static final String getAddressWard =
       'https://api.mywebvietnam.net/va-json/v1/address/ward/';
-  static String getRepostRevenue =
+  static final String getRepostRevenue =
       'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
 
-  static String title =
+  static final String title =
       'Để chỉnh sửa nhiều thông tin hơn , quý khách vui lòng truy cập vào trang quản trị bằng máy tính';
-  static String urlAvatarDefalut =
+  static final String urlAvatarDefalut =
       'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg';
 
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {

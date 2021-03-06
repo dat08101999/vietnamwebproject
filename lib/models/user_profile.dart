@@ -92,7 +92,7 @@ class UserProfile {
       gender: map['gender'],
       money: Map<String, dynamic>.from(map['money']),
       avatar: map['avatar'],
-      password: map['password'],
+      // password: map['password'],
     );
   }
 

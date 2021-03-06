@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/screens/address_page.dart';
+import 'package:flutter_back_end/widgets/widget_button.dart';
+import 'package:flutter_back_end/widgets/widget_textformfield.dart';
 import 'package:get/get.dart';
 
 class CustomerInfoPage extends StatefulWidget {
@@ -30,42 +33,17 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
       Get.put(ControllerCustomers());
   ControllerMessage _controllerMessage = Get.put(ControllerMessage());
 
-  Widget buildItem(String title, TextEditingController controller,
-      {bool readonly = false,
-      Function() ontap,
-      Widget icon,
-      bool isHide = false}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        color: Colors.grey[200],
-        child: TextFormField(
-          obscureText: isHide,
-          onTap: ontap,
-          readOnly: readonly,
-          controller: controller,
-          decoration: InputDecoration(
-            labelText: title,
-            icon: icon,
-            isDense: true, // Added this
-            contentPadding: EdgeInsets.all(8),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildListviewItem(String title, TextEditingController controller,
       {bool readonly = false, Function() ontap}) {
-    return buildItem(title, controller,
-        readonly: readonly, ontap: ontap, icon: Icon(Icons.headset));
+    return WidgetTextFormField(
+        title: title,
+        controller: controller,
+        readonly: readonly,
+        ontap: ontap,
+        icon: Icon(Icons.edit));
   }
 
+<<<<<<< HEAD
   Widget buildButonSubmit() {
     return TextButton(
       onPressed: () async {
@@ -99,6 +77,65 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
       ),
     );
   }
+=======
+  // Widget buildPasswordArea() {
+  //   return textSubMitButon == 'Thêm'
+  //       ? Column(
+  //           children: [
+  //             Center(
+  //               child: Text('Đặt Mật Khẩu'),
+  //             ),
+  //             buildItem(
+  //               'Mật Khẩu',
+  //               password,
+  //               icon: IconButton(
+  //                 onPressed: () {
+  //                   controllerPassword.changeState();
+  //                 },
+  //                 icon: Icon(Icons.lock),
+  //               ),
+  //               isHide: controllerPassword.isHide,
+  //             ),
+  //             buildItem(
+  //               'Nhập lại Mật Khẩu',
+  //               acceptpassword,
+  //               icon: IconButton(
+  //                 icon: Icon(Icons.lock),
+  //                 onPressed: () {},
+  //               ),
+  //               isHide: controllerPassword.isHide,
+  //             )
+  //           ],
+  //         )
+  //       : Container();
+  // }
+
+  // Widget buildButonSubmit() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(5), color: Colors.blueAccent),
+  //     margin: EdgeInsets.all(5),
+  //     width: MediaQuery.of(context).size.width * 0.9,
+  //     child: TextButton(
+  //       onPressed: () async {
+  //         Loading.show();
+  //         _controllerMessage.hideMessage();
+  //         bool result = await Customer.addCustomers(getCustomer());
+  //         if (result == false) {
+  //           _controllerMessage.showMessage();
+  //         }
+  //         Loading.dismiss();
+  //       },
+  //       child: Center(
+  //         child: Text(
+  //           textSubMitButon,
+  //           style: TextStyle(color: Colors.white),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+>>>>>>> origin/quanghuuxx
 
   Widget buildMessage() {
     return GetBuilder<ControllerMessage>(
@@ -130,42 +167,58 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
       backgroundColor: Colors.grey[400],
       appBar: AppBar(),
       body: GetBuilder<ControllerCustomers>(builder: (builder) {
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Stack(children: [
+        return Column(
+          children: [
             Container(
-              color: Colors.white,
-              child: ListView(
-                children: [
-                  buildMessage(),
-                  buildListviewItem('Tên đầy đủ ', controllerCustomers.name),
-                  buildListviewItem('Số điện thoại', controllerCustomers.phone),
-                  buildListviewItem(
-                      'Địa chỉ email ', controllerCustomers.email),
-                  buildListviewItem(
-                      'Địa chỉ nhận hàng', controllerCustomers.addressRecie),
-                  buildListviewItem(
-                      'Địa chỉ chi tiết', controllerCustomers.address,
-                      readonly: true, ontap: () {
-                    Get.to(AddressPage(
-                      customer: controllerCustomers.customer,
-                    ));
-                  }),
-                ],
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                ConfigsMywebvietnam.title,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    color: Colors.blueAccent,
-                    child: buildButonSubmit()),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: EdgeInsets.all(5),
+                child: ListView(
+                  children: [
+                    buildMessage(),
+                    buildListviewItem('Tên đầy đủ ', controllerCustomers.name),
+                    buildListviewItem(
+                        'Số điện thoại', controllerCustomers.phone),
+                    buildListviewItem(
+                        'Địa chỉ email ', controllerCustomers.email),
+                    buildListviewItem(
+                        'Địa chỉ nhận hàng', controllerCustomers.addressRecie),
+                    buildListviewItem(
+                        'Địa chỉ chi tiết', controllerCustomers.address,
+                        readonly: true, ontap: () {
+                      Get.to(AddressPage(
+                        customer: controllerCustomers.customer,
+                      ));
+                    }),
+                  ],
+                ),
               ),
-            )
-          ]),
+            ),
+            ButtonCustom.buttonSubmit(
+                name: textSubMitButon,
+                onPress: () async {
+                  Loading.show();
+                  _controllerMessage.hideMessage();
+                  bool result = await Customer.addCustomers(getCustomer());
+                  if (result == false) {
+                    _controllerMessage.showMessage();
+                  }
+                  Loading.dismiss();
+                }),
+          ],
         );
       }),
     );
