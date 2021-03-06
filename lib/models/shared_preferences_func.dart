@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPerferencesFunction {
+  static var userinfo = 'user_information';
   SharedPreferences _sharedPreferences;
   static SharedPerferencesFunction _function;
 
@@ -23,10 +24,12 @@ class SharedPerferencesFunction {
 
   Future<String> _getData(key) async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    return _sharedPreferences.getString(key);
+    var respones = _sharedPreferences.getString(key);
+    return respones;
   }
 
-  static Future<String> getData({@required key}) {
-    return getIntance()._getData(key);
+  static Future<String> getData({@required key}) async {
+    var response = await getIntance()._getData(key);
+    return response;
   }
 }

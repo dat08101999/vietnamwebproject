@@ -1,16 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_vaway.dart';
 import 'package:flutter_back_end/models/shared_preferences_func.dart';
-import 'package:flutter_back_end/screens/HomePage.dart';
+import 'package:flutter_back_end/screens/home_page.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaid/VAID.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 BuildContext get currentContext => _navigatorKey.currentContext;
 
 void main() {
+  //print(SignInInfo.moneyFomat('3000'));
   runApp(MyApp());
 }
 
@@ -18,14 +21,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      navigatorKey: _navigatorKey,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Launch(),
-    );
+        navigatorKey: _navigatorKey,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Launch());
   }
 }
 
@@ -35,11 +37,19 @@ class Launch extends StatefulWidget {
 }
 
 class _LaunchState extends State<Launch> {
+  var _userProfile;
+  SharedPreferences _sharedPreferences;
   @override
   void initState() {
     super.initState();
+    getUserProfile();
     Timer.periodic(Duration(milliseconds: 500), (timer) {
-      _onload();
+      if (_userProfile == null) {
+        _onload();
+      } else {
+        _userProfile = jsonDecode(_userProfile);
+        _gotoHomePage(_userProfile['profile']['name']);
+      }
       timer?.cancel();
     });
   }
@@ -49,9 +59,9 @@ class _LaunchState extends State<Launch> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: Colors.blue[200]),
+        // decoration: BoxDecoration(color: Colors.blue[200]),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CircleAvatar(
               backgroundColor: Colors.teal,
@@ -62,16 +72,6 @@ class _LaunchState extends State<Launch> {
               style: TextStyle(color: Colors.white70, fontSize: 24),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                onPressed: () {
-                  // goTo(currentContext, 'quang');
-                },
-                child: Text("Đi tới Trang Quản Lý"),
-              ),
-            )
           ],
         ),
       ),
@@ -91,13 +91,27 @@ class _LaunchState extends State<Launch> {
         if (response != null) {
           if (response['success'] = true) {
             SharedPerferencesFunction.setData(
-                key: 'user_information', value: response.toString());
+                key: ConfigsVAWAY.keyUserInformation,
+                value: json.encode(response['results']));
             _gotoHomePage(response['results']['profile']['name']);
           }
         }
       },
       enableClose: false,
     );
+  }
+
+  void getUserProfile() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    var userProfile =
+        _sharedPreferences.getString(ConfigsVAWAY.keyUserInformation);
+    if (userProfile != null) {
+      print(userProfile);
+      setState(() {
+        _userProfile = userProfile;
+        //* khởi tạo thông tin ng dùng
+      });
+    }
   }
 }
 
