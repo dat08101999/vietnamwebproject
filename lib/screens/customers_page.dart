@@ -20,6 +20,8 @@ class _CustomersPageState extends State<CustomersPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [buildbuttonAdd()],
+        title: Text('Khách hàng'),
+        centerTitle: true,
       ),
       body: Container(
           color: Colors.grey,
@@ -83,7 +85,7 @@ class _CustomersPageState extends State<CustomersPage> {
                     return WidgetCustomers(customer: customers[index]);
                   });
             } else {
-              print(snapshot.error);
+              print('erors ' + snapshot.error.toString());
               return Center(child: CircularProgressIndicator());
             }
           });
@@ -91,7 +93,6 @@ class _CustomersPageState extends State<CustomersPage> {
   }
 
   Future<List<Customer>> getCustomer({int limit = 0}) async {
-    // var token = await User.getToken();
     var paramas = {
       'token': ControllerMainPage.webToken,
       'limit': 7 + limit,

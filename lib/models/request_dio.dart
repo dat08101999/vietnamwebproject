@@ -26,16 +26,7 @@ class RequestDio {
   static httpPost({headers, url, body}) async {
     headers = headers;
     var request = http.Request('POST', Uri.parse(url));
-    request.bodyFields = {
-      'name': 'thế đạt',
-      'phone': '0813288890',
-      'address': 'Thôn 1',
-      'province': '1',
-      'district': '1',
-      'ward': '1',
-      'password': 'matkhau',
-      'block': ''
-    };
+    request.bodyFields = body;
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -63,6 +54,17 @@ class RequestDio {
   static getWithHeader({@required url, paramas, @required header}) async {
     var response = await new Dio()
         .get(url, queryParameters: paramas, options: Options(headers: header));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      print('getWithOptions Error');
+      return null;
+    }
+  }
+
+  static delete({@required url, paramas, @required header}) async {
+    var response = await new Dio().delete(url,
+        queryParameters: paramas, options: Options(headers: header));
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -19,6 +19,11 @@ class _AddressPageState extends State<AddressPage> {
   ControllerAddressdistrict controllerAddressdistrict =
       Get.put(ControllerAddressdistrict());
   ControllerWard controllerWard = Get.put(ControllerWard());
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   buildBodyItem(String hintText,
       {items, dropvalue, Function(String value) onChange}) {
@@ -60,6 +65,7 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   getData() async {
+    // Loading.show();
     await controllerAddress.getAllData();
     if (customer.province != null) {
       if (customer.province != 0 && customer.province != null) {
@@ -75,11 +81,11 @@ class _AddressPageState extends State<AddressPage> {
         controllerAddressdistrict.update();
       }
     }
+    //Loading.dismiss();
   }
 
   @override
   Widget build(BuildContext context) {
-    getData();
     return Scaffold(
         appBar: AppBar(
           title: Text('Chọn địa chỉ'),

@@ -28,7 +28,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
   _StateCustomerInfoPage({this.customer, this.textSubMitButon});
   final ControllerCustomers controllerCustomers =
       Get.put(ControllerCustomers());
-  ControllerPassword controllerPassword = Get.put(ControllerPassword());
   ControllerMessage _controllerMessage = Get.put(ControllerMessage());
 
   Widget buildItem(String title, TextEditingController controller,
@@ -67,48 +66,30 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
         readonly: readonly, ontap: ontap, icon: Icon(Icons.headset));
   }
 
-  // Widget buildPasswordArea() {
-  //   return textSubMitButon == 'Thêm'
-  //       ? Column(
-  //           children: [
-  //             Center(
-  //               child: Text('Đặt Mật Khẩu'),
-  //             ),
-  //             buildItem(
-  //               'Mật Khẩu',
-  //               password,
-  //               icon: IconButton(
-  //                 onPressed: () {
-  //                   controllerPassword.changeState();
-  //                 },
-  //                 icon: Icon(Icons.lock),
-  //               ),
-  //               isHide: controllerPassword.isHide,
-  //             ),
-  //             buildItem(
-  //               'Nhập lại Mật Khẩu',
-  //               acceptpassword,
-  //               icon: IconButton(
-  //                 icon: Icon(Icons.lock),
-  //                 onPressed: () {},
-  //               ),
-  //               isHide: controllerPassword.isHide,
-  //             )
-  //           ],
-  //         )
-  //       : Container();
-  // }
-
   Widget buildButonSubmit() {
     return TextButton(
       onPressed: () async {
+        Customer tempCustomer = getCustomer();
         Loading.show();
         _controllerMessage.hideMessage();
-        bool result = await Customer.addCustomers(getCustomer());
+        bool result = textSubMitButon == 'Thêm'
+            ? await Customer.addCustomers(tempCustomer)
+            : await Customer.upDateCustomer(tempCustomer);
         if (result == false) {
           _controllerMessage.showMessage();
         }
         Loading.dismiss();
+        if (result == true) {
+          print(controllerCustomers.email.text);
+          Get.snackbar(
+              '',
+              textSubMitButon == 'Thêm'
+                  ? 'Thêm Thành Công'
+                  : 'Cập Nhật Thành Công',
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM);
+        }
       },
       child: Center(
         child: Text(
@@ -133,6 +114,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
 
   Customer getCustomer() {
     return Customer(
+        id: customer.id,
         name: controllerCustomers.name.text,
         phone: controllerCustomers.phone.text,
         address: controllerCustomers.addressRecie.text,
@@ -187,5 +169,12 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
         );
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.find<ControllerCustomers>().update();
   }
 }

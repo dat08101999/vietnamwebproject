@@ -83,11 +83,17 @@ class Customer {
       address: map['address'],
       phone: map['phone'],
       email: map['email'],
-      province: map['province'],
-      district: map['district'],
-      ward: map['ward'],
+      province: map['province'] != null
+          ? (map['province'] is int
+              ? map['province']
+              : int.parse(map['province']))
+          : map['city'] is int
+              ? map['city']
+              : int.parse(map['city']),
+      district:
+          map['district'] is int ? map['district'] : int.parse(map['district']),
+      ward: map['ward'] is int ? map['ward'] : int.parse(map['ward']),
       addedtime: map['added_time'],
-      addeddate: map['added_date'],
       // block: map['block'],
     );
   }
@@ -136,45 +142,35 @@ class Customer {
   }
 
   static String requestError;
-
-  static Future<Customer> infoOneCustomer(int customerId) async {
-    Customer customer = Customer();
-    var response = await RequestDio.get(
-        url: ConfigsMywebvietnam.getInfoCustomer + '/' + customerId.toString(),
-        parames: {'token': ControllerMainPage.webToken});
-    // response = json.decode(response);
-    if (response['success']) {
-      customer = Customer.fromMap(response['data'][0]);
-      return customer;
-    } else {
-      print('failed');
-      return null;
-    }
-  }
-
   static upDateCustomer(Customer customer) async {
     try {
-      var response = await RequestDio.postWithHeader(
-          url: ConfigsMywebvietnam.getCustomers + '/' + customer.id.toString(),
-          parameters: {
+      print(customer);
+      requestError = '';
+      var response = await RequestDio.httpPost(
+          url: ConfigsMywebvietnam.getCustomers +
+              '/' +
+              customer.id.toString() +
+              '?token=' +
+              ControllerMainPage.webToken,
+          body: {
             'name': customer.name,
             'phone': customer.phone,
             'address': customer.address,
-            'province': customer.province,
-            'district': customer.district,
-            'ward': customer.ward,
+            'email': customer.email,
+            'province': customer.province.toString(),
+            'district': customer.district.toString(),
+            'ward': customer.ward.toString(),
           },
-          header: {
+          headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Cookie':
                 'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
           });
-      print('here');
+      response = json.decode(response);
       if (response['success'] == true)
         return true;
       else {
         requestError = response['message'];
-        print(requestError);
         return false;
       }
     } catch (ex, trace) {
@@ -195,26 +191,26 @@ class Customer {
             'name': customer.name,
             'phone': customer.phone,
             'address': customer.address,
-            'province': customer.province,
-            'district': customer.district,
-            'password': '',
-            'ward': customer.ward,
-            'block': ''
+            'email': customer.email,
+            'province': customer.province.toString(),
+            'district': customer.district.toString(),
+            'ward': customer.ward.toString(),
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Cookie':
                 'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
           });
+      response = json.decode(response);
       if (response['success'] == true)
         return true;
       else {
         requestError = response['message'];
-        print(requestError);
         return false;
       }
     } catch (ex, trace) {
       print(ex + trace);
+      requestError = 'Xảy ra lỗi';
       return false;
     }
   }

@@ -57,11 +57,19 @@ class ControllerMessage extends GetxController {
   }
 }
 
-class ControllerPassword extends GetxController {
-  bool isHide = false;
-  Icon icon = Icon(Icons.lock);
+class ControllerCheckBox extends GetxController {
+  bool isShow = false;
+  List<Customer> markedCustomers = List<Customer>();
   changeState() {
-    isHide = !isHide;
+    isShow = !isShow;
+    update();
+  }
+
+  addCustomers(Customer customer) {
+    markedCustomers.add(customer);
+  }
+
+  chose() {
     update();
   }
 }
