@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
@@ -207,7 +208,7 @@ class _MainPageState extends State<MainPage> {
                   top: MediaQuery.of(currentContext).size.height * 0.02),
               child: Align(
                 child: Text(
-                  'xin chào,',
+                  'xin chào, ${ConfigUser.userProfile.name}',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),

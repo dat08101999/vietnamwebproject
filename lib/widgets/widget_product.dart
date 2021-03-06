@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/models/format.dart';
 
 import 'package:flutter_back_end/models/product.dart';
+import 'package:flutter_back_end/screens/product_info_page.dart';
+import 'package:get/get.dart';
 
 class WidgetProduct extends StatelessWidget {
   final Product product;
@@ -13,7 +15,9 @@ class WidgetProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => ProductInfo(product: this.product));
+      },
       child: Container(
         // height: MediaQuery.of(context).size.height * 0.11,
         margin: EdgeInsets.all(3),
@@ -37,6 +41,7 @@ class WidgetProduct extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
+                  fit: BoxFit.cover,
                   imageUrl: product.thumbnail ??
                       'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg',
                   placeholder: (context, string) => Container(
@@ -44,6 +49,7 @@ class WidgetProduct extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.5),
                     ),
                   ),
+                  errorWidget: (context , string, dynamic) => Text('ảnh bị lỗi'),
                 ),
               ),
             ),

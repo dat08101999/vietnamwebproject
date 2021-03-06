@@ -5,9 +5,6 @@ import 'package:flutter_back_end/screens/products_page.dart';
 import 'package:flutter_back_end/screens/settings_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({this.name});
-
-  final String name;
   @override
   _HomePageState createState() => _HomePageState();
 }

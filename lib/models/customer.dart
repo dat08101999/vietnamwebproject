@@ -102,38 +102,6 @@ class Customer {
     return 'Customer(id: $id, name: $name, address: $address, phone: $phone, email: $email, province: $province, district: $district, ward: $ward, added_time: $addedtime, added_date: $addeddate)';
   }
 
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is Customer &&
-        o.id == id &&
-        o.name == name &&
-        o.address == address &&
-        o.phone == phone &&
-        o.email == email &&
-        o.province == province &&
-        o.district == district &&
-        o.ward == ward &&
-        o.addedtime == addedtime &&
-        o.addeddate == addeddate;
-    //  o.block == block;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        address.hashCode ^
-        phone.hashCode ^
-        email.hashCode ^
-        province.hashCode ^
-        district.hashCode ^
-        ward.hashCode ^
-        addedtime.hashCode ^
-        addeddate.hashCode;
-    //  block.hashCode;
-  }
 
   static String requestError;
 
@@ -152,7 +120,7 @@ class Customer {
     }
   }
 
-  static upDateCustomer(Customer customer) async {
+  static updateCustomer(Customer customer) async {
     try {
       var response = await RequestDio.postWithHeader(
           url: ConfigsMywebvietnam.getCustomers + '/' + customer.id.toString(),
@@ -169,7 +137,6 @@ class Customer {
             'Cookie':
                 'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
           });
-      print('here');
       if (response['success'] == true)
         return true;
       else {
