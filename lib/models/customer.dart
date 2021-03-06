@@ -108,29 +108,8 @@ class Customer {
     return 'Customer(id: $id, name: $name, address: $address, phone: $phone, email: $email, province: $province, district: $district, ward: $ward, added_time: $addedtime, added_date: $addeddate)';
   }
 
-
   static String requestError;
-<<<<<<< HEAD
   static upDateCustomer(Customer customer) async {
-=======
-
-  static Future<Customer> infoOneCustomer(int customerId) async {
-    Customer customer = Customer();
-    var response = await RequestDio.get(
-        url: ConfigsMywebvietnam.getInfoCustomer + '/' + customerId.toString(),
-        parames: {'token': ControllerMainPage.webToken});
-    // response = json.decode(response);
-    if (response['success']) {
-      customer = Customer.fromMap(response['data'][0]);
-      return customer;
-    } else {
-      print('failed');
-      return null;
-    }
-  }
-
-  static updateCustomer(Customer customer) async {
->>>>>>> origin/quanghuuxx
     try {
       print(customer);
       requestError = '';
@@ -154,10 +133,7 @@ class Customer {
             'Cookie':
                 'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
           });
-<<<<<<< HEAD
       response = json.decode(response);
-=======
->>>>>>> origin/quanghuuxx
       if (response['success'] == true)
         return true;
       else {

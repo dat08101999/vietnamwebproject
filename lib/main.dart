@@ -7,6 +7,7 @@ import 'package:flutter_back_end/screens/home_page.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaid/VAID.dart';
+import 'configs/config_user.dart';
 import 'models/user_profile.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
@@ -111,7 +112,6 @@ class _LaunchState extends State<Launch> {
         var profile = data['profile'];
         ConfigUser.userProfile = UserProfile.fromMap(profile);
       });
-
     }
   }
 }

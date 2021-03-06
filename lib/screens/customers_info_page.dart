@@ -43,100 +43,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
         icon: Icon(Icons.edit));
   }
 
-<<<<<<< HEAD
-  Widget buildButonSubmit() {
-    return TextButton(
-      onPressed: () async {
-        Customer tempCustomer = getCustomer();
-        Loading.show();
-        _controllerMessage.hideMessage();
-        bool result = textSubMitButon == 'Thêm'
-            ? await Customer.addCustomers(tempCustomer)
-            : await Customer.upDateCustomer(tempCustomer);
-        if (result == false) {
-          _controllerMessage.showMessage();
-        }
-        Loading.dismiss();
-        if (result == true) {
-          print(controllerCustomers.email.text);
-          Get.snackbar(
-              '',
-              textSubMitButon == 'Thêm'
-                  ? 'Thêm Thành Công'
-                  : 'Cập Nhật Thành Công',
-              backgroundColor: Colors.black,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.BOTTOM);
-        }
-      },
-      child: Center(
-        child: Text(
-          textSubMitButon,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    );
-  }
-=======
-  // Widget buildPasswordArea() {
-  //   return textSubMitButon == 'Thêm'
-  //       ? Column(
-  //           children: [
-  //             Center(
-  //               child: Text('Đặt Mật Khẩu'),
-  //             ),
-  //             buildItem(
-  //               'Mật Khẩu',
-  //               password,
-  //               icon: IconButton(
-  //                 onPressed: () {
-  //                   controllerPassword.changeState();
-  //                 },
-  //                 icon: Icon(Icons.lock),
-  //               ),
-  //               isHide: controllerPassword.isHide,
-  //             ),
-  //             buildItem(
-  //               'Nhập lại Mật Khẩu',
-  //               acceptpassword,
-  //               icon: IconButton(
-  //                 icon: Icon(Icons.lock),
-  //                 onPressed: () {},
-  //               ),
-  //               isHide: controllerPassword.isHide,
-  //             )
-  //           ],
-  //         )
-  //       : Container();
-  // }
-
-  // Widget buildButonSubmit() {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(5), color: Colors.blueAccent),
-  //     margin: EdgeInsets.all(5),
-  //     width: MediaQuery.of(context).size.width * 0.9,
-  //     child: TextButton(
-  //       onPressed: () async {
-  //         Loading.show();
-  //         _controllerMessage.hideMessage();
-  //         bool result = await Customer.addCustomers(getCustomer());
-  //         if (result == false) {
-  //           _controllerMessage.showMessage();
-  //         }
-  //         Loading.dismiss();
-  //       },
-  //       child: Center(
-  //         child: Text(
-  //           textSubMitButon,
-  //           style: TextStyle(color: Colors.white),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
->>>>>>> origin/quanghuuxx
-
   Widget buildMessage() {
     return GetBuilder<ControllerMessage>(
       builder: (bulder) {
@@ -210,13 +116,27 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
             ButtonCustom.buttonSubmit(
                 name: textSubMitButon,
                 onPress: () async {
+                  Customer tempCustomer = getCustomer();
                   Loading.show();
                   _controllerMessage.hideMessage();
-                  bool result = await Customer.addCustomers(getCustomer());
+                  bool result = textSubMitButon == 'Thêm'
+                      ? await Customer.addCustomers(tempCustomer)
+                      : await Customer.upDateCustomer(tempCustomer);
                   if (result == false) {
                     _controllerMessage.showMessage();
                   }
                   Loading.dismiss();
+                  if (result == true) {
+                    print(controllerCustomers.email.text);
+                    Get.snackbar(
+                        '',
+                        textSubMitButon == 'Thêm'
+                            ? 'Thêm Thành Công'
+                            : 'Cập Nhật Thành Công',
+                        backgroundColor: Colors.black,
+                        colorText: Colors.white,
+                        snackPosition: SnackPosition.BOTTOM);
+                  }
                 }),
           ],
         );
