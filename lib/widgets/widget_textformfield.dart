@@ -4,8 +4,8 @@ class WidgetTextFormField extends StatelessWidget {
   final String title;
   final TextEditingController controller;
   final bool readonly;
-  final Function() ontap;
-  final Widget icon;
+  final Function() onTap;
+  final Icon icon;
   final bool isHide;
 
   const WidgetTextFormField({
@@ -13,7 +13,7 @@ class WidgetTextFormField extends StatelessWidget {
     this.title,
     this.controller,
     this.readonly,
-    this.ontap,
+    this.onTap,
     this.icon,
     this.isHide,
   }) : super(key: key);
@@ -30,7 +30,7 @@ class WidgetTextFormField extends StatelessWidget {
       child: TextFormField(
         maxLines: 1,
         obscureText: isHide ?? false,
-        onTap: ontap,
+        onTap: onTap,
         readOnly: readonly ?? false,
         controller: controller,
         decoration: InputDecoration(
