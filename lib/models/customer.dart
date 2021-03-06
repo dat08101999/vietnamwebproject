@@ -179,18 +179,19 @@ class Customer {
       }
     } catch (ex, trace) {
       print(ex + trace);
+      requestError = 'Xảy ra lỗi';
       return false;
     }
   }
 
   static Future<bool> addCustomers(Customer customer) async {
     try {
-      print(customer);
-      var response = await RequestDio.postWithHeader(
+      requestError = '';
+      var response = await RequestDio.httpPost(
           url: ConfigsMywebvietnam.getCustomers +
               '?token=' +
               ControllerMainPage.webToken,
-          parameters: {
+          body: {
             'name': customer.name,
             'phone': customer.phone,
             'address': customer.address,
@@ -200,7 +201,7 @@ class Customer {
             'ward': customer.ward,
             'block': ''
           },
-          header: {
+          headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Cookie':
                 'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'

@@ -23,10 +23,19 @@ class RequestDio {
     }
   }
 
-  static httpPost({headers, url, body, token}) async {
+  static httpPost({headers, url, body}) async {
     headers = headers;
     var request = http.Request('POST', Uri.parse(url));
-    request.bodyFields = body;
+    request.bodyFields = {
+      'name': 'thế đạt',
+      'phone': '0813288890',
+      'address': 'Thôn 1',
+      'province': '1',
+      'district': '1',
+      'ward': '1',
+      'password': 'matkhau',
+      'block': ''
+    };
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
