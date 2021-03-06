@@ -1,3 +1,4 @@
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 
 class ConfigsMywebvietnam {
@@ -38,37 +39,38 @@ class ConfigsMywebvietnam {
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {
     String urlDistrict = '$getAddressDistrict${mapAddress['province']}';
     String urlWard = '$getAddressWard${mapAddress['district']}';
-    String _province, _district, _ward;
-
-    var paramas = {'token': '4779ce0e8eeb2de09fd04dd38c7d0526'};
+    String _province = '', _district = '', _ward = '';
+    var paramas = {'token': ControllerMainPage.webToken};
     var responseProvince =
         await RequestDio.get(url: getAddressProvince, parames: paramas);
     var responseDistrict =
         await RequestDio.get(url: urlDistrict, parames: paramas);
     var responseWard = await RequestDio.get(url: urlWard, parames: paramas);
-
     if (responseProvince['success'] &&
         responseDistrict['success'] &&
         responseWard['success']) {
       List provinces = responseProvince['data'];
       provinces.forEach((element) {
-        if (element['id'] == mapAddress['province']) {
+        if (element['id'].toString().trim() ==
+            mapAddress['province'].toString().trim()) {
           _province = element['name'];
         }
       });
       List districts = responseDistrict['data'];
       districts.forEach((element) {
-        if (element['id'] == mapAddress['district']) {
+        if (element['id'].toString().trim() ==
+            mapAddress['district'].toString().trim()) {
           _district = element['name'];
         }
       });
       List wards = responseWard['data'];
       wards.forEach((element) {
-        if (element['id'] == mapAddress['ward']) {
+        if (element['id'].toString().trim() ==
+            mapAddress['ward'].toString().trim()) {
           _ward = element['name'];
         }
       });
-      return '${mapAddress['detail']} ,$_ward ,$_district ,$_province';
+      return '$_ward ,$_district ,$_province';
     } else {
       print('lỗi getAddress');
       return null;

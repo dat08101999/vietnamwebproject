@@ -138,9 +138,7 @@ class WeekChart extends StatelessWidget {
             ),
           );
         }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
+        return BarChart(BarChartData());
       },
     );
   }

@@ -8,19 +8,25 @@ class WidgetCustomers extends StatelessWidget {
   WidgetCustomers({this.customer});
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        print(customer.id);
-        Get.to(CustomerInfoPage(
-          id: customer.id.toString(),
-        ));
-      },
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage('https://i.stack.imgur.com/5swJm.png'),
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, right: 4, left: 4, bottom: 4),
+      child: InkWell(
+        onTap: () {
+          print(customer.id);
+          Get.to(CustomerInfoPage(
+            customer: customer,
+            textSubMitButon: 'Cập nhật thông tin',
+          ));
+        },
+        child: ListTile(
+          tileColor: Colors.white,
+          leading: CircleAvatar(
+            backgroundImage:
+                NetworkImage('https://i.stack.imgur.com/5swJm.png'),
+          ),
+          title: Text(customer.name),
+          subtitle: Text(customer.email + '/' + customer.phone),
         ),
-        title: Text(customer.name),
-        subtitle: Text(customer.email + '/' + customer.phone),
       ),
     );
   }

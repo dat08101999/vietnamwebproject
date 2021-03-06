@@ -4,6 +4,7 @@ import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/screens/customers_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_customers.dart';
 import 'package:get/get.dart';
 
@@ -17,8 +18,11 @@ class _CustomersPageState extends State<CustomersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [buildbuttonAdd()],
+      ),
       body: Container(
+          color: Colors.grey,
           alignment: Alignment.center,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ctlScroll) {
@@ -34,6 +38,22 @@ class _CustomersPageState extends State<CustomersPage> {
             },
             child: _buildBlogs(),
           )),
+    );
+  }
+
+  Widget buildbuttonAdd() {
+    return IconButton(
+      onPressed: () {
+        Get.find<ControllerCustomers>().textClear();
+        Get.to(CustomerInfoPage(
+          customer: new Customer(),
+          textSubMitButon: 'Thêm',
+        ));
+      },
+      icon: Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
     );
   }
 

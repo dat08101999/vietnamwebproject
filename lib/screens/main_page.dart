@@ -71,9 +71,11 @@ class _MainPageState extends State<MainPage> {
           ),
         ));
       }
-    } catch (ex) {
+    } catch (ex, trace) {
+      print(trace);
       return list;
     }
+    print(list);
     popUpChosing(list)..show();
   }
 

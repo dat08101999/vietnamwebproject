@@ -135,6 +135,8 @@ class Customer {
     //  block.hashCode;
   }
 
+  static String requestError;
+
   static Future<Customer> infoOneCustomer(int customerId) async {
     Customer customer = Customer();
     var response = await RequestDio.get(
@@ -147,6 +149,72 @@ class Customer {
     } else {
       print('failed');
       return null;
+    }
+  }
+
+  static upDateCustomer(Customer customer) async {
+    try {
+      var response = await RequestDio.postWithHeader(
+          url: ConfigsMywebvietnam.getCustomers + '/' + customer.id.toString(),
+          parameters: {
+            'name': customer.name,
+            'phone': customer.phone,
+            'address': customer.address,
+            'province': customer.province,
+            'district': customer.district,
+            'ward': customer.ward,
+          },
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cookie':
+                'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
+          });
+      print('here');
+      if (response['success'] == true)
+        return true;
+      else {
+        requestError = response['message'];
+        print(requestError);
+        return false;
+      }
+    } catch (ex, trace) {
+      print(ex + trace);
+      return false;
+    }
+  }
+
+  static Future<bool> addCustomers(Customer customer) async {
+    try {
+      print(customer);
+      var response = await RequestDio.postWithHeader(
+          url: ConfigsMywebvietnam.getCustomers +
+              '?token=' +
+              ControllerMainPage.webToken,
+          parameters: {
+            'name': customer.name,
+            'phone': customer.phone,
+            'address': customer.address,
+            'province': customer.province,
+            'district': customer.district,
+            'password': '',
+            'ward': customer.ward,
+            'block': ''
+          },
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cookie':
+                'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
+          });
+      if (response['success'] == true)
+        return true;
+      else {
+        requestError = response['message'];
+        print(requestError);
+        return false;
+      }
+    } catch (ex, trace) {
+      print(ex + trace);
+      return false;
     }
   }
 }

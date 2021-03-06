@@ -19,9 +19,12 @@ class ControllerMainPage extends GetxController {
   var infoDashBoard;
 
   getInforMation() async {
-    try {
-      info = await SignInInfo.getAllinfo();
-      info = json.decode(info)['data'];
+    info = await SignInInfo.getAllinfo();
+    info = json.decode(info);
+    //print(info);
+    if (info['success'] == true) {
+      info = info['data'];
+      print(info.length);
       if (webToken == null) {
         setTokenWeb(info[0]['token']);
         infoDashBoard = await SignInInfo.getReportInfo();
@@ -32,8 +35,6 @@ class ControllerMainPage extends GetxController {
         basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
         update();
       }
-    } catch (ex, trace) {
-      print(ex + trace);
     }
   }
 
@@ -54,10 +55,8 @@ class ControllerMainPage extends GetxController {
     basic = info[index]['plan']['expried'].toString();
     basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
     setTokenWeb(info[index]['token']);
-    print(webToken);
     infoDashBoard = await SignInInfo.getReportInfo();
     getDashBoardInfo();
-    print(infoDashBoard);
     update();
   }
 
