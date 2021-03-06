@@ -20,123 +20,117 @@ class ChartMonth extends StatelessWidget {
             List<BarChartGroupData> _barCharGroupData = snapshot.data;
             return AspectRatio(
               aspectRatio: 1,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4)),
-                color: const Color(0xff2c4260),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 30, right: 10, bottom: 10, top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      //* logo VAWEB
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'VAWEB',
-                            style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      //* biểu đồ
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 30),
-                          child: BarChart(
-                            BarChartData(
-                                borderData: FlBorderData(
-                                    show: true,
-                                    border: Border(
-                                        left: BorderSide(
-                                            width: 1, color: Color(0xff7589a2)),
-                                        bottom: BorderSide(
-                                            width: 1,
-                                            color: Color(0xff7589a2)))),
-                                titlesData: FlTitlesData(
-                                  leftTitles: SideTitles(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 30, right: 10, bottom: 10, top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //* logo VAWEB
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'VAWEB',
+                          style: TextStyle(
+                              color: Color(0xff7589a2),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    //* biểu đồ
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 30),
+                        child: BarChart(
+                          BarChartData(
+                              borderData: FlBorderData(
+                                  show: true,
+                                  border: Border(
+                                      left: BorderSide(
+                                          width: 1, color: Color(0xff7589a2)),
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff7589a2)))),
+                              titlesData: FlTitlesData(
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  getTextStyles: (value) => const TextStyle(
+                                      color: Color(0xff7589a2),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10),
+                                  margin: 10,
+                                  reservedSize: 15,
+                                  getTitles: (value) {
+                                    if (value == 0) {
+                                      return '';
+                                    } else if (value == 500000) {
+                                      return '500K';
+                                    } else if (value == 1000000) {
+                                      return '1m';
+                                    } else if (value == 5000000) {
+                                      return '5m';
+                                    } else if (value == 10000000) {
+                                      return '10m';
+                                    } else if (value == 20000000) {
+                                      return '20m';
+                                    } else if (value == 30000000) {
+                                      return '30m';
+                                    } else if (value == 40000000) {
+                                      return '40m';
+                                    } else if (value == 50000000) {
+                                      return '50m';
+                                    } else if (value == 60000000) {
+                                      return '60m';
+                                    } else if (value == 70000000) {
+                                      return '70m';
+                                    } else if (value == 80000000) {
+                                      return '80m';
+                                    } else if (value == 90000000) {
+                                      return '90m';
+                                    } else if (value == 100000000) {
+                                      return '100m';
+                                    } else {
+                                      return '';
+                                    }
+                                  },
+                                ),
+                                bottomTitles: SideTitles(
                                     showTitles: true,
-                                    getTextStyles: (value) => const TextStyle(
+                                    margin: 10,
+                                    getTextStyles: (value) => TextStyle(
                                         color: Color(0xff7589a2),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 10),
-                                    margin: 10,
-                                    reservedSize: 15,
                                     getTitles: (value) {
                                       if (value == 0) {
-                                        return '';
-                                      } else if (value == 500000) {
-                                        return '500K';
-                                      } else if (value == 1000000) {
-                                        return '1m';
-                                      } else if (value == 5000000) {
-                                        return '5m';
-                                      } else if (value == 10000000) {
-                                        return '10m';
-                                      } else if (value == 20000000) {
-                                        return '20m';
-                                      } else if (value == 30000000) {
-                                        return '30m';
-                                      } else if (value == 40000000) {
-                                        return '40m';
-                                      } else if (value == 50000000) {
-                                        return '50m';
-                                      } else if (value == 60000000) {
-                                        return '60m';
-                                      } else if (value == 70000000) {
-                                        return '70m';
-                                      } else if (value == 80000000) {
-                                        return '80m';
-                                      } else if (value == 90000000) {
-                                        return '90m';
-                                      } else if (value == 100000000) {
-                                        return '100m';
+                                        return '1';
+                                      } else if (value == 4) {
+                                        return '5';
+                                      } else if (value == 9) {
+                                        return '10';
+                                      } else if (value == 14) {
+                                        return '15';
+                                      } else if (value == 19) {
+                                        return '20';
+                                      } else if (value == 24) {
+                                        return '25';
+                                      } else if (value == 29) {
+                                        return '30';
                                       } else {
-                                        return '';
+                                        return '.';
                                       }
-                                    },
-                                  ),
-                                  bottomTitles: SideTitles(
-                                      showTitles: true,
-                                      margin: 10,
-                                      getTextStyles: (value) => TextStyle(
-                                          color: Color(0xff7589a2),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10),
-                                      getTitles: (value) {
-                                        if (value == 0) {
-                                          return '1';
-                                        } else if (value == 4) {
-                                          return '5';
-                                        } else if (value == 9) {
-                                          return '10';
-                                        } else if (value == 14) {
-                                          return '15';
-                                        } else if (value == 19) {
-                                          return '20';
-                                        } else if (value == 24) {
-                                          return '25';
-                                        } else if (value == 29) {
-                                          return '30';
-                                        } else {
-                                          return '.';
-                                        }
-                                      }),
-                                ),
-                                barGroups: _barCharGroupData),
-                            swapAnimationDuration: Duration(seconds: 1),
-                          ),
+                                    }),
+                              ),
+                              barGroups: _barCharGroupData),
+                          swapAnimationDuration: Duration(seconds: 1),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );

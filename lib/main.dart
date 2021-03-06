@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomePage());
+        home: Launch());
   }
 }
 
@@ -37,18 +37,18 @@ class Launch extends StatefulWidget {
 }
 
 class _LaunchState extends State<Launch> {
-  var _token;
+  var _userProfile;
   SharedPreferences _sharedPreferences;
   @override
   void initState() {
     super.initState();
-    getToken();
+    getUserProfile();
     Timer.periodic(Duration(milliseconds: 500), (timer) {
-      if (_token == null) {
+      if (_userProfile == null) {
         _onload();
       } else {
-        _token = jsonDecode(_token);
-        _gotoHomePage(_token['profile']['name']);
+        _userProfile = jsonDecode(_userProfile);
+        _gotoHomePage(_userProfile['profile']['name']);
       }
       timer?.cancel();
     });
@@ -101,13 +101,15 @@ class _LaunchState extends State<Launch> {
     );
   }
 
-  void getToken() async {
+  void getUserProfile() async {
     _sharedPreferences = await SharedPreferences.getInstance();
     var userProfile =
         _sharedPreferences.getString(ConfigsVAWAY.keyUserInformation);
     if (userProfile != null) {
+      print(userProfile);
       setState(() {
-        _token = userProfile;
+        _userProfile = userProfile;
+        //* khởi tạo thông tin ng dùng
       });
     }
   }
