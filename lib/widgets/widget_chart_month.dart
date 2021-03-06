@@ -136,7 +136,7 @@ class ChartMonth extends StatelessWidget {
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: BarChart(BarChartData()),
             );
           }
         });

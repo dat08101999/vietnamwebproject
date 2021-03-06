@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
+import 'package:flutter_back_end/screens/customers_page.dart';
 import 'package:flutter_back_end/widgets/widget_chart.dart';
 import 'package:get/get.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
@@ -67,9 +68,11 @@ class _MainPageState extends State<MainPage> {
               ),
             )));
       }
-    } catch (ex) {
+    } catch (ex, trace) {
+      print(trace);
       return list;
     }
+    print(list);
     popUpChosing(list)..show();
   }
 
@@ -146,9 +149,14 @@ class _MainPageState extends State<MainPage> {
           children: [
             buildGridViewItem('Đơn Hàng', controllerMainPage.oders.toString(),
                 isIncrease: controllerMainPage.oderIncrease),
-            buildGridViewItem(
-                'Khách Hàng', controllerMainPage.customers.toString(),
-                isIncrease: controllerMainPage.customerIncease),
+            InkWell(
+              onTap: () {
+                Get.to(CustomersPage());
+              },
+              child: buildGridViewItem(
+                  'Khách Hàng', controllerMainPage.customers.toString(),
+                  isIncrease: controllerMainPage.customerIncease),
+            ),
             buildGridViewItem(
                 'Sản Phẩm', controllerMainPage.products.toString()),
             buildGridViewItem('Thu nhập', controllerMainPage.money.toString(),

@@ -5,7 +5,8 @@ import 'package:flutter_back_end/models/request_dio.dart';
 
 class SignInInfo {
   static getAllinfo() async {
-    String accesstoken = '324-1c77cadc-776a-11eb-94d7-fa163ee6c2fe';
+    String accesstoken = '324-1b1ecbd8-7d53-11eb-b51c-fa163ee6c2fe';
+    print(accesstoken);
     var response = await RequestDio.httpPost(
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -14,7 +15,6 @@ class SignInInfo {
         },
         url: ConfigsMywebvietnam.signInApi,
         body: {'access_token': accesstoken});
-    // print(response);
     return response;
   }
 

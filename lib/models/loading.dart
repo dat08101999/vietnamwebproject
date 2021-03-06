@@ -44,31 +44,31 @@ class Loading {
       _dismiss();
     });
     showDialog(
-      context: currentContext,
-      barrierDismissible: false,
-      child: Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Container(
-          height: MediaQuery.of(currentContext).size.height * 0.1,
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CircularProgressIndicator(
-                backgroundColor: Colors.grey.withOpacity(0.1),
-              ),
-              Text(
-                title,
-                style: _textStyle,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+        context: currentContext,
+        barrierDismissible: false,
+        child: Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Container(
+            height: MediaQuery.of(currentContext).size.height * 0.1,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircularProgressIndicator(
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                ),
+                Text(
+                  title,
+                  style: _textStyle,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
     _isLoading = true;
   }
 
