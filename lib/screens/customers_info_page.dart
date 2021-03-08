@@ -39,7 +39,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
         title: title,
         controller: controller,
         readonly: readonly,
-        ontap: ontap,
+        onTap: ontap,
         icon: Icon(Icons.edit));
   }
 
