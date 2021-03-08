@@ -23,6 +23,7 @@ class ProductInfo extends StatefulWidget {
 class _ProductInfoState extends State<ProductInfo> {
   ProductController _productController;
   var _firstValue;
+
   @override
   void initState() {
     super.initState();
@@ -100,8 +101,6 @@ class _ProductInfoState extends State<ProductInfo> {
                                       });
                                       _productController.idCategoriesSelected =
                                           id;
-                                      print(_productController
-                                          .idCategoriesSelected);
                                     });
                               } else {
                                 return Center(

@@ -44,7 +44,7 @@ class _ProductsPageState extends State<ProductsPage> {
 Widget _buildBlogs() {
   return GetBuilder<ProductController>(builder: (ctl) {
     return FutureBuilder(
-        future: getOrders(limit: ctl.limit),
+        future: getProducts(limit: ctl.limit),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Product> _products = snapshot.data;
@@ -68,7 +68,7 @@ Widget _buildBlogs() {
   });
 }
 
-Future<List<Product>> getOrders({int limit = 0}) async {
+Future<List<Product>> getProducts({int limit = 0}) async {
   // var token = await User.getToken();
   var paramas = {
     'token': ControllerMainPage.webToken,

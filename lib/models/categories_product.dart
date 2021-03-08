@@ -60,7 +60,8 @@ class CategoriesProduct {
       thumbnail: map['thumbnail'],
       keyword: map['keyword'],
       description: map['description'],
-      // child: Map<String, dynamic>.from(map['child']) ?? '',
+      child:
+          map['child'] != null ? Map<String, dynamic>.from(map['child']) : '',
     );
   }
 
