@@ -9,6 +9,8 @@ class ButtonCustom {
       @required Function onPress}) {
     return InkWell(
         onTap: onPress,
+        splashColor: borderColor,
+        borderRadius: BorderRadius.circular(5),
         child: Container(
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.all(10),
@@ -17,9 +19,10 @@ class ButtonCustom {
                 border: Border.all(width: 1, color: borderColor),
                 borderRadius: BorderRadius.circular(5)),
             child: Text(
-              name ?? 'ButtonBorder',
+              name.toUpperCase() ?? 'ButtonBorder',
               style: TextStyle(
                 color: borderColor,
+                fontWeight: FontWeight.bold
               ),
             )));
   }
@@ -35,7 +38,7 @@ class ButtonCustom {
         onPressed: onPress,
         child: Center(
           child: Text(
-            name,
+            name.toUpperCase(),
             style: TextStyle(color: Colors.white),
           ),
         ),

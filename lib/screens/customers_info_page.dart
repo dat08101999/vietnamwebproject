@@ -55,17 +55,16 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
     );
   }
 
-  Customer getCustomer() {
-    return Customer(
-        id: customer.id,
-        name: controllerCustomers.name.text,
-        phone: controllerCustomers.phone.text,
-        address: controllerCustomers.addressRecie.text,
-        email: controllerCustomers.email.text,
-        district: controllerCustomers.customer.district,
-        province: controllerCustomers.customer.province,
-        ward: controllerCustomers.customer.ward);
-  }
+  // Customer getCustomer() {
+  //   return Customer(
+  //       name: controllerCustomers.name.text,
+  //       phone: controllerCustomers.phone.text,
+  //       address: controllerCustomers.addressRecie.text,
+  //       email: controllerCustomers.email.text,
+  //       district: controllerCustomers.customer.district,
+  //       province: controllerCustomers.customer.province,
+  //       ward: controllerCustomers.customer.ward);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,38 +115,19 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
             ButtonCustom.buttonSubmit(
                 name: textSubMitButon,
                 onPress: () async {
-                  Customer tempCustomer = getCustomer();
-                  Loading.show();
-                  _controllerMessage.hideMessage();
-                  bool result = textSubMitButon == 'Thêm'
-                      ? await Customer.addCustomers(tempCustomer)
-                      : await Customer.upDateCustomer(tempCustomer);
-                  if (result == false) {
-                    _controllerMessage.showMessage();
-                  }
-                  Loading.dismiss();
-                  if (result == true) {
-                    print(controllerCustomers.email.text);
-                    Get.snackbar(
-                        '',
-                        textSubMitButon == 'Thêm'
-                            ? 'Thêm Thành Công'
-                            : 'Cập Nhật Thành Công',
-                        backgroundColor: Colors.black,
-                        colorText: Colors.white,
-                        snackPosition: SnackPosition.BOTTOM);
-                  }
+                  // Loading.show();
+                  // _controllerMessage.hideMessage();
+                  // bool result = textSubMitButon == 'Thêm'
+                  //     ? await Customer.addCustomers(tempCustomer)
+                  //     : await Customer.upDateCustomer(tempCustomer);
+                  // if (result == false) {
+                  //   _controllerMessage.showMessage();
+                  // }
+                  // Loading.dismiss();
                 }),
           ],
         );
       }),
     );
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    Get.find<ControllerCustomers>().update();
   }
 }

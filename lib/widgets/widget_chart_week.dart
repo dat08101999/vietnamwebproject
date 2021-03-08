@@ -155,7 +155,8 @@ BarChartGroupData makeGroupData(int x, double y1) {
       borderRadius: BorderRadius.circular(0),
       width: 20,
     ),
-  ]);
+  ],
+  );
 }
 
 Future<List<BarChartGroupData>> _getRevenueData(

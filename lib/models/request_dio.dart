@@ -24,7 +24,6 @@ class RequestDio {
   }
 
   static httpPost({headers, url, body}) async {
-    headers = headers;
     var request = http.Request('POST', Uri.parse(url));
     request.bodyFields = body;
     request.headers.addAll(headers);

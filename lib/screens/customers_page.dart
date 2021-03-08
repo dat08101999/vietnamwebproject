@@ -100,7 +100,6 @@ class _CustomersPageState extends State<CustomersPage> {
     };
     var response = await RequestDio.get(
         url: ConfigsMywebvietnam.getCustomers, parames: paramas);
-    print(response);
     if (response['success']) {
       List orders = response['data'];
       return List.generate(
