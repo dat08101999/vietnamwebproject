@@ -88,9 +88,11 @@ class _ProductInfoState extends State<ProductInfo> {
                   ),
                 ),
                 ButtonCustom.buttonSubmit(
-                    name: 'Cập Nhập Thông Tin', onPress:  () async {
+                    name: 'Cập Nhập Thông Tin',
+                    onPress: () async {
                       this.toProduct();
                       print(widget.product);
+                      Product.updateProduct(widget.product);
                     }),
               ],
             );
@@ -102,7 +104,14 @@ class _ProductInfoState extends State<ProductInfo> {
 
   toProduct() {
     widget.product.name = _productController.controllerTextName.text;
-    widget.product.priceRegular = _productController.controllerTextPriceRegular.text as int;
-    widget.product.priceSale = _productController.controllerTextPriceSale.text as int;
+    widget.product.priceRegular =
+        int.parse(_productController.controllerTextPriceRegular.text);
+    widget.product.priceSale =
+        int.parse(_productController.controllerTextPriceSale.text);
   }
 }
+
+
+Future<List<CategoriesProduct>> getCategoriesProduct {
+    
+  }

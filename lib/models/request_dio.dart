@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class RequestDio {
   static get({@required url, parames}) async {
@@ -13,8 +12,10 @@ class RequestDio {
     }
   }
 
-  static post({@required url, data}) async {
-    var response = await new Dio().post(url, data: data);
+  static post({@required url, data, params}) async {
+    data = FormData.fromMap(data);
+    var response =
+        await new Dio().post(url, data: data, queryParameters: params);
     if (response.statusCode == 200 || response.statusCode == 400) {
       return response.data;
     } else {
@@ -23,20 +24,9 @@ class RequestDio {
     }
   }
 
-  static httpPost({headers, url, body}) async {
-    var request = http.Request('POST', Uri.parse(url));
-    request.bodyFields = body;
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      return await response.stream.bytesToString();
-    } else {
-      print(response.reasonPhrase);
-    }
-  }
-
   static postWithHeader(
       {@required url, data, parameters, @required header}) async {
+    data = FormData.fromMap(data);
     var response = await new Dio().post(url,
         data: data,
         queryParameters: parameters,

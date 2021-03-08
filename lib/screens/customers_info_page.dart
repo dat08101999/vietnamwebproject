@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
-import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/screens/address_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
@@ -55,16 +54,16 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
     );
   }
 
-  // Customer getCustomer() {
-  //   return Customer(
-  //       name: controllerCustomers.name.text,
-  //       phone: controllerCustomers.phone.text,
-  //       address: controllerCustomers.addressRecie.text,
-  //       email: controllerCustomers.email.text,
-  //       district: controllerCustomers.customer.district,
-  //       province: controllerCustomers.customer.province,
-  //       ward: controllerCustomers.customer.ward);
-  // }
+  Customer getCustomer() {
+    return Customer(
+        name: controllerCustomers.name.text,
+        phone: controllerCustomers.phone.text,
+        address: controllerCustomers.addressRecie.text,
+        email: controllerCustomers.email.text,
+        district: controllerCustomers.customer.district,
+        province: controllerCustomers.customer.province,
+        ward: controllerCustomers.customer.ward);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,8 +117,8 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                   // Loading.show();
                   // _controllerMessage.hideMessage();
                   // bool result = textSubMitButon == 'Thêm'
-                  //     ? await Customer.addCustomers(tempCustomer)
-                  //     : await Customer.upDateCustomer(tempCustomer);
+                  //     ? await Customer.addCustomers(getCustomer())
+                  //     : await Customer.upDateCustomer(getCustomer());
                   // if (result == false) {
                   //   _controllerMessage.showMessage();
                   // }

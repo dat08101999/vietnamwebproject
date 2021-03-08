@@ -92,6 +92,9 @@ class _LaunchState extends State<Launch> {
             SharedPerferencesFunction.setData(
                 key: ConfigsVAWAY.keyUserInformation,
                 value: json.encode(response['results']));
+            ConfigUser.token = response['results']['token'];
+            var profile = response['results']['profile'];
+            ConfigUser.userProfile = UserProfile.fromMap(profile);
             _gotoHomePage();
           }
         }

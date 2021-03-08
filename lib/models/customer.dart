@@ -109,30 +109,26 @@ class Customer {
   }
 
   static String requestError;
-  static upDateCustomer(Customer customer) async {
+  static updateCustomer(Customer customer) async {
     try {
       print(customer);
       requestError = '';
-      var response = await RequestDio.httpPost(
-          url: ConfigsMywebvietnam.getCustomers +
-              '/' +
-              customer.id.toString() +
-              '?token=' +
-              ControllerMainPage.webToken,
-          body: {
-            'name': customer.name,
-            'phone': customer.phone,
-            'address': customer.address,
-            'email': customer.email,
-            'province': customer.province.toString(),
-            'district': customer.district.toString(),
-            'ward': customer.ward.toString(),
-          },
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie':
-                'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
-          });
+      var response = await RequestDio.post(
+        url: ConfigsMywebvietnam.getCustomers +
+            '/' +
+            customer.id.toString() +
+            '?token=' +
+            ControllerMainPage.webToken,
+        data: {
+          'name': customer.name,
+          'phone': customer.phone,
+          'address': customer.address,
+          'email': customer.email,
+          'province': customer.province.toString(),
+          'district': customer.district.toString(),
+          'ward': customer.ward.toString(),
+        },
+      );
       response = json.decode(response);
       if (response['success'] == true)
         return true;
@@ -150,24 +146,20 @@ class Customer {
   static Future<bool> addCustomers(Customer customer) async {
     try {
       requestError = '';
-      var response = await RequestDio.httpPost(
-          url: ConfigsMywebvietnam.getCustomers +
-              '?token=' +
-              ControllerMainPage.webToken,
-          body: {
-            'name': customer.name,
-            'phone': customer.phone,
-            'address': customer.address,
-            'email': customer.email,
-            'province': customer.province.toString(),
-            'district': customer.district.toString(),
-            'ward': customer.ward.toString(),
-          },
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie':
-                'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
-          });
+      var response = await RequestDio.post(
+        url: ConfigsMywebvietnam.getCustomers +
+            '?token=' +
+            ControllerMainPage.webToken,
+        data: {
+          'name': customer.name,
+          'phone': customer.phone,
+          'address': customer.address,
+          'email': customer.email,
+          'province': customer.province.toString(),
+          'district': customer.district.toString(),
+          'ward': customer.ward.toString(),
+        },
+      );
       response = json.decode(response);
       if (response['success'] == true)
         return true;
@@ -181,4 +173,40 @@ class Customer {
       return false;
     }
   }
+
+  // static Future<bool> addCustomersDio(Customer customer) async {
+  //   try {
+  //     requestError = '';
+  //     var response = await RequestDio.post(
+  //       url: ConfigsMywebvietnam.getCustomers +
+  //           '?token=' +
+  //           ControllerMainPage.webToken,
+  //       data: {
+  //         'name': customer.name,
+  //         'phone': customer.phone,
+  //         'address': customer.address,
+  //         'email': customer.email,
+  //         'province': customer.province.toString(),
+  //         'district': customer.district.toString(),
+  //         'ward': customer.ward.toString(),
+  //       },
+  //       // headers: {
+  //       //   'Content-Type': 'application/x-www-form-urlencoded',
+  //       //   'Cookie':
+  //       //       'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
+  //       // }
+  //     );
+  //     response = json.decode(response);
+  //     if (response['success'] == true)
+  //       return true;
+  //     else {
+  //       requestError = response['message'];
+  //       return false;
+  //     }
+  //   } catch (ex, trace) {
+  //     print(ex + trace);
+  //     requestError = 'Xảy ra lỗi';
+  //     return false;
+  //   }
+  // }
 }
