@@ -28,6 +28,13 @@ class _ProductInfoState extends State<ProductInfo> {
     super.initState();
     _productController = Get.put(ProductController());
     _productController.getProductInfo(widget.product);
+    widget.product.categories.length > 1
+        ? _productController.idCategoriesSelected =
+            widget.product.categories[0]['id']
+        : 0;
+    _firstValue = CategoriesProduct.fromMap(widget.product.categories.length > 1
+        ? widget.product.categories[0]
+        : null);
   }
 
   @override
@@ -79,7 +86,6 @@ class _ProductInfoState extends State<ProductInfo> {
                               if (snapshot.hasData) {
                                 List<CategoriesProduct> _listCategoriesProduct =
                                     snapshot.data;
-
                                 return WidgetDropdowList(
                                     firstValue: _firstValue ??
                                         _listCategoriesProduct[0],
@@ -103,6 +109,12 @@ class _ProductInfoState extends State<ProductInfo> {
                               }
                             }),
                         //* end dropdow list
+                        WidgetTextFormField(
+                            title: 'Chi Tiết Mô Tả',
+                            controller:
+                                _productController.controllerTextContent,
+                            icon: Icon(Icons.edit),
+                            maxLine: 5),
                         WidgetTextFormField(
                             title: 'Giá Bán Gốc',
                             controller:
@@ -143,6 +155,7 @@ class _ProductInfoState extends State<ProductInfo> {
         int.parse(_productController.controllerTextPriceRegular.text);
     widget.product.priceSale =
         int.parse(_productController.controllerTextPriceSale.text);
+    widget.product.content = _productController.controllerTextContent.text;
   }
 }
 

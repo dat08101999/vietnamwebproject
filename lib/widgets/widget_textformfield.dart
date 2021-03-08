@@ -7,6 +7,7 @@ class WidgetTextFormField extends StatelessWidget {
   final Function() onTap;
   final Icon icon;
   final bool isHide;
+  final int maxLine;
 
   const WidgetTextFormField({
     Key key,
@@ -16,8 +17,9 @@ class WidgetTextFormField extends StatelessWidget {
     this.onTap,
     this.icon,
     this.isHide,
+    this.maxLine,
   }) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +30,7 @@ class WidgetTextFormField extends StatelessWidget {
         color: Colors.grey[200],
       ),
       child: TextFormField(
-        maxLines: 1,
+        maxLines: maxLine ?? 1,
         obscureText: isHide ?? false,
         onTap: onTap,
         readOnly: readonly ?? false,

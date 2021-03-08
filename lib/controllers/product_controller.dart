@@ -8,6 +8,7 @@ class ProductController extends GetxController {
   TextEditingController controllerTextPriceRegular = TextEditingController();
   TextEditingController controllerTextPriceSale = TextEditingController();
   TextEditingController controllerTextStock = TextEditingController();
+  TextEditingController controllerTextContent = TextEditingController();
   int _limit = 0;
   static int _idCategoriesSelected = 0;
 
@@ -32,6 +33,7 @@ class ProductController extends GetxController {
       controllerTextPriceRegular.text = product.priceRegular.toString();
       controllerTextPriceSale.text = product.priceSale.toString();
       controllerTextStock.text = product.stock.toString();
+      controllerTextContent.text = product.content;
       update();
     }
   }
