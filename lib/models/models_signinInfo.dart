@@ -1,4 +1,5 @@
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/models_revenue.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
@@ -14,6 +15,7 @@ class SignInInfo {
 
   static getAllinfo() async {
     String accesstoken = '324-1b1ecbd8-7d53-11eb-b51c-fa163ee6c2fe';
+    // String accesstoken = ConfigUser.token;
     var response = await RequestDio.post(
         url: ConfigsMywebvietnam.signInApi,
         data: {'access_token': accesstoken});
