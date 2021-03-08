@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
+import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
+import 'package:flutter_back_end/widgets/widget_dropdow_list.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_back_end/models/categories_product.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/models/product.dart';
 
@@ -19,6 +22,7 @@ class ProductInfo extends StatefulWidget {
 
 class _ProductInfoState extends State<ProductInfo> {
   ProductController _productController;
+  var _firstValue;
   @override
   void initState() {
     super.initState();
@@ -68,6 +72,37 @@ class _ProductInfoState extends State<ProductInfo> {
                             controller: _productController.controllerTextID,
                             readonly: true,
                             icon: Icon(Icons.edit)),
+                        //* dropdow list
+                        FutureBuilder(
+                            future: getCategoriesProduct(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                List<CategoriesProduct> _listCategoriesProduct =
+                                    snapshot.data;
+
+                                return WidgetDropdowList(
+                                    firstValue: _firstValue ??
+                                        _listCategoriesProduct[0],
+                                    listValue: _listCategoriesProduct,
+                                    //* set Dropdow
+                                    onChanged: (id) {
+                                      _firstValue = _listCategoriesProduct
+                                          .singleWhere(
+                                              (element) => element.id == id,
+                                              orElse: () {
+                                        return null;
+                                      });
+                                      _productController.idCategoriesSelected =
+                                          id;
+                                      print(_productController
+                                          .idCategoriesSelected);
+                                    });
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            }),
+                        //* end dropdow list
                         WidgetTextFormField(
                             title: 'Giá Bán Gốc',
                             controller:
@@ -92,7 +127,7 @@ class _ProductInfoState extends State<ProductInfo> {
                     onPress: () async {
                       this.toProduct();
                       print(widget.product);
-                      Product.updateProduct(widget.product);
+                      Product.updateProduct(widget.product, _productController);
                     }),
               ],
             );
@@ -111,7 +146,20 @@ class _ProductInfoState extends State<ProductInfo> {
   }
 }
 
-
-Future<List<CategoriesProduct>> getCategoriesProduct {
-    
+Future<List<CategoriesProduct>> getCategoriesProduct() async {
+  var paramas = {
+    'token': ControllerMainPage.webToken,
+    'limit': 10,
+    'offset': 0
+  };
+  var response = await RequestDio.get(
+      url: ConfigsMywebvietnam.getCategoriesApi, parames: paramas);
+  if (response['success']) {
+    List _ordres = response['data'] ?? [];
+    return List.generate(
+        _ordres.length, (index) => CategoriesProduct.fromMap(_ordres[index]));
+  } else {
+    print('lấy dữ liệu lỗi');
+    return null;
   }
+}

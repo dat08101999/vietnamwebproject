@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 
 class Product {
@@ -43,16 +43,17 @@ class Product {
     this.link,
   });
 
-  static updateProduct(Product product) async {
+  static updateProduct(
+      Product product, ProductController productController) async {
     var data = {
       'name': product.name,
       'description': product.description ?? '',
       'keyword': product.keyword ?? '',
       'price_regular': product.priceRegular,
       'price_sale': product.priceSale,
-      'brand': '161518345383718400',
-      'categories': '157049836671845400',
-      'groups': '157049894605637900',
+      'brand': product.brands,
+      'categories': productController.idCategoriesSelected,
+      'groups': product.groups,
       'thumbnail': product.thumbnail ?? ConfigsMywebvietnam.urlNoImage,
       'pictures': product.pictures,
       'stock': product.stock,

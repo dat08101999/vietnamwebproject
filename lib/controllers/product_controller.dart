@@ -9,6 +9,14 @@ class ProductController extends GetxController {
   TextEditingController controllerTextPriceSale = TextEditingController();
   TextEditingController controllerTextStock = TextEditingController();
   int _limit = 0;
+  static int _idCategoriesSelected = 0;
+
+  int get idCategoriesSelected => _idCategoriesSelected;
+
+  set idCategoriesSelected(int idCategoriesSelected) {
+    _idCategoriesSelected = idCategoriesSelected;
+    update();
+  }
 
   int get limit => _limit;
 
@@ -18,7 +26,7 @@ class ProductController extends GetxController {
   }
 
   getProductInfo(Product product) {
-    if(product !=  null) {
+    if (product != null) {
       controllerTextName.text = product.name;
       controllerTextID.text = product.sku ?? product.id.toString();
       controllerTextPriceRegular.text = product.priceRegular.toString();
