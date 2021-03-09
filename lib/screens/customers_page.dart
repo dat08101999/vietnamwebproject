@@ -108,7 +108,6 @@ class _CustomersPageState extends State<CustomersPage> {
           'Xác Nhận Xóa ' +
               controllerCheckBox.markedCustomers.length.toString() +
               ' khách hàng', cancelTap: () {
-        // controllerCheckBox.markedCustomers.clear();
         Navigator.pop(currentContext);
       }, acceptTap: () async {
         Navigator.pop(currentContext);
@@ -133,7 +132,9 @@ class _CustomersPageState extends State<CustomersPage> {
     } else {
       WidgetShowDialog.dialogDetail(
           'Chưa chọn khách hàng nào', 'Hãy chọn khách hàng để xóa',
-          cancelTap: () {});
+          cancelTap: () {
+        Navigator.pop(currentContext);
+      });
     }
   }
 
