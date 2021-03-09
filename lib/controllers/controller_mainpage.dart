@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter_back_end/models/models_revenue.dart';
 import 'package:flutter_back_end/models/models_signinInfo.dart';
 import 'package:get/get.dart';
@@ -21,7 +20,7 @@ class ControllerMainPage extends GetxController {
   getInforMation() async {
     try {
       info = await SignInInfo.getAllinfo();
-      info = json.decode(info);
+      // info = json.decode(info);
       //print(info);
       if (info['success'] == true) {
         info = info['data'];

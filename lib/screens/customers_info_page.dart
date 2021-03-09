@@ -71,7 +71,10 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[400],
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(customer.name != null ? customer.name : ''),
+        centerTitle: true,
+      ),
       body: GetBuilder<ControllerCustomers>(builder: (builder) {
         return Column(
           children: [
@@ -127,7 +130,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                   }
                   Loading.dismiss();
                   if (result == true) {
-                    print(controllerCustomers.email.text);
                     Get.snackbar(
                         '',
                         textSubMitButon == 'Thêm'
@@ -148,6 +150,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    Get.find<ControllerCustomers>().update();
+    Get.find<ControllerListCustomer>().getAllCustomer();
   }
 }

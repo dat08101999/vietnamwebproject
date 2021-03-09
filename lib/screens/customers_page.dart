@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
-import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/controllers/controller_processbar.dart';
+import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/customer.dart';
-import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/screens/customers_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_customers.dart';
+import 'package:flutter_back_end/widgets/widget_showDialog.dart';
 import 'package:get/get.dart';
 
 class CustomersPage extends StatefulWidget {
@@ -14,9 +14,15 @@ class CustomersPage extends StatefulWidget {
 }
 
 class _CustomersPageState extends State<CustomersPage> {
-  ControllerCustomers _controllerCustomers = Get.put(ControllerCustomers());
+  ControllerCustomers controllerCustomers = Get.put(ControllerCustomers());
+  ControllerProcessBardelete _controllerProcessBardelete =
+      Get.put(ControllerProcessBardelete());
+  ControllerListCustomer _controllerListCustomer =
+      Get.put(ControllerListCustomer());
+
   @override
   Widget build(BuildContext context) {
+    _controllerListCustomer.getAllCustomer();
     return Scaffold(
       appBar: AppBar(
         actions: [buildbuttonAdd()],
@@ -31,8 +37,8 @@ class _CustomersPageState extends State<CustomersPage> {
               if (ctlScroll is ScrollEndNotification) if (ctlScroll
                       .metrics.pixels ==
                   ctlScroll.metrics.maxScrollExtent) {
-                if (_controllerCustomers.limit < 80) {
-                  _controllerCustomers.limit = 10;
+                if (_controllerListCustomer.limit < 80) {
+                  _controllerListCustomer.limit = 10;
                 }
                 return true;
               }
@@ -59,55 +65,86 @@ class _CustomersPageState extends State<CustomersPage> {
     );
   }
 
-  Widget _buildBlogs() {
-    return GetBuilder<ControllerCustomers>(builder: (ctl) {
-      return FutureBuilder(
-          future: getCustomer(limit: ctl.limit),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Customer> customers = snapshot.data;
-              return ListView.builder(
-                  itemCount: customers.length,
-                  itemBuilder: (context, index) {
-                    if (index == customers.length) {
-                      return Card(
-                        child: ListTile(
-                          leading: CircularProgressIndicator(),
-                          title: Text(
-                            'Đang tải ...',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      );
-                    }
-                    return WidgetCustomers(customer: customers[index]);
-                  });
-            } else {
-              print('erors ' + snapshot.error.toString());
-              return Center(child: CircularProgressIndicator());
-            }
-          });
-    });
+  List<Widget> customerLisst() {
+    List<Widget> list = List<Widget>();
+    for (Customer customer in _controllerListCustomer.customers) {
+      bool checkboxValue = false;
+      if (controllerCheckBox.markedCustomers.contains(customer)) {
+        checkboxValue = true;
+      }
+      list.add(WidgetCustomers(
+        customer: customer,
+        checkBoxValue: checkboxValue,
+      ));
+    }
+    return list;
   }
 
-  Future<List<Customer>> getCustomer({int limit = 0}) async {
-    var paramas = {
-      'token': ControllerMainPage.webToken,
-      'limit': 7 + limit,
-      'offset': 0
-    };
-    var response = await RequestDio.get(
-        url: ConfigsMywebvietnam.getCustomers, parames: paramas);
-    print(response);
-    if (response['success']) {
-      List orders = response['data'];
-      return List.generate(
-          orders.length, (index) => Customer.fromMap(orders[index]));
+  Widget _buildBlogs() {
+    return Column(children: [
+      builDeleteButon(),
+      Container(
+          height: MediaQuery.of(currentContext).size.height * 0.8,
+          child: GetBuilder<ControllerListCustomer>(
+            builder: (ctl) {
+              return ListView(
+                children: customerLisst(),
+              );
+            },
+          ))
+    ]);
+  }
+
+  ControllerCheckBox controllerCheckBox = Get.put(ControllerCheckBox());
+  deleteOnClick() {
+    if (controllerCheckBox.markedCustomers.length > 0) {
+      WidgetShowDialog.dialogAccept(
+          'Xác Nhận Xóa ' +
+              controllerCheckBox.markedCustomers.length.toString() +
+              ' khách hàng', cancelTap: () {
+        // controllerCheckBox.markedCustomers.clear();
+        Navigator.pop(currentContext);
+      }, acceptTap: () async {
+        Navigator.pop(currentContext);
+        WidgetShowDialog.showProcessBar(_controllerProcessBardelete);
+        for (Customer element in controllerCheckBox.markedCustomers) {
+          double percentProcess =
+              (controllerCheckBox.markedCustomers.indexOf(element) + 1) /
+                  controllerCheckBox.markedCustomers.length;
+          bool result = await Customer.delete(element.id);
+          await Future.delayed(Duration(milliseconds: 500));
+          if (result == false) {
+            _controllerProcessBardelete.seterror('Lỗi xóa ' + element.name);
+          }
+          _controllerProcessBardelete.changevalue(percentProcess);
+        }
+        controllerCheckBox.deleteAll();
+        _controllerListCustomer.getAllCustomer();
+        Navigator.pop(currentContext);
+      });
     } else {
-      print('lấy dữ liệu lỗi');
-      return null;
+      WidgetShowDialog.dialogDetail(
+          'Chưa chọn khách hàng nào', 'Hãy chọn khách hàng để xóa',
+          cancelTap: () {});
     }
+  }
+
+  Widget builDeleteButon() {
+    return GetBuilder<ControllerCheckBox>(
+      builder: (builder) {
+        return AnimatedContainer(
+          duration: Duration(seconds: 1),
+          height: controllerCheckBox.isShow
+              ? MediaQuery.of(context).size.height * 0.1
+              : 0,
+          child: Center(
+            child: IconButton(
+              onPressed: deleteOnClick,
+              icon: Icon(Icons.delete),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

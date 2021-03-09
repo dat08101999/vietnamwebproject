@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
@@ -111,29 +110,23 @@ class Customer {
   static String requestError;
   static upDateCustomer(Customer customer) async {
     try {
-      print(customer);
       requestError = '';
-      var response = await RequestDio.httpPost(
-          url: ConfigsMywebvietnam.getCustomers +
-              '/' +
-              customer.id.toString() +
-              '?token=' +
-              ControllerMainPage.webToken,
-          body: {
-            'name': customer.name,
-            'phone': customer.phone,
-            'address': customer.address,
-            'email': customer.email,
-            'province': customer.province.toString(),
-            'district': customer.district.toString(),
-            'ward': customer.ward.toString(),
-          },
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie':
-                'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
-          });
-      response = json.decode(response);
+      var response = await RequestDio.post(
+        url: ConfigsMywebvietnam.getCustomers +
+            '/' +
+            customer.id.toString() +
+            '?token=' +
+            ControllerMainPage.webToken,
+        data: {
+          'name': customer.name,
+          'phone': customer.phone,
+          'address': customer.address,
+          'email': customer.email,
+          'province': customer.province.toString(),
+          'district': customer.district.toString(),
+          'ward': customer.ward.toString(),
+        },
+      );
       if (response['success'] == true)
         return true;
       else {
@@ -150,25 +143,20 @@ class Customer {
   static Future<bool> addCustomers(Customer customer) async {
     try {
       requestError = '';
-      var response = await RequestDio.httpPost(
-          url: ConfigsMywebvietnam.getCustomers +
-              '?token=' +
-              ControllerMainPage.webToken,
-          body: {
-            'name': customer.name,
-            'phone': customer.phone,
-            'address': customer.address,
-            'email': customer.email,
-            'province': customer.province.toString(),
-            'district': customer.district.toString(),
-            'ward': customer.ward.toString(),
-          },
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie':
-                'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
-          });
-      response = json.decode(response);
+      var response = await RequestDio.post(
+        url: ConfigsMywebvietnam.getCustomers +
+            '?token=' +
+            ControllerMainPage.webToken,
+        data: {
+          'name': customer.name,
+          'phone': customer.phone,
+          'address': customer.address,
+          'email': customer.email,
+          'province': customer.province.toString(),
+          'district': customer.district.toString(),
+          'ward': customer.ward.toString(),
+        },
+      );
       if (response['success'] == true)
         return true;
       else {
@@ -178,6 +166,28 @@ class Customer {
     } catch (ex, trace) {
       print(ex + trace);
       requestError = 'Xảy ra lỗi';
+      return false;
+    }
+  }
+
+  static Future<bool> delete(int id) async {
+    try {
+      var response = RequestDio.delete(
+          header: {
+            'Cookie':
+                'dbdad159c321a98161b40cc2ec4ba243=08761650193cb1642314d964c66c53103c234a83'
+          },
+          url: ConfigsMywebvietnam.getCustomers + '/' + id.toString(),
+          paramas: {'token': ControllerMainPage.webToken});
+      print(response);
+      // if (response['success'] == true)
+      //   return true;
+      // else {
+      //   //requestError = response['message'];
+      return false;
+      // }
+    } catch (ex, trace) {
+      print(ex + trace);
       return false;
     }
   }
