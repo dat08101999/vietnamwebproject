@@ -1,4 +1,3 @@
-import 'package:flutter_back_end/widgets/widget_customers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
@@ -87,16 +86,11 @@ class ControllerCheckBox extends GetxController {
 
 class ControllerListCustomer extends GetxController {
   List<Customer> customers = List<Customer>();
-  List<Widget> checkboxs = List<Widget>();
+
   getAllCustomer() async {
-    customers.clear();
     customers = await getCustomer(limit: _limit);
-    for (Customer customer in customers) {
-      checkboxs.add(CheckBoxClass(
-        customer: customer,
-      ));
-    }
     update();
+    return customers;
   }
 
   int _limit = 0;

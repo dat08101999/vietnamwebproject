@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 // ignore: must_be_immutable
 class WidgetCustomers extends StatelessWidget {
   final Customer customer;
-  bool checkBoxValue;
+  ControllerCheckBox _controllerCheckBox = Get.put(ControllerCheckBox());
+  bool checkBoxValue = false;
   WidgetCustomers({this.customer, this.checkBoxValue});
   @override
   Widget build(BuildContext context) {
@@ -30,37 +31,34 @@ class WidgetCustomers extends StatelessWidget {
                 NetworkImage('https://i.stack.imgur.com/5swJm.png'),
           ),
           title: Text(customer.name),
-          subtitle: Text(customer.email + '/' + customer.phone.toString()),
-          trailing: CheckBoxClass(
-            customer: customer,
-          ),
+          subtitle: Text(customer.email +
+              '/' +
+              customer.phone.toString() +
+              '' +
+              customer.id.toString()),
+          trailing: Container(
+              height: 40,
+              width: 40,
+              child: GetBuilder<ControllerCheckBox>(
+                builder: (builder) {
+                  return checkBox();
+                },
+              )),
         ),
       ),
     );
   }
-}
 
-class CheckBoxClass extends StatefulWidget {
-  final Customer customer;
-  CheckBoxClass({this.customer});
-  @override
-  _CheckBoxClassState createState() => _CheckBoxClassState(customer: customer);
-}
-
-class _CheckBoxClassState extends State<CheckBoxClass> {
-  final Customer customer;
-  ControllerCheckBox _controllerCheckBox = Get.put(ControllerCheckBox());
-  bool checkBoxValue = false;
-  _CheckBoxClassState({this.customer});
   Widget checkBox() {
-    for (Customer customert in _controllerCheckBox.markedCustomers) {
-      if (customer.id.toString().trim() == customert.id.toString().trim()) {
+    for (Customer customertemp in _controllerCheckBox.markedCustomers) {
+      if (customer.id.toString().trim() == customertemp.id.toString().trim()) {
         checkBoxValue = true;
       }
     }
     if (_controllerCheckBox.isShow) {
       return Checkbox(
         onChanged: (value) {
+          print(customer.id);
           checkBoxValue = value;
           if (checkBoxValue == true) {
             _controllerCheckBox.addCustomers(customer);
@@ -74,17 +72,5 @@ class _CheckBoxClassState extends State<CheckBoxClass> {
     }
     checkBoxValue = false;
     return Container();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 40,
-        width: 40,
-        child: GetBuilder<ControllerCheckBox>(
-          builder: (builder) {
-            return checkBox();
-          },
-        ));
   }
 }

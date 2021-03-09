@@ -19,7 +19,6 @@ class _CustomersPageState extends State<CustomersPage> {
       Get.put(ControllerProcessBardelete());
   ControllerListCustomer _controllerListCustomer =
       Get.put(ControllerListCustomer());
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -28,7 +27,7 @@ class _CustomersPageState extends State<CustomersPage> {
 
   @override
   Widget build(BuildContext context) {
-    _controllerListCustomer.getAllCustomer();
+    // _controllerListCustomer.getAllCustomer();
     return Scaffold(
       appBar: AppBar(
         actions: [buildbuttonAdd()],
@@ -83,14 +82,19 @@ class _CustomersPageState extends State<CustomersPage> {
   }
 
   Widget _buildBlogs() {
+    _controllerListCustomer.getAllCustomer();
     return Column(children: [
       builDeleteButon(),
       Container(
           height: MediaQuery.of(currentContext).size.height * 0.8,
           child: GetBuilder<ControllerListCustomer>(
             builder: (ctl) {
-              return ListView(
-                children: customerLisst(),
+              if (ctl.customers.length > 0)
+                return ListView(
+                  children: customerLisst(),
+                );
+              return Center(
+                child: Text('): No Data'),
               );
             },
           ))
@@ -109,15 +113,18 @@ class _CustomersPageState extends State<CustomersPage> {
       }, acceptTap: () async {
         Navigator.pop(currentContext);
         WidgetShowDialog.showProcessBar(_controllerProcessBardelete);
-        for (Customer element in controllerCheckBox.markedCustomers) {
+        for (int i = 0; i < controllerCheckBox.markedCustomers.length; i++) {
+          print(i);
           double percentProcess =
-              (controllerCheckBox.markedCustomers.indexOf(element) + 1) /
-                  controllerCheckBox.markedCustomers.length;
-          bool result = await Customer.delete(element.id);
-          await Future.delayed(Duration(milliseconds: 500));
+              (i + 1) / controllerCheckBox.markedCustomers.length;
+          bool result =
+              await Customer.delete(controllerCheckBox.markedCustomers[i].id);
           if (result == false) {
-            _controllerProcessBardelete.seterror('Lỗi xóa ' + element.name);
+            _controllerProcessBardelete.seterror(
+                'Lỗi xóa ' + controllerCheckBox.markedCustomers[i].name);
           }
+          await Future.delayed(Duration(milliseconds: 100));
+
           _controllerProcessBardelete.changevalue(percentProcess);
         }
         controllerCheckBox.deleteAll();

@@ -60,7 +60,7 @@ class WidgetShowDialog {
               title: Text(builder.error ?? ''),
               content: LinearProgressIndicator(
                 value: builder.value,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.green[200]),
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey[900]),
               ),
             );
           }),
