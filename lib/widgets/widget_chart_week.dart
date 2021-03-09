@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
@@ -146,7 +144,6 @@ class WeekChart extends StatelessWidget {
 
 final Color leftBarColor = const Color(0xff53fdd7);
 final Color rightBarColor = const Color(0xffff5182);
-
 BarChartGroupData makeGroupData(int x, double y1) {
   return BarChartGroupData(barsSpace: 1, x: x, barRods: [
     BarChartRodData(

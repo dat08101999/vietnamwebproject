@@ -35,7 +35,7 @@ class _CustomersPageState extends State<CustomersPage> {
         centerTitle: true,
       ),
       body: Container(
-          color: Colors.grey,
+          //color: Colors.grey,
           alignment: Alignment.center,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ctlScroll) {
