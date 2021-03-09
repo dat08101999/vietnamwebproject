@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/order.dart';
+import 'package:flutter_back_end/models/product.dart';
+import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/screens/product_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dialog_info_customer.dart';
+import 'package:get/get.dart';
 
 class OrderInfo extends StatefulWidget {
   final Order order;
@@ -17,7 +22,10 @@ class _OrderInfoState extends State<OrderInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Thông tin đơn hàng'), centerTitle: true,),
+      appBar: AppBar(
+        title: Text('Thông tin đơn hàng'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -101,6 +109,13 @@ class _OrderInfoState extends State<OrderInfo> {
                           itemCount: widget.order.product.length,
                           itemBuilder: (context, index) => Card(
                             child: ListTile(
+                              onTap: () async {
+                                Product _product = await getInfo(widget
+                                    .order.product[index]['id']
+                                    .toString());
+                                Get.to(() => ProductInfo(
+                                    product: _product, readOnly: true));
+                              },
                               leading: AspectRatio(
                                 aspectRatio: 1,
                                 child: CachedNetworkImage(
@@ -216,5 +231,18 @@ class _OrderInfoState extends State<OrderInfo> {
         ),
       ),
     );
+  }
+
+  Future<Product> getInfo(String id) async {
+    var params = {
+      'token': ControllerMainPage.webToken,
+    };
+    var response = await RequestDio.get(
+        url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
+    if (response['success'] == true) {
+      return Product.fromMap(response['data'][0]);
+    } else {
+      return null;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_back_end/models/models_revenue.dart';
 import 'package:flutter_back_end/models/models_signinInfo.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' show GetxController;
 
 class ControllerMainPage extends GetxController {
   static String webToken;

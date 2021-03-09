@@ -33,6 +33,7 @@ dependencies:
   dio: ^3.0.10
   fl_chart: ^0.12.3
   flutter_custom_dialog: ^1.0.20
+  fluttertoast: ^7.1.8
   get: ^3.25.4
   intent: ^1.4.0
   permission_handler: ^5.1.0+2

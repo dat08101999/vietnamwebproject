@@ -1,11 +1,13 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' show Colors;
 
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
+import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/models/show_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Product {
   int id;
@@ -45,6 +47,7 @@ class Product {
 
   static updateProduct(
       Product product, ProductController productController) async {
+    Loading.show();
     var data = {
       'name': product.name,
       'description': product.description ?? '',
@@ -67,10 +70,12 @@ class Product {
         params: {'token': ControllerMainPage.webToken},
         data: data,
       );
-      if (response['success'] == true)
+      Loading.dismiss();
+      if (response['success'] == true) {
+        ShowToast.show(title: 'Cập Nhập Thành Công');
         return true;
-      else {
-        print(response['message']);
+      } else {
+        ShowToast.show(title: response['message']);
         return false;
       }
       // ignore: unused_catch_stack
@@ -172,48 +177,5 @@ class Product {
   @override
   String toString() {
     return 'Product(id: $id, thumbnail: $thumbnail, pictures: $pictures, name: $name, description: $description, keyword: $keyword, content: $content, sku: $sku, categories: $categories, groups: $groups, brands: $brands, priceSale: $priceSale, priceRegular: $priceRegular, stock: $stock, variations: $variations, link: $link)';
-  }
-
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is Product &&
-        o.id == id &&
-        o.thumbnail == thumbnail &&
-        listEquals(o.pictures, pictures) &&
-        o.name == name &&
-        o.description == description &&
-        o.keyword == keyword &&
-        o.content == content &&
-        o.sku == sku &&
-        listEquals(o.categories, categories) &&
-        listEquals(o.groups, groups) &&
-        o.brands == brands &&
-        o.priceSale == priceSale &&
-        o.priceRegular == priceRegular &&
-        o.stock == stock &&
-        listEquals(o.variations, variations) &&
-        o.link == link;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        thumbnail.hashCode ^
-        pictures.hashCode ^
-        name.hashCode ^
-        description.hashCode ^
-        keyword.hashCode ^
-        content.hashCode ^
-        sku.hashCode ^
-        categories.hashCode ^
-        groups.hashCode ^
-        brands.hashCode ^
-        priceSale.hashCode ^
-        priceRegular.hashCode ^
-        stock.hashCode ^
-        variations.hashCode ^
-        link.hashCode;
   }
 }

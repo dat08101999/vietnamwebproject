@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show TextEditingController;
 import 'package:flutter_back_end/models/product.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' show GetxController;
 
 class ProductController extends GetxController {
   TextEditingController controllerTextName = TextEditingController();
@@ -22,7 +22,7 @@ class ProductController extends GetxController {
   int get limit => _limit;
 
   set limit(int limit) {
-    _limit = limit;
+    _limit += limit;
     update();
   }
 

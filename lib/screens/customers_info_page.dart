@@ -129,4 +129,9 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
       }),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }

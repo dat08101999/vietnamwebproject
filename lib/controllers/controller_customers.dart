@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/models/customer.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' show GetxController;
 
 class ControllerCustomers extends GetxController {
   int _limit = 0;

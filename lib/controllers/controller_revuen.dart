@@ -1,3 +1,3 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' show GetxController;
 
 class ControllerReveun extends GetxController {}

@@ -7,7 +7,7 @@ class CategoriesProduct {
   String thumbnail;
   String keyword;
   String description;
-  Map<String, dynamic> child;
+  dynamic child;
   CategoriesProduct({
     this.name,
     this.id,
@@ -25,7 +25,7 @@ class CategoriesProduct {
     String thumbnail,
     String keyword,
     String description,
-    Map<String, dynamic> child,
+    dynamic child,
   }) {
     return CategoriesProduct(
       name: name ?? this.name,
@@ -60,8 +60,11 @@ class CategoriesProduct {
       thumbnail: map['thumbnail'],
       keyword: map['keyword'],
       description: map['description'],
-      child:
-          map['child'] != null ? Map<String, dynamic>.from(map['child']) : '',
+      child: map['child'] is String
+          ? map['child']
+          : map['child'] != null
+              ? Map<String, dynamic>.from(map['child'])
+              : '',
     );
   }
 

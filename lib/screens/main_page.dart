@@ -5,6 +5,8 @@ import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
+import 'package:flutter_back_end/screens/oders_page.dart';
+import 'package:flutter_back_end/screens/products_page.dart';
 import 'package:flutter_back_end/widgets/widget_chart.dart';
 import 'package:get/get.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
@@ -38,7 +40,12 @@ class _MainPageState extends State<MainPage> {
               backgroundImage:
                   NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
             ),
-            title: Text(controllerMainPage.name),
+            title: Text(
+              controllerMainPage.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             subtitle: Text('Basic ' + controllerMainPage.basic),
             trailing: IconButton(
               icon: Icon(Icons.arrow_drop_down),
@@ -148,8 +155,14 @@ class _MainPageState extends State<MainPage> {
               mainAxisSpacing: 5.0,
               childAspectRatio: 1.5),
           children: [
-            buildGridViewItem('Đơn Hàng', controllerMainPage.oders.toString(),
-                isIncrease: controllerMainPage.oderIncrease),
+            InkWell(
+              onTap: () {
+                Get.to(() => OrdersPage());
+              },
+              child: buildGridViewItem(
+                  'Đơn Hàng', controllerMainPage.oders.toString(),
+                  isIncrease: controllerMainPage.oderIncrease),
+            ),
             InkWell(
               onTap: () {
                 Get.to(CustomersPage());
@@ -158,8 +171,11 @@ class _MainPageState extends State<MainPage> {
                   'Khách Hàng', controllerMainPage.customers.toString(),
                   isIncrease: controllerMainPage.customerIncease),
             ),
-            buildGridViewItem(
-                'Sản Phẩm', controllerMainPage.products.toString()),
+            InkWell(
+              onTap: () => Get.to(ProductsPage()),
+              child: buildGridViewItem(
+                  'Sản Phẩm', controllerMainPage.products.toString()),
+            ),
             buildGridViewItem('Thu nhập', controllerMainPage.money.toString(),
                 isIncrease: controllerMainPage.moneyIncrase),
           ],
@@ -208,7 +224,7 @@ class _MainPageState extends State<MainPage> {
                   top: MediaQuery.of(currentContext).size.height * 0.02),
               child: Align(
                 child: Text(
-                  'xin chào, ${ConfigUser.userProfile.name}',
+                  'Xin chào, ${ConfigUser.userProfile.name}',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),

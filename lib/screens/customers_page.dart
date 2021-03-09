@@ -15,6 +15,7 @@ class CustomersPage extends StatefulWidget {
 
 class _CustomersPageState extends State<CustomersPage> {
   ControllerCustomers _controllerCustomers = Get.put(ControllerCustomers());
+  List<Customer> customers;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,7 @@ class _CustomersPageState extends State<CustomersPage> {
               if (ctlScroll is ScrollEndNotification) if (ctlScroll
                       .metrics.pixels ==
                   ctlScroll.metrics.maxScrollExtent) {
-                if (_controllerCustomers.limit < 80) {
+                if (_controllerCustomers.limit < customers.length) {
                   _controllerCustomers.limit = 10;
                 }
                 return true;
@@ -65,7 +66,7 @@ class _CustomersPageState extends State<CustomersPage> {
           future: getCustomer(limit: ctl.limit),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<Customer> customers = snapshot.data;
+              customers = snapshot.data;
               return ListView.builder(
                   itemCount: customers.length,
                   itemBuilder: (context, index) {
@@ -95,7 +96,7 @@ class _CustomersPageState extends State<CustomersPage> {
   Future<List<Customer>> getCustomer({int limit = 0}) async {
     var paramas = {
       'token': ControllerMainPage.webToken,
-      'limit': 7 + limit,
+      'limit': 10 + limit,
       'offset': 0
     };
     var response = await RequestDio.get(

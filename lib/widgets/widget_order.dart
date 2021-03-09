@@ -18,7 +18,7 @@ class WidgetOrder extends StatelessWidget {
       },
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
-        margin: EdgeInsets.all(5),
+        margin: EdgeInsets.all(3),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -26,8 +26,8 @@ class WidgetOrder extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
+                spreadRadius: 1,
+                blurRadius: 3,
                 offset: Offset(0, 3), // changes position of shadow
               ),
             ]),

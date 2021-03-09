@@ -79,7 +79,7 @@ class DialogInfoCustomer extends StatelessWidget {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 order.phone != null
                     ? ButtonCustom.buttonBorder(
