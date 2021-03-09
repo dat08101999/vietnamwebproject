@@ -24,7 +24,6 @@ class _CustomersPageState extends State<CustomersPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    controllerCustomers.dispose();
   }
 
   @override

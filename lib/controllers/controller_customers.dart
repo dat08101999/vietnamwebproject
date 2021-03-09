@@ -20,15 +20,6 @@ class ControllerCustomers extends GetxController {
     update();
   }
 
-  dispose() {
-    phone.dispose();
-    address.dispose();
-    address.dispose();
-    email.dispose();
-    name.dispose();
-    super.dispose();
-  }
-
   getInfo(Customer customer) async {
     this.customer = customer;
     if (customer != null) {

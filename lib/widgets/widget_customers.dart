@@ -72,6 +72,7 @@ class _CheckBoxClassState extends State<CheckBoxClass> {
         value: checkBoxValue,
       );
     }
+    checkBoxValue = false;
     return Container();
   }
 
