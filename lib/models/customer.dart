@@ -172,20 +172,19 @@ class Customer {
 
   static Future<bool> delete(int id) async {
     try {
-      var response = RequestDio.delete(
+      var response = await RequestDio.delete(
           header: {
             'Cookie':
                 'dbdad159c321a98161b40cc2ec4ba243=08761650193cb1642314d964c66c53103c234a83'
           },
           url: ConfigsMywebvietnam.getCustomers + '/' + id.toString(),
           paramas: {'token': ControllerMainPage.webToken});
-      print(response);
-      // if (response['success'] == true)
-      //   return true;
-      // else {
-      //   //requestError = response['message'];
-      return false;
-      // }
+      if (response['success'] == true)
+        return true;
+      else {
+        requestError = response['message'];
+        return false;
+      }
     } catch (ex, trace) {
       print(ex + trace);
       return false;

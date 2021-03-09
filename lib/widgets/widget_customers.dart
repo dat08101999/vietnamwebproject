@@ -4,20 +4,10 @@ import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/screens/customers_info_page.dart';
 import 'package:get/get.dart';
 
-// class WidgetCustomers extends StatefulWidget {
-//   final Customer customer;
-//   final bool checkBoxValue;
-//   WidgetCustomers({this.customer, this.checkBoxValue});
-//   @override
-//   _WidgetCustomersState createState() =>
-//       _WidgetCustomersState(checkBoxValue: checkBoxValue, customer: customer);
-// }
 // ignore: must_be_immutable
 class WidgetCustomers extends StatelessWidget {
   final Customer customer;
   bool checkBoxValue;
-
-  ControllerCheckBox _controllerCheckBox = Get.put(ControllerCheckBox());
   WidgetCustomers({this.customer, this.checkBoxValue});
   @override
   Widget build(BuildContext context) {
@@ -26,7 +16,6 @@ class WidgetCustomers extends StatelessWidget {
       child: InkWell(
         onLongPress: () {
           Get.find<ControllerCheckBox>().changeState();
-          //Get.find<ControllerCheckBox>().deleteAll();
         },
         onTap: () {
           Get.to(CustomerInfoPage(
@@ -43,48 +32,32 @@ class WidgetCustomers extends StatelessWidget {
           title: Text(customer.name),
           subtitle: Text(customer.email + '/' + customer.phone.toString()),
           trailing: CheckBoxClass(
-            checkBoxValue: checkBoxValue,
             customer: customer,
           ),
         ),
       ),
     );
   }
-
-  Widget checkBox() {
-    if (_controllerCheckBox.isShow) {
-      return Checkbox(
-        onChanged: (value) {
-          checkBoxValue = value;
-          if (checkBoxValue == true) {
-            _controllerCheckBox.addCustomers(customer);
-          } else {
-            _controllerCheckBox.markedCustomers.remove(customer);
-          }
-          Get.find<ControllerCheckBox>().chose();
-        },
-        value: checkBoxValue,
-      );
-    }
-    return null;
-  }
 }
 
 class CheckBoxClass extends StatefulWidget {
-  final bool checkBoxValue;
   final Customer customer;
-  CheckBoxClass({this.checkBoxValue, this.customer});
+  CheckBoxClass({this.customer});
   @override
-  _CheckBoxClassState createState() =>
-      _CheckBoxClassState(customer: customer, checkBoxValue: checkBoxValue);
+  _CheckBoxClassState createState() => _CheckBoxClassState(customer: customer);
 }
 
 class _CheckBoxClassState extends State<CheckBoxClass> {
   final Customer customer;
   ControllerCheckBox _controllerCheckBox = Get.put(ControllerCheckBox());
-  bool checkBoxValue;
-  _CheckBoxClassState({this.customer, this.checkBoxValue});
+  bool checkBoxValue = false;
+  _CheckBoxClassState({this.customer});
   Widget checkBox() {
+    for (Customer customert in _controllerCheckBox.markedCustomers) {
+      if (customer.id.toString().trim() == customert.id.toString().trim()) {
+        checkBoxValue = true;
+      }
+    }
     if (_controllerCheckBox.isShow) {
       return Checkbox(
         onChanged: (value) {
@@ -99,7 +72,6 @@ class _CheckBoxClassState extends State<CheckBoxClass> {
         value: checkBoxValue,
       );
     }
-    checkBoxValue = false;
     return Container();
   }
 

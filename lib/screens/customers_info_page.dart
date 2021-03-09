@@ -151,5 +151,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
     // TODO: implement dispose
     super.dispose();
     Get.find<ControllerListCustomer>().getAllCustomer();
+    Get.find<ControllerCheckBox>().deleteAll();
   }
 }

@@ -21,6 +21,13 @@ class _CustomersPageState extends State<CustomersPage> {
       Get.put(ControllerListCustomer());
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controllerCustomers.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _controllerListCustomer.getAllCustomer();
     return Scaffold(
@@ -34,11 +41,12 @@ class _CustomersPageState extends State<CustomersPage> {
           alignment: Alignment.center,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ctlScroll) {
-              if (ctlScroll is ScrollEndNotification) if (ctlScroll
-                      .metrics.pixels ==
-                  ctlScroll.metrics.maxScrollExtent) {
-                if (_controllerListCustomer.limit < 80) {
-                  _controllerListCustomer.limit = 10;
+              if (ctlScroll is ScrollEndNotification) {
+                if (ctlScroll.metrics.pixels ==
+                    ctlScroll.metrics.maxScrollExtent) {
+                  if (_controllerListCustomer.limit < 80) {
+                    _controllerListCustomer.limit = 10;
+                  }
                 }
                 return true;
               }
@@ -68,13 +76,8 @@ class _CustomersPageState extends State<CustomersPage> {
   List<Widget> customerLisst() {
     List<Widget> list = List<Widget>();
     for (Customer customer in _controllerListCustomer.customers) {
-      bool checkboxValue = false;
-      if (controllerCheckBox.markedCustomers.contains(customer)) {
-        checkboxValue = true;
-      }
       list.add(WidgetCustomers(
         customer: customer,
-        checkBoxValue: checkboxValue,
       ));
     }
     return list;
