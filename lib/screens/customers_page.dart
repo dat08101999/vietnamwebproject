@@ -121,10 +121,9 @@ class _CustomersPageState extends State<CustomersPage> {
               await Customer.delete(controllerCheckBox.markedCustomers[i].id);
           if (result == false) {
             _controllerProcessBardelete.seterror(
-                'Lỗi xóa ' + controllerCheckBox.markedCustomers[i].name);
+                ' Lỗi xóa ' + controllerCheckBox.markedCustomers[i].name);
           }
           await Future.delayed(Duration(milliseconds: 100));
-
           _controllerProcessBardelete.changevalue(percentProcess);
         }
         controllerCheckBox.deleteAll();

@@ -90,7 +90,6 @@ class ControllerListCustomer extends GetxController {
   getAllCustomer() async {
     customers = await getCustomer(limit: _limit);
     update();
-    return customers;
   }
 
   int _limit = 0;

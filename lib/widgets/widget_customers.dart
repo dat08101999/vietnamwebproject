@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/screens/customers_info_page.dart';
@@ -27,15 +28,10 @@ class WidgetCustomers extends StatelessWidget {
         child: ListTile(
           tileColor: Colors.white,
           leading: CircleAvatar(
-            backgroundImage:
-                NetworkImage('https://i.stack.imgur.com/5swJm.png'),
+            backgroundImage: NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
           ),
           title: Text(customer.name),
-          subtitle: Text(customer.email +
-              '/' +
-              customer.phone.toString() +
-              '' +
-              customer.id.toString()),
+          subtitle: Text(customer.email + '/' + customer.phone.toString()),
           trailing: Container(
               height: 40,
               width: 40,
