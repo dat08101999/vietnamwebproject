@@ -138,7 +138,7 @@ class WeekChart extends StatelessWidget {
             ),
           );
         }
-        return BarChart(BarChartData());
+        return Center(child: Text('No Data'));
       },
     );
   }
@@ -174,8 +174,7 @@ Future<List<BarChartGroupData>> _getRevenueData(
     List counts = response['data']['counts'];
     return List.generate(counts.length, (index) {
       summary += int.parse(counts[index].toString());
-      return makeGroupData(
-          index, double.parse(new Random().nextInt(10000000).toString()));
+      return makeGroupData(index, double.parse(counts[index]));
       // return makeGroupData(index, double.parse(counts[index].toString()));
     });
   } else {
