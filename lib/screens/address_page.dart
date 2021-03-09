@@ -61,7 +61,10 @@ class _AddressPageState extends State<AddressPage> {
             result: customer,
           );
         },
-        child: Text('Xong'));
+        child: Text(
+          'Xong',
+          style: TextStyle(color: Colors.white),
+        ));
   }
 
   getData() async {
