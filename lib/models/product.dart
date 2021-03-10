@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart' show Colors;
 
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/models/show_toast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Product {
   int id;
