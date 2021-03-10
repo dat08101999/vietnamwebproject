@@ -15,19 +15,20 @@ class SignInInfo {
   }
 
   static getReportInfo() async {
-    var header = {
-      'Cookie':
-          'dbdad159c321a98161b40cc2ec4ba243=7ed77dd0a588cadef8bf650d4719b546a90cc1e5'
-    };
     var url = ConfigsMywebvietnam.getDashboard;
-    var response =
-        await RequestDio.getWithHeader(header: header, url: url, paramas: {
+    var response = await RequestDio.get(url: url, parames: {
       'token': ControllerMainPage.webToken,
       'from': Revenue.dateformat(
           DateTime(DateTime.now().year, DateTime.now().month, 1)),
       'to': Revenue.dateformat(DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day))
+          DateTime.now().year, DateTime.now().month, endThisMonth().day))
     });
     return response;
+  }
+
+  static DateTime endThisMonth() {
+    DateTime now = DateTime.now();
+    int lastday = DateTime(now.year, now.month + 1, 0).day;
+    return DateTime(now.year, now.month, lastday);
   }
 }

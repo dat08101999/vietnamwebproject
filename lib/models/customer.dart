@@ -79,7 +79,7 @@ class Customer {
     return Customer(
       id: map['id'],
       name: map['name'],
-      address: map['address'],
+      address: map['address'] is String ? map['address'] : ' lỗi lấy địa chỉ',
       phone: map['phone'],
       email: map['email'],
       province: map['province'] != null

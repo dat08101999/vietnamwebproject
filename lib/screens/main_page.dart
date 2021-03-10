@@ -97,7 +97,8 @@ class _MainPageState extends State<MainPage> {
       );
   }
 
-  Widget buildGridViewItem(String title, String count, {bool isIncrease}) {
+  Widget buildGridViewItem(String title, String count,
+      {String value, bool isIncrease}) {
     return Container(
       width: width * 0.5,
       height: heigth * 0.3 * 0.5,
@@ -126,7 +127,8 @@ class _MainPageState extends State<MainPage> {
                           Icons.arrow_downward,
                           color: Colors.red,
                         ))
-                  : Container()
+                  : Container(),
+              value != null ? Text(value + '%') : Container()
             ])),
             WidgetSpan(
                 child: Center(
@@ -150,6 +152,7 @@ class _MainPageState extends State<MainPage> {
               padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
               child: buildGridViewItem(
                   'Đơn Hàng', controllerMainPage.oders.toString(),
+                  value: controllerMainPage.valueOders.toString(),
                   isIncrease: controllerMainPage.oderIncrease),
             ),
             Padding(
@@ -160,6 +163,7 @@ class _MainPageState extends State<MainPage> {
                 },
                 child: buildGridViewItem(
                     'Khách Hàng', controllerMainPage.customers.toString(),
+                    value: controllerMainPage.valueCustomers.toString(),
                     isIncrease: controllerMainPage.customerIncease),
               ),
             ),
@@ -173,6 +177,7 @@ class _MainPageState extends State<MainPage> {
                   top: heigth * 0.3 * 0.5 + 4, left: width * 0.5 + 4),
               child: buildGridViewItem(
                   'Thu nhập', controllerMainPage.money.toString(),
+                  value: controllerMainPage.valueMoney.toString(),
                   isIncrease: controllerMainPage.moneyIncrase),
             ),
           ],
