@@ -85,19 +85,19 @@ class _CustomersPageState extends State<CustomersPage> {
     _controllerListCustomer.getAllCustomer();
     return Column(children: [
       builDeleteButon(),
-      Container(
-          height: MediaQuery.of(currentContext).size.height * 0.8,
+      Expanded(
+          // height: MediaQuery.of(currentContext).size.height * 0.8,
           child: GetBuilder<ControllerListCustomer>(
-            builder: (ctl) {
-              if (ctl.customers.length > 0)
-                return ListView(
-                  children: customerLisst(),
-                );
-              return Center(
-                child: Text('): No Data'),
-              );
-            },
-          ))
+        builder: (ctl) {
+          if (ctl.customers.length > 0)
+            return ListView(
+              children: customerLisst(),
+            );
+          return Center(
+            child: Text('): No Data'),
+          );
+        },
+      ))
     ]);
   }
 
@@ -149,7 +149,7 @@ class _CustomersPageState extends State<CustomersPage> {
           child: Center(
             child: IconButton(
               onPressed: deleteOnClick,
-              icon: Icon(Icons.delete),
+              icon: controllerCheckBox.isShow ? Icon(Icons.delete) : Icon(null),
             ),
           ),
         );
