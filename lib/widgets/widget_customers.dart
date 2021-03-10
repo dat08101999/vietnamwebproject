@@ -29,8 +29,8 @@ class WidgetCustomers extends StatelessWidget {
               : print('chose');
         },
         child: Container(
-          margin: EdgeInsets.all(3),
-          padding: EdgeInsets.all(10),
+          //margin: EdgeInsets.all(5),
+          padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,

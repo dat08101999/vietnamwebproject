@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
@@ -18,6 +20,8 @@ class _MainPageState extends State<MainPage> {
   bool isShowmenu = false;
   ControllerMainPage controllerMainPage = Get.put(ControllerMainPage());
   String selecteditem = '';
+  double width = MediaQuery.of(currentContext).size.width;
+  double heigth = MediaQuery.of(currentContext).size.height;
   BoxDecoration decorationBody() {
     return BoxDecoration(
         color: Colors.grey.withOpacity(0.8),
@@ -97,7 +101,8 @@ class _MainPageState extends State<MainPage> {
 
   Widget buildGridViewItem(String title, String count, {bool isIncrease}) {
     return Container(
-      height: 100,
+      width: width * 0.5,
+      height: heigth * 0.3 * 0.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
@@ -140,28 +145,38 @@ class _MainPageState extends State<MainPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: Container(
-        height: MediaQuery.of(currentContext).size.height * 0.3,
-        child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-              childAspectRatio: 1.5),
+        height: heigth * 0.3,
+        child: Stack(
           children: [
-            buildGridViewItem('Đơn Hàng', controllerMainPage.oders.toString(),
-                isIncrease: controllerMainPage.oderIncrease),
-            InkWell(
-              onTap: () {
-                Get.to(CustomersPage());
-              },
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
               child: buildGridViewItem(
-                  'Khách Hàng', controllerMainPage.customers.toString(),
-                  isIncrease: controllerMainPage.customerIncease),
+                  'Đơn Hàng', controllerMainPage.oders.toString(),
+                  isIncrease: controllerMainPage.oderIncrease),
             ),
-            buildGridViewItem(
-                'Sản Phẩm', controllerMainPage.products.toString()),
-            buildGridViewItem('Thu nhập', controllerMainPage.money.toString(),
-                isIncrease: controllerMainPage.moneyIncrase),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.5 + 4),
+              child: InkWell(
+                onTap: () {
+                  Get.to(CustomersPage());
+                },
+                child: buildGridViewItem(
+                    'Khách Hàng', controllerMainPage.customers.toString(),
+                    isIncrease: controllerMainPage.customerIncease),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: heigth * 0.3 * 0.5 + 4),
+              child: buildGridViewItem(
+                  'Sản Phẩm', controllerMainPage.products.toString()),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: heigth * 0.3 * 0.5 + 4, left: width * 0.5 + 4),
+              child: buildGridViewItem(
+                  'Thu nhập', controllerMainPage.money.toString(),
+                  isIncrease: controllerMainPage.moneyIncrase),
+            ),
           ],
         ),
       ),
@@ -203,21 +218,23 @@ class _MainPageState extends State<MainPage> {
         Container(
             color: Colors.blue,
             height: MediaQuery.of(currentContext).size.height,
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(currentContext).size.height * 0.02),
-              child: Align(
-                child: Text(
-                  'xin chào, ${ConfigUser.userProfile.name}',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(currentContext).size.height * 0.02),
+                child: Align(
+                  child: Text(
+                    'xin chào, ${ConfigUser.userProfile.name}',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  alignment: Alignment.topCenter,
                 ),
-                alignment: Alignment.topCenter,
               ),
             )),
         Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.of(currentContext).size.height * 0.05),
+              top: MediaQuery.of(currentContext).size.height * 0.1),
           child: buildBodyArea(),
         )
       ],

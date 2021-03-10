@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: _navigatorKey,
         title: 'Flutter Demo',
         theme: ThemeData(
+          primaryColor: Colors.blue,
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),

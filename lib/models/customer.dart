@@ -32,7 +32,7 @@ class Customer {
   Customer copyWith({
     int id,
     String name,
-    String address,
+    dynamic address,
     String phone,
     String email,
     int province,
