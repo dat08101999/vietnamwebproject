@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
+import 'package:flutter_back_end/models/loading.dart';
+import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/address_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
@@ -69,7 +71,10 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[400],
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(customer.name != null ? customer.name : ''),
+        centerTitle: true,
+      ),
       body: GetBuilder<ControllerCustomers>(builder: (builder) {
         return Column(
           children: [
@@ -114,15 +119,22 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
             ButtonCustom.buttonSubmit(
                 name: textSubMitButon,
                 onPress: () async {
-                  // Loading.show();
-                  // _controllerMessage.hideMessage();
-                  // bool result = textSubMitButon == 'Thêm'
-                  //     ? await Customer.addCustomers(getCustomer())
-                  //     : await Customer.upDateCustomer(getCustomer());
-                  // if (result == false) {
-                  //   _controllerMessage.showMessage();
-                  // }
-                  // Loading.dismiss();
+                  Customer tempCustomer = getCustomer();
+                  Loading.show();
+                  _controllerMessage.hideMessage();
+                  bool result = textSubMitButon == 'Thêm'
+                      ? await Customer.addCustomers(tempCustomer)
+                      : await Customer.updateCustomer(tempCustomer);
+                  if (result == false) {
+                    _controllerMessage.showMessage();
+                  }
+                  Loading.dismiss();
+                  if (result == true) {
+                    ShowToast.show(
+                        title: textSubMitButon == 'Thêm'
+                            ? 'Thêm Thành Công'
+                            : 'Cập Nhật Thành Công');
+                  }
                 }),
           ],
         );
@@ -132,6 +144,12 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
 
   @override
   void dispose() {
-    super.dispose();
+    try {
+      Get.find<ControllerListCustomer>().getAllCustomer();
+      Get.find<ControllerCheckBox>().deleteAll();
+      super.dispose();
+    } catch (ex, trace) {
+      print(trace);
+    }
   }
 }

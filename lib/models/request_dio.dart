@@ -51,7 +51,18 @@ class RequestDio {
     }
   }
 
-  static delete({@required url, paramas, @required header}) async {
+  static delete({@required url, paramas}) async {
+    var response = await new Dio()
+        .delete(url, queryParameters: paramas, options: Options());
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      print('getWithOptions Error');
+      return null;
+    }
+  }
+
+  static deleteWitheader({@required url, paramas, @required header}) async {
     var response = await new Dio().delete(url,
         queryParameters: paramas, options: Options(headers: header));
     if (response.statusCode == 200) {

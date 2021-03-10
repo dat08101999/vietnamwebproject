@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
@@ -111,7 +110,6 @@ class Customer {
   static String requestError;
   static updateCustomer(Customer customer) async {
     try {
-      print(customer);
       requestError = '';
       var response = await RequestDio.post(
         url: ConfigsMywebvietnam.getCustomers +
@@ -129,7 +127,6 @@ class Customer {
           'ward': customer.ward.toString(),
         },
       );
-      response = json.decode(response);
       if (response['success'] == true)
         return true;
       else {
@@ -160,7 +157,6 @@ class Customer {
           'ward': customer.ward.toString(),
         },
       );
-      response = json.decode(response);
       if (response['success'] == true)
         return true;
       else {
@@ -174,39 +170,20 @@ class Customer {
     }
   }
 
-  // static Future<bool> addCustomersDio(Customer customer) async {
-  //   try {
-  //     requestError = '';
-  //     var response = await RequestDio.post(
-  //       url: ConfigsMywebvietnam.getCustomers +
-  //           '?token=' +
-  //           ControllerMainPage.webToken,
-  //       data: {
-  //         'name': customer.name,
-  //         'phone': customer.phone,
-  //         'address': customer.address,
-  //         'email': customer.email,
-  //         'province': customer.province.toString(),
-  //         'district': customer.district.toString(),
-  //         'ward': customer.ward.toString(),
-  //       },
-  //       // headers: {
-  //       //   'Content-Type': 'application/x-www-form-urlencoded',
-  //       //   'Cookie':
-  //       //       'dbdad159c321a98161b40cc2ec4ba243=81c797dc5b7aecb557f090be5dd37a4254653cac'
-  //       // }
-  //     );
-  //     response = json.decode(response);
-  //     if (response['success'] == true)
-  //       return true;
-  //     else {
-  //       requestError = response['message'];
-  //       return false;
-  //     }
-  //   } catch (ex, trace) {
-  //     print(ex + trace);
-  //     requestError = 'Xảy ra lỗi';
-  //     return false;
-  //   }
-  // }
+  static Future<bool> delete(int id) async {
+    try {
+      var response = await RequestDio.delete(
+          url: ConfigsMywebvietnam.getCustomers + '/' + id.toString(),
+          paramas: {'token': ControllerMainPage.webToken});
+      if (response['success'] == true) {
+        print(id.toString() + ' ' + response.toString() + ' ');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex, trace) {
+      print(ex + trace);
+      return false;
+    }
+  }
 }

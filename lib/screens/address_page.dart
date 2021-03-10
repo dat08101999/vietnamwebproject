@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/controllers/controller_address.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
+import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/customer.dart';
+import 'package:flutter_back_end/widgets/widget_showDialog.dart';
 import 'package:get/get.dart';
 
 class AddressPage extends StatefulWidget {
@@ -52,16 +54,27 @@ class _AddressPageState extends State<AddressPage> {
     return TextButton(
         onPressed: () async {
           customer = Customer();
-          customer.province = int.parse(controllerAddress.provinceValue);
-          customer.district =
-              int.parse(controllerAddressdistrict.districtValue);
-          customer.ward = int.parse(controllerWard.wardValue);
-          Get.find<ControllerCustomers>().getInfo(customer);
-          Get.back(
-            result: customer,
-          );
+          try {
+            customer.province = int.parse(controllerAddress.provinceValue);
+            customer.district =
+                int.parse(controllerAddressdistrict.districtValue);
+            customer.ward = int.parse(controllerWard.wardValue);
+            Get.find<ControllerCustomers>().getInfo(customer);
+            Get.back(
+              result: customer,
+            );
+          } catch (ex) {
+            WidgetShowDialog.dialogDetail(
+                'Chưa chọn địa chỉ', 'Vui lòng chọn địa chỉ trước !',
+                cancelTap: () {
+              Navigator.pop(currentContext);
+            });
+          }
         },
-        child: Text('Xong'));
+        child: Text(
+          'Xong',
+          style: TextStyle(color: Colors.white),
+        ));
   }
 
   getData() async {

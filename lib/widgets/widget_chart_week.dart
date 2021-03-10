@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
@@ -138,7 +136,12 @@ class WeekChart extends StatelessWidget {
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: Text(
+              'Không Có Dữ Liệu',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          );
         }
       },
     );
@@ -147,7 +150,6 @@ class WeekChart extends StatelessWidget {
 
 final Color leftBarColor = const Color(0xff53fdd7);
 final Color rightBarColor = const Color(0xffff5182);
-
 BarChartGroupData makeGroupData(int x, double y1) {
   return BarChartGroupData(
     barsSpace: 1,
@@ -179,9 +181,8 @@ Future<List<BarChartGroupData>> _getRevenueData(
     List counts = response['data']['counts'];
     return List.generate(counts.length, (index) {
       summary += int.parse(counts[index].toString());
-      return makeGroupData(
-          index, double.parse(new Random().nextInt(10000000).toString()));
-      // return makeGroupData(index, double.parse(counts[index].toString()));
+      // return makeGroupData(index, double.parse(counts[index]));
+      return makeGroupData(index, double.parse(counts[index].toString()));
     });
   } else {
     print('lỗi getRevenueMonth');

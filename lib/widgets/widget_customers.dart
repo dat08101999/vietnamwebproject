@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/screens/customers_info_page.dart';
@@ -7,53 +8,82 @@ import 'package:get/get.dart';
 // ignore: must_be_immutable
 class WidgetCustomers extends StatelessWidget {
   final Customer customer;
-  bool _checkBoxValue = false;
   ControllerCheckBox _controllerCheckBox = Get.put(ControllerCheckBox());
-  WidgetCustomers({this.customer});
+  bool checkBoxValue = false;
+  WidgetCustomers({this.customer, this.checkBoxValue});
   @override
   Widget build(BuildContext context) {
-    print('here' + customer.toString());
+    String email = customer.email ?? ' Không có email';
     return Padding(
       padding: const EdgeInsets.only(top: 4, right: 4, left: 4, bottom: 4),
-      child: InkWell(onLongPress: () {
-        Get.find<ControllerCheckBox>().changeState();
-      }, onTap: () {
-        Get.to(CustomerInfoPage(
-          customer: customer,
-          textSubMitButon: 'Cập nhật thông tin',
-        ));
-      }, child: GetBuilder<ControllerCheckBox>(
-        builder: (builder) {
-          return ListTile(
+      child: InkWell(
+        onLongPress: () {
+          Get.find<ControllerCheckBox>().changeState();
+        },
+        onTap: () {
+          Get.to(CustomerInfoPage(
+            customer: customer,
+            textSubMitButon: 'Cập nhật thông tin',
+          ));
+        },
+        child: Container(
+          margin: EdgeInsets.all(3),
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ]),
+          child: ListTile(
             tileColor: Colors.white,
             leading: CircleAvatar(
               backgroundImage:
-                  NetworkImage('https://i.stack.imgur.com/5swJm.png'),
+                  NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
             ),
             title: Text(customer.name),
-            subtitle: Text(customer.email + '/' + customer.phone.toString()),
-            trailing: checkBox(),
-          );
-        },
-      )),
+            subtitle: Text(email + '/' + customer.phone.toString()),
+            trailing: Container(
+                height: 40,
+                width: 40,
+                child: GetBuilder<ControllerCheckBox>(
+                  builder: (builder) {
+                    return checkBox();
+                  },
+                )),
+          ),
+        ),
+      ),
     );
   }
 
   Widget checkBox() {
+    for (Customer customertemp in _controllerCheckBox.markedCustomers) {
+      if (customer.id.toString().trim() == customertemp.id.toString().trim()) {
+        checkBoxValue = true;
+      }
+    }
     if (_controllerCheckBox.isShow) {
       return Checkbox(
         onChanged: (value) {
-          _checkBoxValue = value;
-          if (_checkBoxValue == true) {
+          print(customer.id);
+          checkBoxValue = value;
+          if (checkBoxValue == true) {
             _controllerCheckBox.addCustomers(customer);
           } else {
             _controllerCheckBox.markedCustomers.remove(customer);
           }
-          Get.find<ControllerCheckBox>().chose();
+          _controllerCheckBox.chose();
         },
-        value: _checkBoxValue,
+        value: checkBoxValue,
       );
     }
-    return null;
+    checkBoxValue = false;
+    return Container();
   }
 }
