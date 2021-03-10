@@ -28,7 +28,7 @@ class ShowToast {
         context: currentContext,
         barrierDismissible: false,
         child: Padding(
-          padding: EdgeInsets.only(top: Get.height * 0.6),
+          padding: EdgeInsets.only(top: Get.height * 0.8),
           child: Dialog(
             backgroundColor: Colors.transparent,
             child: DiaLogCustoms(title: title),
@@ -67,7 +67,7 @@ class _DiaLogCustomsState extends State<DiaLogCustoms> {
     return AnimatedContainer(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Colors.black54,
+        color: Colors.grey,
       ),
       curve: Curves.easeInOut,
       padding: EdgeInsets.only(left: 15),

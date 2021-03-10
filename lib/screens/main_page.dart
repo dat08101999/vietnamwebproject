@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/configs/config_user.dart';
+import 'package:flutter_back_end/configs/configs_placeholder.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
@@ -37,16 +38,21 @@ class _MainPageState extends State<MainPage> {
         ),
         child: ListTile(
             leading: CircleAvatar(
+              backgroundColor: Colors.grey.withOpacity(0.2),
               backgroundImage:
                   NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
             ),
-            title: Text(
-              controllerMainPage.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text('Basic ' + controllerMainPage.basic),
+            title: controllerMainPage.name != null
+                ? Text(
+                    controllerMainPage.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                : ConfigsPlaceholder.placeholderText(),
+            subtitle: controllerMainPage.basic != null
+                ? Text('Basic ' + controllerMainPage.basic)
+                : ConfigsPlaceholder.placeholderText(),
             trailing: IconButton(
               icon: Icon(Icons.arrow_drop_down),
               onPressed: () {
@@ -106,7 +112,7 @@ class _MainPageState extends State<MainPage> {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(10),
         color: Colors.white,
       ),
       child: Center(

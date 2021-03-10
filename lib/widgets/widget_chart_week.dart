@@ -137,8 +137,9 @@ class WeekChart extends StatelessWidget {
               ),
             ),
           );
+        } else {
+          return Center(child: CircularProgressIndicator());
         }
-        return BarChart(BarChartData());
       },
     );
   }
@@ -148,14 +149,17 @@ final Color leftBarColor = const Color(0xff53fdd7);
 final Color rightBarColor = const Color(0xffff5182);
 
 BarChartGroupData makeGroupData(int x, double y1) {
-  return BarChartGroupData(barsSpace: 1, x: x, barRods: [
-    BarChartRodData(
-      y: y1,
-      colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
-      borderRadius: BorderRadius.circular(0),
-      width: 20,
-    ),
-  ],
+  return BarChartGroupData(
+    barsSpace: 1,
+    x: x,
+    barRods: [
+      BarChartRodData(
+        y: y1,
+        colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
+        borderRadius: BorderRadius.circular(0),
+        width: 20,
+      ),
+    ],
   );
 }
 

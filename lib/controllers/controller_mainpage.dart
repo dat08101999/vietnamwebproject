@@ -12,8 +12,8 @@ class ControllerMainPage extends GetxController {
   int products = 0;
   int titlelabel = 0;
   int money = 0;
-  var basic = '';
-  String name = '';
+  var basic;
+  String name;
   var info;
   var infoDashBoard;
 

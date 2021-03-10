@@ -6,6 +6,7 @@ import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/models/product.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/product_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dialog_info_customer.dart';
@@ -113,8 +114,9 @@ class _OrderInfoState extends State<OrderInfo> {
                                 Product _product = await getInfo(widget
                                     .order.product[index]['id']
                                     .toString());
-                                Get.to(() => ProductInfo(
-                                    product: _product, readOnly: true));
+                                if (_product != null)
+                                  Get.to(() => ProductInfo(
+                                      product: _product, readOnly: true));
                               },
                               leading: AspectRatio(
                                 aspectRatio: 1,
@@ -234,14 +236,19 @@ class _OrderInfoState extends State<OrderInfo> {
   }
 
   Future<Product> getInfo(String id) async {
-    var params = {
-      'token': ControllerMainPage.webToken,
-    };
-    var response = await RequestDio.get(
-        url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
-    if (response['success'] == true) {
-      return Product.fromMap(response['data'][0]);
-    } else {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      var response = await RequestDio.get(
+          url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
+      if (response['success'] == true) {
+        return Product.fromMap(response['data'][0]);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      ShowToast.show(title: 'Thông tin đơn hàng bị trống');
       return null;
     }
   }
