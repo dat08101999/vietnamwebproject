@@ -142,9 +142,9 @@ class _CustomersPageState extends State<CustomersPage> {
     return GetBuilder<ControllerCheckBox>(
       builder: (builder) {
         return AnimatedContainer(
-          duration: Duration(seconds: 1),
+          duration: Duration(milliseconds: 500),
           height: controllerCheckBox.isShow
-              ? MediaQuery.of(context).size.height * 0.1
+              ? MediaQuery.of(context).size.height * 0.05
               : 0,
           child: Center(
             child: IconButton(

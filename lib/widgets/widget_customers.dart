@@ -32,7 +32,7 @@ class WidgetCustomers extends StatelessWidget {
           //margin: EdgeInsets.all(5),
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
@@ -48,7 +48,10 @@ class WidgetCustomers extends StatelessWidget {
               backgroundImage:
                   NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
             ),
-            title: Text(customer.name),
+            title: Text(
+              customer.name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             subtitle: Text(email + '/' + customer.phone.toString()),
             trailing: Container(
                 height: 40,
