@@ -66,6 +66,7 @@ class WidgetCustomers extends StatelessWidget {
   }
 
   Widget checkBox() {
+    checkBoxValue = false;
     for (Customer customertemp in _controllerCheckBox.markedCustomers) {
       if (customer.id.toString().trim() == customertemp.id.toString().trim()) {
         checkBoxValue = true;
@@ -73,6 +74,7 @@ class WidgetCustomers extends StatelessWidget {
     }
     if (_controllerCheckBox.isShow) {
       return Checkbox(
+        //tristate: true,
         onChanged: (value) {
           print(customer.id);
           checkBoxValue = value;

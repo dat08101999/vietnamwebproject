@@ -32,7 +32,7 @@ class Customer {
   Customer copyWith({
     int id,
     String name,
-    String address,
+    dynamic address,
     String phone,
     String email,
     int province,
@@ -79,7 +79,7 @@ class Customer {
     return Customer(
       id: map['id'],
       name: map['name'],
-      address: map['address'],
+      address: map['address'] is String ? map['address'] : ' lỗi lấy địa chỉ',
       phone: map['phone'],
       email: map['email'],
       province: map['province'] != null

@@ -147,7 +147,7 @@ class _CustomersPageState extends State<CustomersPage> {
           child: Center(
             child: IconButton(
               onPressed: deleteOnClick,
-              icon: Icon(Icons.delete),
+              icon: controllerCheckBox.isShow ? Icon(Icons.delete) : Icon(null),
             ),
           ),
         );

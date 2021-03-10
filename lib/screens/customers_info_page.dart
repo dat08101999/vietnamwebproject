@@ -49,7 +49,10 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
       builder: (bulder) {
         if (_controllerMessage.isShow)
           return Center(
-            child: Text(Customer.requestError),
+            child: Text(
+              Customer.requestError,
+              style: TextStyle(color: Colors.red),
+            ),
           );
         return Container();
       },

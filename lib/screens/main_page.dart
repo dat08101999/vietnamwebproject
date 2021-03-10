@@ -22,6 +22,8 @@ class _MainPageState extends State<MainPage> {
   bool isShowmenu = false;
   ControllerMainPage controllerMainPage = Get.put(ControllerMainPage());
   String selecteditem = '';
+  double width = MediaQuery.of(currentContext).size.width;
+  double heigth = MediaQuery.of(currentContext).size.height;
   BoxDecoration decorationBody() {
     return BoxDecoration(
         color: ConfigTheme.backgroundColor,
@@ -109,9 +111,11 @@ class _MainPageState extends State<MainPage> {
       );
   }
 
-  Widget buildGridViewItem(String title, String count, {bool isIncrease}) {
+  Widget buildGridViewItem(String title, String count,
+      {String value, bool isIncrease}) {
     return Container(
-      height: 100,
+      width: width * 0.5,
+      height: heigth * 0.3 * 0.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
@@ -137,7 +141,8 @@ class _MainPageState extends State<MainPage> {
                           Icons.arrow_downward,
                           color: Colors.red,
                         ))
-                  : Container()
+                  : Container(),
+              value != null ? Text(value + '%') : Container()
             ])),
             WidgetSpan(
                 child: Center(
@@ -154,37 +159,41 @@ class _MainPageState extends State<MainPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: Container(
-        height: MediaQuery.of(currentContext).size.height * 0.3,
-        child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-              childAspectRatio: 1.5),
+        height: heigth * 0.3,
+        child: Stack(
           children: [
-            InkWell(
-              onTap: () {
-                Get.to(() => OrdersPage());
-              },
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
               child: buildGridViewItem(
                   'Đơn Hàng', controllerMainPage.oders.toString(),
+                  value: controllerMainPage.valueOders.toString(),
                   isIncrease: controllerMainPage.oderIncrease),
             ),
-            InkWell(
-              onTap: () {
-                Get.to(CustomersPage());
-              },
-              child: buildGridViewItem(
-                  'Khách Hàng', controllerMainPage.customers.toString(),
-                  isIncrease: controllerMainPage.customerIncease),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.5 + 4),
+              child: InkWell(
+                onTap: () {
+                  Get.to(CustomersPage());
+                },
+                child: buildGridViewItem(
+                    'Khách Hàng', controllerMainPage.customers.toString(),
+                    value: controllerMainPage.valueCustomers.toString(),
+                    isIncrease: controllerMainPage.customerIncease),
+              ),
             ),
-            InkWell(
-              onTap: () => Get.to(ProductsPage()),
+            Padding(
+              padding: EdgeInsets.only(top: heigth * 0.3 * 0.5 + 4),
               child: buildGridViewItem(
                   'Sản Phẩm', controllerMainPage.products.toString()),
             ),
-            buildGridViewItem('Thu nhập', controllerMainPage.money.toString(),
-                isIncrease: controllerMainPage.moneyIncrase),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: heigth * 0.3 * 0.5 + 4, left: width * 0.5 + 4),
+              child: buildGridViewItem(
+                  'Thu nhập', controllerMainPage.money.toString(),
+                  value: controllerMainPage.valueMoney.toString(),
+                  isIncrease: controllerMainPage.moneyIncrase),
+            ),
           ],
         ),
       ),
