@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/configs/configs_placeholder.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
@@ -23,7 +24,7 @@ class _MainPageState extends State<MainPage> {
   String selecteditem = '';
   BoxDecoration decorationBody() {
     return BoxDecoration(
-        color: Colors.grey.withOpacity(0.8),
+        color: ConfigTheme.backgroundColor,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)));
   }
@@ -223,23 +224,25 @@ class _MainPageState extends State<MainPage> {
     return Stack(
       children: [
         Container(
-            color: Colors.blue,
+            color: ConfigTheme.primaryColor,
             height: MediaQuery.of(currentContext).size.height,
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(currentContext).size.height * 0.02),
-              child: Align(
-                child: Text(
-                  'Xin chào, ${ConfigUser.userProfile.name}',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(currentContext).size.height * 0.02),
+                child: Align(
+                  child: Text(
+                    'Xin chào, ${ConfigUser.userProfile.name}',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  alignment: Alignment.topCenter,
                 ),
-                alignment: Alignment.topCenter,
               ),
             )),
         Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.of(currentContext).size.height * 0.05),
+              top: MediaQuery.of(currentContext).size.height * 0.1),
           child: buildBodyArea(),
         )
       ],

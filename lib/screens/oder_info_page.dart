@@ -25,7 +25,6 @@ class _OrderInfoState extends State<OrderInfo> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Thông tin đơn hàng'),
-        centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -49,7 +48,7 @@ class _OrderInfoState extends State<OrderInfo> {
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey.withOpacity(0.1)),
+                      color: Colors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -94,7 +93,7 @@ class _OrderInfoState extends State<OrderInfo> {
                   margin: EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.grey.withOpacity(0.1)),
+                      color: Colors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -159,7 +158,7 @@ class _OrderInfoState extends State<OrderInfo> {
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey.withOpacity(0.1)),
+                      color: Colors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

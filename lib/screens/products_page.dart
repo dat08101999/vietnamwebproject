@@ -26,14 +26,14 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh Sách Sản Phẩm'),
+        title: Text('Sản Phẩm'),
         actions: [
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
                 Get.to(() => SearchProduct(listProduct: this._products));
               }),
-          IconButton(icon: Icon(Icons.add), onPressed: () {}),
+          // IconButton(icon: Icon(Icons.add), onPressed: () {}),
         ],
       ),
       body: Container(
@@ -74,8 +74,9 @@ class _ProductsPageState extends State<ProductsPage> {
                       itemBuilder: (context, index) {
                         return WidgetProduct(product: _products[index]);
                       });
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
             } else {
-              print(snapshot.error);
               return Center(child: CircularProgressIndicator());
             }
           });

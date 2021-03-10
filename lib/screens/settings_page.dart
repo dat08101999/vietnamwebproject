@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
+import 'package:flutter_back_end/configs/config_user.dart';
+import 'package:flutter_back_end/configs/config_vaway.dart';
+import 'package:flutter_back_end/main.dart';
+import 'package:flutter_back_end/models/shared_preferences_func.dart';
+import 'package:get/get.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -20,10 +24,16 @@ class BarChartSample2State extends State<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-              onPressed: () {
-                ShowToast.show(title: 'OK');
+
+              ///* đăng xuất
+              onPressed: () async {
+                await SharedPerferencesFunction.deleteData(
+                    ConfigsVAWAY.keyUserInformation);
+                ConfigUser.token = null;
+                ConfigUser.userProfile = null;
+                Get.offAll(Launch());
               },
-              child: Text('Chưa có cài đặt')),
+              child: Text('Đăng Xuất')),
         ],
       ),
     );

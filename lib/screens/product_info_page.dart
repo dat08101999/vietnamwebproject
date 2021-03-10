@@ -84,13 +84,13 @@ class _ProductInfoState extends State<ProductInfo> {
                                     title: 'Tên Sản Phẩm',
                                     controller:
                                         _productController.controllerTextName,
-                                    icon: Icon(Icons.edit)),
+                                    icon: Icon(Icons.all_inbox_rounded)),
                                 WidgetTextFormField(
                                     title: 'Mã Sản Phẩm',
                                     controller:
                                         _productController.controllerTextID,
                                     readonly: true,
-                                    icon: Icon(Icons.edit)),
+                                    icon: Icon(Icons.announcement)),
                                 //* dropdow list
                                 FutureBuilder(
                                     future: getCategoriesProduct(),
@@ -126,24 +126,24 @@ class _ProductInfoState extends State<ProductInfo> {
                                     title: 'Chi Tiết Mô Tả',
                                     controller: _productController
                                         .controllerTextContent,
-                                    icon: Icon(Icons.edit),
+                                    icon: Icon(Icons.article_outlined),
                                     maxLine: 5),
                                 WidgetTextFormField(
                                     title: 'Giá Bán Gốc',
                                     controller: _productController
                                         .controllerTextPriceRegular,
-                                    icon: Icon(Icons.edit)),
+                                    icon: Icon(Icons.attach_money_rounded)),
                                 WidgetTextFormField(
                                     title: 'Giá Bán Hiện Tại',
                                     controller: _productController
                                         .controllerTextPriceSale,
-                                    icon: Icon(Icons.edit)),
+                                    icon: Icon(Icons.attach_money_rounded)),
                                 WidgetTextFormField(
                                     title: 'Số Lượng Còn Lại',
                                     controller:
                                         _productController.controllerTextStock,
                                     readonly: true,
-                                    icon: Icon(Icons.edit))
+                                    icon: Icon(Icons.filter_alt_rounded))
                               ],
                             ),
                           ),

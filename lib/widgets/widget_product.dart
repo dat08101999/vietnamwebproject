@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/models/format.dart';
 
 import 'package:flutter_back_end/models/product.dart';
@@ -19,20 +20,18 @@ class WidgetProduct extends StatelessWidget {
         Get.to(() => ProductInfo(product: this.product, readOnly: false));
       },
       child: Container(
-        // height: MediaQuery.of(context).size.height * 0.11,
-        margin: EdgeInsets.all(3),
-        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(4),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 1,
+          //     blurRadius: 3,
+          //     offset: Offset(0, 3), // changes position of shadow
+          //   ),
+          // ],
         ),
         child: ListTile(
             //* ảnh sản phẩm
@@ -42,14 +41,14 @@ class WidgetProduct extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl: product.thumbnail ??
-                      'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg',
+                  imageUrl: product.thumbnail ?? ConfigsMywebvietnam.urlNoImage,
                   placeholder: (context, string) => Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.5),
                     ),
                   ),
-                  errorWidget: (context, string, dynamic) => Text('ảnh bị lỗi'),
+                  errorWidget: (context, string, dynamic) =>
+                      Image.network(ConfigsMywebvietnam.urlNoImage),
                 ),
               ),
             ),
@@ -57,12 +56,15 @@ class WidgetProduct extends StatelessWidget {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product.name,
-                  style: TextStyle(
-                      color: Colors.black87, fontWeight: FontWeight.bold),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                SizedBox(
+                  height: 40,
+                  child: Text(
+                    product.name,
+                    style: TextStyle(
+                        color: Colors.black87, fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 RichText(
                     text: TextSpan(children: [

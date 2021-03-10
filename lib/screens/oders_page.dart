@@ -26,7 +26,7 @@ class _OdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh Sách Đơn Hàng'),
+        title: Text('Đơn Hàng'),
         actions: [
           IconButton(
               icon: Icon(Icons.search),
@@ -73,6 +73,8 @@ class _OdersPageState extends State<OrdersPage> {
                       itemBuilder: (context, index) {
                         return WidgetOrder(order: orders[index]);
                       });
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
             } else {
               return Center(child: CircularProgressIndicator());
             }

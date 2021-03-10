@@ -28,8 +28,17 @@ class SharedPerferencesFunction {
     return respones;
   }
 
+  Future<bool> _deleteData(key) async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    return await _sharedPreferences.remove(key);
+  }
+
   static Future<String> getData({@required key}) async {
     var response = await getIntance()._getData(key);
     return response;
+  }
+
+  static Future<bool> deleteData(String key) async {
+    return await getIntance()._deleteData(key);
   }
 }

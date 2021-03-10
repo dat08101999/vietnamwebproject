@@ -132,13 +132,17 @@ class ChartMonth extends StatelessWidget {
                 ),
               ),
             );
-          } else {
+          } else if (snapshot.hasError) {
             print(snapshot.error);
             return Center(
               child: Text(
                 'Không Có Dữ Liệu',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
             );
           }
         });

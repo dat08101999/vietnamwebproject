@@ -5,7 +5,7 @@ import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/screens/customers_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_customers.dart';
-import 'package:flutter_back_end/widgets/widget_showDialog.dart';
+import 'package:flutter_back_end/widgets/widget_showdialog.dart';
 import 'package:get/get.dart';
 
 class CustomersPage extends StatefulWidget {
@@ -92,7 +92,7 @@ class _CustomersPageState extends State<CustomersPage> {
               children: customerLisst(),
             );
           return Center(
-            child: Text('): No Data'),
+            child: Text('Opps ! Có lỗi gì đó !'),
           );
         },
       ))

@@ -55,7 +55,7 @@ class WeekChart extends StatelessWidget {
                                       width: 1, color: Color(0xff7589a2)))),
                           titlesData: FlTitlesData(
                             leftTitles: SideTitles(
-                              margin: 15,
+                              margin: 10,
                               showTitles: true,
                               getTextStyles: (value) => const TextStyle(
                                   color: Color(0xff7589a2),
@@ -100,7 +100,7 @@ class WeekChart extends StatelessWidget {
                             ),
                             bottomTitles: SideTitles(
                                 showTitles: true,
-                                margin: 20,
+                                margin: 10,
                                 getTextStyles: (value) => TextStyle(
                                     color: Color(0xff7589a2),
                                     fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class WeekChart extends StatelessWidget {
                                   } else if (value == 6) {
                                     return 'CN';
                                   } else {
-                                    return '|';
+                                    return '';
                                   }
                                 }),
                           ),
@@ -135,12 +135,17 @@ class WeekChart extends StatelessWidget {
               ),
             ),
           );
-        } else {
+        } else if (snapshot.hasError) {
+          print(snapshot.error);
           return Center(
             child: Text(
               'Không Có Dữ Liệu',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
           );
         }
       },

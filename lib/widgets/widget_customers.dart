@@ -14,49 +14,52 @@ class WidgetCustomers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String email = customer.email ?? ' Không có email';
-    return Padding(
-      padding: const EdgeInsets.only(top: 4, right: 4, left: 4, bottom: 4),
-      child: InkWell(
-        onLongPress: () {
-          Get.find<ControllerCheckBox>().changeState();
-        },
-        onTap: () {
-          Get.to(CustomerInfoPage(
-            customer: customer,
-            textSubMitButon: 'Cập nhật thông tin',
-          ));
-        },
-        child: Container(
-          margin: EdgeInsets.all(3),
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ]),
-          child: ListTile(
-            tileColor: Colors.white,
-            leading: CircleAvatar(
-              backgroundImage:
-                  NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
-            ),
-            title: Text(customer.name),
-            subtitle: Text(email + '/' + customer.phone.toString()),
-            trailing: Container(
-                height: 40,
-                width: 40,
-                child: GetBuilder<ControllerCheckBox>(
-                  builder: (builder) {
-                    return checkBox();
-                  },
-                )),
+    return InkWell(
+      onLongPress: () {
+        Get.find<ControllerCheckBox>().changeState();
+      },
+      onTap: () {
+        Get.to(CustomerInfoPage(
+          customer: customer,
+          textSubMitButon: 'Cập nhật thông tin',
+        ));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ]),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
           ),
+          title: Text(
+            customer.name,
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          subtitle: Text(
+            email != ''
+                ? email + ' / ' + customer.phone.toString()
+                : 'không có email /' + customer.phone.toString(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: Container(
+              height: 40,
+              width: 40,
+              child: GetBuilder<ControllerCheckBox>(
+                builder: (builder) {
+                  return checkBox();
+                },
+              )),
         ),
       ),
     );

@@ -31,41 +31,39 @@ class _SearchProductState extends State<SearchProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.blue),
-        backgroundColor: Colors.white70,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(5),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextField(
-                controller: controllerSearch,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'nhập tên sản phẩm tìm kiếm',
-                    prefixIcon: Icon(Icons.search)),
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextField(
+                  controller: controllerSearch,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'nhập tên sản phẩm tìm kiếm',
+                      prefixIcon: Icon(Icons.search)),
+                ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                child: ListView.builder(
-                    itemCount: controllerSearch.text.isNotEmpty == true
-                        ? _listProductSearched.length
-                        : widget.listProduct.length,
-                    itemBuilder: (context, index) => WidgetProduct(
-                        product: controllerSearch.text.isNotEmpty == true
-                            ? _listProductSearched[index]
-                            : widget.listProduct[index])),
+              Expanded(
+                child: Container(
+                  child: ListView.builder(
+                      itemCount: controllerSearch.text.isNotEmpty == true
+                          ? _listProductSearched.length
+                          : widget.listProduct.length,
+                      itemBuilder: (context, index) => WidgetProduct(
+                          product: controllerSearch.text.isNotEmpty == true
+                              ? _listProductSearched[index]
+                              : widget.listProduct[index])),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

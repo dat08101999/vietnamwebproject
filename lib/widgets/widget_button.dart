@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/main.dart';
 
 class ButtonCustom {
@@ -20,10 +21,7 @@ class ButtonCustom {
                 borderRadius: BorderRadius.circular(5)),
             child: Text(
               name.toUpperCase() ?? 'ButtonBorder',
-              style: TextStyle(
-                color: borderColor,
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(color: borderColor, fontWeight: FontWeight.bold),
             )));
   }
 
@@ -31,7 +29,8 @@ class ButtonCustom {
       {@required String name, @required Function onPress}) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5), color: Colors.blueAccent),
+          borderRadius: BorderRadius.circular(5),
+          color: ConfigTheme.primaryColor),
       margin: EdgeInsets.all(5),
       width: MediaQuery.of(currentContext).size.width * 0.9,
       child: TextButton(

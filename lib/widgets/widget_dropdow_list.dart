@@ -27,7 +27,7 @@ class WidgetDropdowList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Icon(
-                  Icons.edit,
+                  Icons.archive_rounded,
                   size: 18,
                   color: Colors.black45,
                 ),
