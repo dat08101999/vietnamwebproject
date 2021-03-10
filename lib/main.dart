@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/configs/config_vaway.dart';
 import 'package:flutter_back_end/models/shared_preferences_func.dart';
 import 'package:flutter_back_end/screens/home_page.dart';
@@ -24,8 +25,14 @@ class MyApp extends StatelessWidget {
         navigatorKey: _navigatorKey,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primaryColor: Colors.blue,
-          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: ConfigTheme.backgroundColor,
+          appBarTheme: AppBarTheme(
+              color: ConfigTheme.primaryColor,
+              centerTitle: true,
+              elevation: 0,
+              textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6:
+                      TextStyle(fontSize: 17, fontWeight: FontWeight.w500))),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: Launch());
@@ -92,6 +99,9 @@ class _LaunchState extends State<Launch> {
             SharedPerferencesFunction.setData(
                 key: ConfigsVAWAY.keyUserInformation,
                 value: json.encode(response['results']));
+            ConfigUser.token = response['results']['token'];
+            var profile = response['results']['profile'];
+            ConfigUser.userProfile = UserProfile.fromMap(profile);
             _gotoHomePage();
           }
         }

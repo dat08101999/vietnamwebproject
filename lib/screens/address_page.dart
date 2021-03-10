@@ -3,7 +3,7 @@ import 'package:flutter_back_end/controllers/controller_address.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/customer.dart';
-import 'package:flutter_back_end/widgets/widget_showDialog.dart';
+import 'package:flutter_back_end/widgets/widget_showdialog.dart';
 import 'package:get/get.dart';
 
 class AddressPage extends StatefulWidget {

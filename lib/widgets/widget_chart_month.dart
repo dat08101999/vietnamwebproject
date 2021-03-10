@@ -132,9 +132,17 @@ class ChartMonth extends StatelessWidget {
                 ),
               ),
             );
+          } else if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(
+              child: Text(
+                'Không Có Dữ Liệu',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            );
           } else {
             return Center(
-              child: Text('No Data'),
+              child: CircularProgressIndicator(),
             );
           }
         });
@@ -173,7 +181,6 @@ Future<List<BarChartGroupData>> _getRevenueData(
     return List.generate(counts.length, (index) {
       summary += int.parse(counts[index].toString());
       return makeGroupData(index, double.parse(counts[index].toString()));
-      // return makeGroupData(index, double.parse(counts[index].toString()));
     });
   } else {
     print('lỗi getRevenueMonth');

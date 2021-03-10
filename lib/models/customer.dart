@@ -108,7 +108,7 @@ class Customer {
   }
 
   static String requestError;
-  static upDateCustomer(Customer customer) async {
+  static updateCustomer(Customer customer) async {
     try {
       requestError = '';
       var response = await RequestDio.post(

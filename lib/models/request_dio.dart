@@ -26,6 +26,7 @@ class RequestDio {
 
   static postWithHeader(
       {@required url, data, parameters, @required header}) async {
+    data = FormData.fromMap(data);
     var response = await new Dio().post(url,
         data: data,
         queryParameters: parameters,

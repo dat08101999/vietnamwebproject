@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' show GetxController;
 
 class OdersController extends GetxController {
   int _limit = 0;

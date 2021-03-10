@@ -3,6 +3,7 @@ import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/models/loading.dart';
+import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/address_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
@@ -39,7 +40,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
         title: title,
         controller: controller,
         readonly: readonly,
-        ontap: ontap,
+        onTap: ontap,
         icon: Icon(Icons.edit));
   }
 
@@ -60,7 +61,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
 
   Customer getCustomer() {
     return Customer(
-        id: customer.id,
         name: controllerCustomers.name.text,
         phone: controllerCustomers.phone.text,
         address: controllerCustomers.addressRecie.text,
@@ -127,20 +127,16 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                   _controllerMessage.hideMessage();
                   bool result = textSubMitButon == 'Thêm'
                       ? await Customer.addCustomers(tempCustomer)
-                      : await Customer.upDateCustomer(tempCustomer);
+                      : await Customer.updateCustomer(tempCustomer);
                   if (result == false) {
                     _controllerMessage.showMessage();
                   }
                   Loading.dismiss();
                   if (result == true) {
-                    Get.snackbar(
-                        '',
-                        textSubMitButon == 'Thêm'
+                    ShowToast.show(
+                        title: textSubMitButon == 'Thêm'
                             ? 'Thêm Thành Công'
-                            : 'Cập Nhật Thành Công',
-                        backgroundColor: Colors.black,
-                        colorText: Colors.white,
-                        snackPosition: SnackPosition.BOTTOM);
+                            : 'Cập Nhật Thành Công');
                   }
                 }),
           ],
@@ -151,7 +147,6 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     try {
       Get.find<ControllerListCustomer>().getAllCustomer();
       Get.find<ControllerCheckBox>().deleteAll();

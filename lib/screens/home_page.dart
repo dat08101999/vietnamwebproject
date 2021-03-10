@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: listpage.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue[200],
         unselectedItemColor: Colors.black45,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang Chủ'),
@@ -38,9 +37,11 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.all_inbox), label: 'Sản Phẩm'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Cài Đặt'),
         ],
+        backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[800],
+        selectedItemColor: Color(0xff2c72b8),
         onTap: _onTapBottomNav,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

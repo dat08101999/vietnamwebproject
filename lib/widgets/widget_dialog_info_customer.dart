@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/models/acction_system.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
@@ -17,16 +18,9 @@ class DialogInfoCustomer extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                'Khách Hàng',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
             CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg'),
+              backgroundImage:
+                  NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
               maxRadius: 80,
             ),
             Padding(
@@ -47,26 +41,27 @@ class DialogInfoCustomer extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Text(
-              'Địa Chỉ',
-              style:
-                  TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                order.address ?? 'không có địa chỉ hoặc địa chỉ không hợp lệ !',
-                textAlign: TextAlign.center,
-              ),
-            ),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(4),
               decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(10)),
+                  borderRadius: BorderRadius.circular(4)),
               child: Column(
                 children: [
+                  Text(
+                    'Địa Chỉ',
+                    style: TextStyle(
+                        color: Colors.black54, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      order.address ??
+                          'không có địa chỉ hoặc địa chỉ không hợp lệ !',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text('Lưu ý của khách hàng :',
@@ -79,7 +74,7 @@ class DialogInfoCustomer extends StatelessWidget {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 order.phone != null
                     ? ButtonCustom.buttonBorder(

@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_back_end/models/customer.dart';
@@ -22,7 +20,7 @@ class Order {
   String channel;
   String orderCode;
   int id;
-  Customer customer;
+  // Customer customer;
   Map<String, dynamic> timeline;
   Order({
     this.name,
@@ -41,7 +39,7 @@ class Order {
     this.channel,
     this.orderCode,
     this.id,
-    this.customer,
+    // this.customer,
     this.timeline,
   });
 
@@ -104,7 +102,7 @@ class Order {
       channel: channel ?? this.channel,
       orderCode: orderCode ?? this.orderCode,
       id: id ?? this.id,
-      customer: customer ?? this.customer,
+      // customer: customer ?? this.customer,
       timeline: timeline ?? this.timeline,
     );
   }
@@ -127,7 +125,7 @@ class Order {
       'channel': channel,
       'orderCode': orderCode,
       'id': id,
-      'customer': customer?.toMap(),
+      // 'customer': customer?.toMap(),
       'timeline': timeline,
     };
   }
@@ -154,7 +152,7 @@ class Order {
       channel: map['channel'],
       orderCode: map['order_code'],
       id: map['id'],
-      customer: Customer.fromMap(map['customer']),
+      // customer: Customer.fromMap(map['customer']),
       timeline: Map<String, dynamic>.from(map['timeline']),
     );
   }
@@ -165,53 +163,6 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(name: $name, address: $address, phone: $phone, email: $email, message: $message, status: $status, discount: $discount, product: $product, addedTime: $addedTime, addedDate: $addedDate, payment: $payment, shipment: $shipment, amount: $amount, channel: $channel, orderCode: $orderCode, id: $id, customer: $customer, timeline: $timeline)';
-  }
-
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is Order &&
-        o.name == name &&
-        o.address == address &&
-        o.phone == phone &&
-        o.email == email &&
-        o.message == message &&
-        o.status == status &&
-        o.discount == discount &&
-        listEquals(o.product, product) &&
-        o.addedTime == addedTime &&
-        o.addedDate == addedDate &&
-        o.payment == payment &&
-        o.shipment == shipment &&
-        mapEquals(o.amount, amount) &&
-        o.channel == channel &&
-        o.orderCode == orderCode &&
-        o.id == id &&
-        o.customer == customer &&
-        mapEquals(o.timeline, timeline);
-  }
-
-  @override
-  int get hashCode {
-    return name.hashCode ^
-        address.hashCode ^
-        phone.hashCode ^
-        email.hashCode ^
-        message.hashCode ^
-        status.hashCode ^
-        discount.hashCode ^
-        product.hashCode ^
-        addedTime.hashCode ^
-        addedDate.hashCode ^
-        payment.hashCode ^
-        shipment.hashCode ^
-        amount.hashCode ^
-        channel.hashCode ^
-        orderCode.hashCode ^
-        id.hashCode ^
-        customer.hashCode ^
-        timeline.hashCode;
+    return 'Order(name: $name, address: $address, phone: $phone, email: $email, message: $message, status: $status, discount: $discount, product: $product, addedTime: $addedTime, addedDate: $addedDate, payment: $payment, shipment: $shipment, amount: $amount, channel: $channel, orderCode: $orderCode, id: $id, timeline: $timeline)';
   }
 }

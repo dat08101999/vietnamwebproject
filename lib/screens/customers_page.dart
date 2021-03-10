@@ -5,7 +5,7 @@ import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/screens/customers_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_customers.dart';
-import 'package:flutter_back_end/widgets/widget_showDialog.dart';
+import 'package:flutter_back_end/widgets/widget_showdialog.dart';
 import 'package:get/get.dart';
 
 class CustomersPage extends StatefulWidget {
@@ -19,9 +19,9 @@ class _CustomersPageState extends State<CustomersPage> {
       Get.put(ControllerProcessBardelete());
   ControllerListCustomer _controllerListCustomer =
       Get.put(ControllerListCustomer());
+
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -39,12 +39,12 @@ class _CustomersPageState extends State<CustomersPage> {
           alignment: Alignment.center,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ctlScroll) {
-              if (ctlScroll is ScrollEndNotification) {
-                if (ctlScroll.metrics.pixels ==
-                    ctlScroll.metrics.maxScrollExtent) {
-                  if (_controllerListCustomer.limit < 80) {
-                    _controllerListCustomer.limit = 10;
-                  }
+              if (ctlScroll is ScrollEndNotification) if (ctlScroll
+                      .metrics.pixels ==
+                  ctlScroll.metrics.maxScrollExtent) {
+                if (controllerCustomers.limit <
+                    _controllerListCustomer.customers.length) {
+                  controllerCustomers.limit = 10;
                 }
                 return true;
               }
@@ -85,16 +85,14 @@ class _CustomersPageState extends State<CustomersPage> {
     _controllerListCustomer.getAllCustomer();
     return Column(children: [
       builDeleteButon(),
-      Expanded(
-          // height: MediaQuery.of(currentContext).size.height * 0.8,
-          child: GetBuilder<ControllerListCustomer>(
+      Expanded(child: GetBuilder<ControllerListCustomer>(
         builder: (ctl) {
           if (ctl.customers.length > 0)
             return ListView(
               children: customerLisst(),
             );
           return Center(
-            child: Text('): No Data'),
+            child: Text('Opps ! Có lỗi gì đó !'),
           );
         },
       ))

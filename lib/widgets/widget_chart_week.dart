@@ -55,7 +55,7 @@ class WeekChart extends StatelessWidget {
                                       width: 1, color: Color(0xff7589a2)))),
                           titlesData: FlTitlesData(
                             leftTitles: SideTitles(
-                              margin: 15,
+                              margin: 10,
                               showTitles: true,
                               getTextStyles: (value) => const TextStyle(
                                   color: Color(0xff7589a2),
@@ -100,7 +100,7 @@ class WeekChart extends StatelessWidget {
                             ),
                             bottomTitles: SideTitles(
                                 showTitles: true,
-                                margin: 20,
+                                margin: 10,
                                 getTextStyles: (value) => TextStyle(
                                     color: Color(0xff7589a2),
                                     fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class WeekChart extends StatelessWidget {
                                   } else if (value == 6) {
                                     return 'CN';
                                   } else {
-                                    return '|';
+                                    return '';
                                   }
                                 }),
                           ),
@@ -135,8 +135,19 @@ class WeekChart extends StatelessWidget {
               ),
             ),
           );
+        } else if (snapshot.hasError) {
+          print(snapshot.error);
+          return Center(
+            child: Text(
+              'Không Có Dữ Liệu',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
-        return Center(child: Text('No Data'));
       },
     );
   }
@@ -145,14 +156,18 @@ class WeekChart extends StatelessWidget {
 final Color leftBarColor = const Color(0xff53fdd7);
 final Color rightBarColor = const Color(0xffff5182);
 BarChartGroupData makeGroupData(int x, double y1) {
-  return BarChartGroupData(barsSpace: 1, x: x, barRods: [
-    BarChartRodData(
-      y: y1,
-      colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
-      borderRadius: BorderRadius.circular(0),
-      width: 20,
-    ),
-  ]);
+  return BarChartGroupData(
+    barsSpace: 1,
+    x: x,
+    barRods: [
+      BarChartRodData(
+        y: y1,
+        colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
+        borderRadius: BorderRadius.circular(0),
+        width: 20,
+      ),
+    ],
+  );
 }
 
 Future<List<BarChartGroupData>> _getRevenueData(

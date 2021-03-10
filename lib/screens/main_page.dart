@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/configs/config_user.dart';
+import 'package:flutter_back_end/configs/configs_placeholder.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
+import 'package:flutter_back_end/screens/oders_page.dart';
+import 'package:flutter_back_end/screens/products_page.dart';
 import 'package:flutter_back_end/widgets/widget_chart.dart';
 import 'package:get/get.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
@@ -22,7 +26,7 @@ class _MainPageState extends State<MainPage> {
   double heigth = MediaQuery.of(currentContext).size.height;
   BoxDecoration decorationBody() {
     return BoxDecoration(
-        color: Colors.grey.withOpacity(0.8),
+        color: ConfigTheme.backgroundColor,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)));
   }
@@ -37,11 +41,21 @@ class _MainPageState extends State<MainPage> {
         ),
         child: ListTile(
             leading: CircleAvatar(
+              backgroundColor: Colors.grey.withOpacity(0.2),
               backgroundImage:
                   NetworkImage(ConfigsMywebvietnam.urlAvatarDefalut),
             ),
-            title: Text(controllerMainPage.name),
-            subtitle: Text('Basic ' + controllerMainPage.basic),
+            title: controllerMainPage.name != null
+                ? Text(
+                    controllerMainPage.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                : ConfigsPlaceholder.placeholderText(),
+            subtitle: controllerMainPage.basic != null
+                ? Text('Basic ' + controllerMainPage.basic)
+                : ConfigsPlaceholder.placeholderText(),
             trailing: IconButton(
               icon: Icon(Icons.arrow_drop_down),
               onPressed: () {
@@ -103,7 +117,7 @@ class _MainPageState extends State<MainPage> {
       width: width * 0.5,
       height: heigth * 0.3 * 0.5,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(10),
         color: Colors.white,
       ),
       child: Center(
@@ -219,7 +233,7 @@ class _MainPageState extends State<MainPage> {
     return Stack(
       children: [
         Container(
-            color: Colors.blue,
+            color: ConfigTheme.primaryColor,
             height: MediaQuery.of(currentContext).size.height,
             child: SafeArea(
               child: Padding(
@@ -227,7 +241,7 @@ class _MainPageState extends State<MainPage> {
                     top: MediaQuery.of(currentContext).size.height * 0.02),
                 child: Align(
                   child: Text(
-                    'xin chào, ${ConfigUser.userProfile.name}',
+                    'Xin chào, ${ConfigUser.userProfile.name}',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),

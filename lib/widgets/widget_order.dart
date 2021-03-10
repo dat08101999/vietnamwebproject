@@ -18,19 +18,20 @@ class WidgetOrder extends StatelessWidget {
       },
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
-        margin: EdgeInsets.all(5),
-        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ]),
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.white,
+          // boxShadow: [
+          // BoxShadow(
+          //   color: Colors.grey.withOpacity(0.5),
+          //   spreadRadius: 1,
+          //   blurRadius: 3,
+          //   offset: Offset(0, 3), // changes position of shadow
+          // ),
+          // ],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
