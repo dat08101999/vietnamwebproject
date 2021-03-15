@@ -216,12 +216,14 @@ class _MainPageState extends State<MainPage> {
       return Container(
         height: MediaQuery.of(currentContext).size.height * 0.85,
         decoration: decorationBody(),
-        child: ListView(
-          children: [
-            buildBodyHeadArea(),
-            buildBodyCenterArea(),
-            buildChartArea()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildBodyHeadArea(),
+              buildBodyCenterArea(),
+              buildChartArea(),
+            ],
+          ),
         ),
       );
     });
