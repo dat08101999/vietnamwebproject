@@ -3,9 +3,9 @@ import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/models/loading.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/address_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
 import 'package:get/get.dart';
 
@@ -133,7 +133,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                   }
                   Loading.dismiss();
                   if (result == true) {
-                    ShowToast.show(
+                    ShowNotifi.showToast(
                         title: textSubMitButon == 'Thêm'
                             ? 'Thêm Thành Công'
                             : 'Cập Nhật Thành Công');

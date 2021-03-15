@@ -65,18 +65,12 @@ class _LaunchState extends State<Launch> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        // decoration: BoxDecoration(color: Colors.blue[200]),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CircleAvatar(
               backgroundColor: Colors.teal,
               maxRadius: 100,
-            ),
-            Text(
-              'Chào mừng tới VAWAY-APP',
-              style: TextStyle(color: Colors.white70, fontSize: 24),
-              textAlign: TextAlign.center,
             ),
           ],
         ),

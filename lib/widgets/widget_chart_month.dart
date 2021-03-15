@@ -47,7 +47,7 @@ class ChartMonth extends StatelessWidget {
                         child: BarChart(
                           BarChartData(
                               borderData: FlBorderData(
-                                  show: true,
+                                  show: false,
                                   border: Border(
                                       left: BorderSide(
                                           width: 1, color: Color(0xff7589a2)),
@@ -65,10 +65,18 @@ class ChartMonth extends StatelessWidget {
                                   getTitles: (value) {
                                     if (value == 0) {
                                       return '';
+                                    } else if (value == 50000) {
+                                      return '50K';
+                                    } else if (value == 100000) {
+                                      return '100K';
+                                    } else if (value == 200000) {
+                                      return '200K';
                                     } else if (value == 500000) {
                                       return '500K';
                                     } else if (value == 1000000) {
                                       return '1m';
+                                    } else if (value == 2000000) {
+                                      return '2m';
                                     } else if (value == 5000000) {
                                       return '5m';
                                     } else if (value == 10000000) {
@@ -155,7 +163,7 @@ BarChartGroupData makeGroupData(int x, double y1) {
   return BarChartGroupData(barsSpace: 4, x: x, barRods: [
     BarChartRodData(
       y: y1,
-      colors: [y1 > 1000000 ? leftBarColor : rightBarColor],
+      colors: [y1 > 200000 ? leftBarColor : rightBarColor],
       borderRadius: BorderRadius.circular(0),
       width: 2,
     ),

@@ -6,6 +6,7 @@ import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/configs/configs_placeholder.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
+import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
 import 'package:flutter_back_end/screens/oders_page.dart';
 import 'package:flutter_back_end/screens/products_page.dart';
@@ -111,48 +112,110 @@ class _MainPageState extends State<MainPage> {
       );
   }
 
-  Widget buildGridViewItem(String title, String count,
-      {String value, bool isIncrease}) {
+  // Widget buildGridViewItem(String title, String count,
+  //     {String value, bool isIncrease}) {
+  //   return Container(
+  //     width: width * 0.5,
+  //     height: heigth * 0.3 * 0.5,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(10),
+  //       color: Colors.white,
+  //     ),
+  //     child: Center(
+  //       child: RichText(
+  //         text: TextSpan(children: [
+  //           WidgetSpan(
+  //             //* Số lượng và %
+  //             child: Row(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 Text(count,
+  //                     style: TextStyle(
+  //                         fontSize: 30,
+  //                         fontFamily: 'Bold',
+  //                         fontWeight: FontWeight.bold)),
+  //                 isIncrease != null
+  //                     ? (isIncrease
+  //                         ? Icon(
+  //                             Icons.arrow_upward,
+  //                             color: Colors.green,
+  //                           )
+  //                         : Icon(
+  //                             Icons.arrow_downward,
+  //                             color: Colors.red,
+  //                           ))
+  //                     : Container(),
+  //                 value != null ? Text(value + '%') : Container()
+  //               ],
+  //             ),
+  //           ),
+  //           //* title
+  //           WidgetSpan(
+  //               child: Center(
+  //             child: Text(title,
+  //                 style: TextStyle(fontSize: 15, fontFamily: 'Bold')),
+  //           )),
+  //         ]),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Widget buildGridViewItem(String title,
+      {String count, String value, bool isIncrease, IconData icon}) {
     return Container(
-      width: width * 0.5,
-      height: heigth * 0.3 * 0.5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-      ),
-      child: Center(
-        child: RichText(
-          text: TextSpan(children: [
-            WidgetSpan(
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(count,
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Bold',
-                      fontWeight: FontWeight.bold)),
-              isIncrease != null
-                  ? (isIncrease
-                      ? Icon(
-                          Icons.arrow_upward,
-                          color: Colors.green,
-                        )
-                      : Icon(
-                          Icons.arrow_downward,
-                          color: Colors.red,
-                        ))
-                  : Container(),
-              value != null ? Text(value + '%') : Container()
-            ])),
-            WidgetSpan(
-                child: Center(
-              child: Text(title,
-                  style: TextStyle(fontSize: 15, fontFamily: 'Bold')),
-            )),
-          ]),
+        padding: EdgeInsets.only(left: 15),
+        width: width * 0.5,
+        height: heigth * 0.3 * 0.5,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
         ),
-      ),
-    );
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //* Icon
+            SizedBox(
+              height: 50,
+              child: Icon(
+                icon,
+                color: ConfigTheme.primaryColor,
+                size: 30,
+              ),
+            ),
+            //* count
+            Text(
+              title == 'Thu nhập'
+                  ? Format.moneyFormat(count) + 'đ'
+                  : Format.moneyFormat(count),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
+            Row(
+              children: [
+                //* title
+                Text(title,
+                    style: TextStyle(
+                        color: Colors.black87, fontWeight: FontWeight.w500)),
+                SizedBox(
+                  width: 10,
+                ),
+                value != null ? Text('$value%') : Container(),
+                isIncrease != null
+                    ? (isIncrease
+                        ? Icon(
+                            Icons.arrow_upward,
+                            color: Colors.green,
+                          )
+                        : Icon(
+                            Icons.arrow_downward,
+                            color: Colors.red,
+                          ))
+                    : Container(),
+              ],
+            ),
+          ],
+        ));
   }
 
   Widget buildBodyCenterArea() {
@@ -164,35 +227,43 @@ class _MainPageState extends State<MainPage> {
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
-              child: buildGridViewItem(
-                  'Đơn Hàng', controllerMainPage.oders.toString(),
-                  value: controllerMainPage.valueOders.toString(),
-                  isIncrease: controllerMainPage.oderIncrease),
+              child: InkWell(
+                onTap: () => Get.to(() => OrdersPage()),
+                child: buildGridViewItem('Đơn Hàng',
+                    count: controllerMainPage.oders.toString(),
+                    value: controllerMainPage.valueOders.toString(),
+                    isIncrease: controllerMainPage.oderIncrease,
+                    icon: Icons.assignment_rounded),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(left: width * 0.5 + 4),
               child: InkWell(
-                onTap: () {
-                  Get.to(CustomersPage());
-                },
-                child: buildGridViewItem(
-                    'Khách Hàng', controllerMainPage.customers.toString(),
+                onTap: () => Get.to(CustomersPage()),
+                child: buildGridViewItem('Khách Hàng',
+                    count: controllerMainPage.customers.toString(),
                     value: controllerMainPage.valueCustomers.toString(),
-                    isIncrease: controllerMainPage.customerIncease),
+                    isIncrease: controllerMainPage.customerIncease,
+                    icon: Icons.group),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(top: heigth * 0.3 * 0.5 + 4),
-              child: buildGridViewItem(
-                  'Sản Phẩm', controllerMainPage.products.toString()),
+              child: InkWell(
+                onTap: () => Get.to(() => ProductsPage()),
+                child: buildGridViewItem('Sản Phẩm',
+                    count: controllerMainPage.products.toString(),
+                    icon: Icons.all_inbox),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(
                   top: heigth * 0.3 * 0.5 + 4, left: width * 0.5 + 4),
-              child: buildGridViewItem(
-                  'Thu nhập', controllerMainPage.money.toString(),
+              child: buildGridViewItem('Thu nhập',
+                  count: controllerMainPage.money.toString(),
                   value: controllerMainPage.valueMoney.toString(),
-                  isIncrease: controllerMainPage.moneyIncrase),
+                  isIncrease: controllerMainPage.moneyIncrase,
+                  icon: Icons.attach_money_rounded),
             ),
           ],
         ),

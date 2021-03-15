@@ -6,10 +6,10 @@ import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/models/product.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/product_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dialog_info_customer.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 import 'package:get/get.dart';
 
 class OrderInfo extends StatefulWidget {
@@ -247,7 +247,7 @@ class _OrderInfoState extends State<OrderInfo> {
         return null;
       }
     } catch (e) {
-      ShowToast.show(title: 'Thông tin đơn hàng bị trống');
+      ShowNotifi.showToast(title: 'Thông tin đơn hàng bị trống');
       return null;
     }
   }
