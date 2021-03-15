@@ -21,15 +21,6 @@ class Loading {
     return _loadingShow;
   }
 
-  ///* nameFunction phải ở dạng void hoặc Future <T>.
-  static showAwait(
-      {String newTitle = 'Đang Tải ...',
-      @required Function nameFunction}) async {
-    getIntance()._showloading(title: newTitle);
-    await nameFunction();
-    getIntance()._dismiss();
-  }
-
   static show({String newTitle = 'Đang Tải ...'}) {
     if (!getIntance()._isLoading)
       return getIntance()._showloading(title: newTitle);
