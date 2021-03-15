@@ -84,7 +84,8 @@ class _ProductInfoState extends State<ProductInfo> {
                                     title: 'Tên Sản Phẩm',
                                     controller:
                                         _productController.controllerTextName,
-                                    icon: Icon(Icons.all_inbox_rounded)),
+                                    icon: Icon(Icons.all_inbox_rounded),
+                                    readonly: widget.readOnly),
                                 WidgetTextFormField(
                                     title: 'Mã Sản Phẩm',
                                     controller:
@@ -105,16 +106,18 @@ class _ProductInfoState extends State<ProductInfo> {
                                             listValue: _listCategoriesProduct,
                                             //* set Dropdow
                                             onChanged: (id) {
-                                              _firstValue =
-                                                  _listCategoriesProduct
-                                                      .singleWhere(
-                                                          (element) =>
-                                                              element.id == id,
-                                                          orElse: () {
-                                                return null;
-                                              });
-                                              _productController
-                                                  .idCategoriesSelected = id;
+                                              if (!widget.readOnly) {
+                                                _firstValue =
+                                                    _listCategoriesProduct
+                                                        .singleWhere(
+                                                            (element) =>
+                                                                element.id ==
+                                                                id, orElse: () {
+                                                  return null;
+                                                });
+                                                _productController
+                                                    .idCategoriesSelected = id;
+                                              }
                                             });
                                       } else {
                                         print(snapshot.error);
@@ -128,17 +131,21 @@ class _ProductInfoState extends State<ProductInfo> {
                                     controller: _productController
                                         .controllerTextDescription,
                                     icon: Icon(Icons.article_outlined),
-                                    maxLine: 5),
+                                    maxLine: 5,
+                                    readonly: widget.readOnly),
                                 WidgetTextFormField(
                                     title: 'Giá Bán Gốc',
                                     controller: _productController
                                         .controllerTextPriceRegular,
-                                    icon: Icon(Icons.attach_money_rounded)),
+                                    icon: Icon(Icons.attach_money_rounded),
+                                    readonly: widget.readOnly),
                                 WidgetTextFormField(
-                                    title: 'Giá Bán Hiện Tại',
-                                    controller: _productController
-                                        .controllerTextPriceSale,
-                                    icon: Icon(Icons.attach_money_rounded)),
+                                  title: 'Giá Bán Hiện Tại',
+                                  controller: _productController
+                                      .controllerTextPriceSale,
+                                  icon: Icon(Icons.attach_money_rounded),
+                                  readonly: widget.readOnly,
+                                ),
                                 WidgetTextFormField(
                                     title: 'Số Lượng Còn Lại',
                                     controller:
