@@ -27,9 +27,6 @@ class BarChartSample2State extends State<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ButtonCustom.buttonSubmit(
-              name: 'Clicked',
-              onPress: () => ShowNotifi.showToast(title: 'Helo Wolrd')),
-          ButtonCustom.buttonSubmit(
             name: 'đăng xuất',
             onPress: () async {
               await SharedPerferencesFunction.deleteData(
