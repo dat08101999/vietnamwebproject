@@ -120,7 +120,17 @@ class _WidgetChartgetState extends State<WidgetChart>
     return Container(
         height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5), color: Colors.white),
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 3,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: GetBuilder<ControllerMainPage>(
           builder: (build) {
             return Column(children: [buildTitleArea(), buildChartArea()]);
