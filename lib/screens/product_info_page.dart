@@ -27,16 +27,19 @@ class _ProductInfoState extends State<ProductInfo> {
   var _firstValue;
   final key = new GlobalKey<ScaffoldState>();
 
+  ControllerAddCategories controllerAddCategories =
+      Get.put(ControllerAddCategories());
   @override
   void initState() {
     super.initState();
+    print(widget.product.categories);
     _productController = Get.put(ProductController());
     _productController.getProductInfo(widget.product);
     _productController.idCategoriesSelected =
-        widget.product.categories.length > 1
+        widget.product.categories.length > 0
             ? widget.product.categories[0]['id']
             : 0;
-    _firstValue = CategoriesProduct.fromMap(widget.product.categories.length > 1
+    _firstValue = CategoriesProduct.fromMap(widget.product.categories.length > 0
         ? widget.product.categories[0]
         : null);
   }
@@ -115,12 +118,15 @@ class _ProductInfoState extends State<ProductInfo> {
                                               });
                                               _productController
                                                   .idCategoriesSelected = id;
+                                              controllerAddCategories
+                                                  .addCategories(_firstValue);
                                             });
                                       } else {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
                                     }),
+                                buildCategoriesTextField(),
                                 //* end dropdow list
                                 WidgetTextFormField(
                                     title: 'Chi Tiết Mô Tả',
@@ -163,6 +169,35 @@ class _ProductInfoState extends State<ProductInfo> {
                 ),
               )),
     );
+  }
+
+  Widget buildCategoriesTextField() {
+    return GetBuilder<ControllerAddCategories>(builder: (builder) {
+      return RichText(
+        text: TextSpan(children: buildcateGoriesWidget()),
+      );
+    });
+  }
+
+  List<WidgetSpan> buildcateGoriesWidget() {
+    List<WidgetSpan> categories = List<WidgetSpan>();
+    for (int i = 0; i < controllerAddCategories.categories.length; i++) {
+      categories.add(WidgetSpan(
+        child: Row(
+          children: [
+            Text(controllerAddCategories.categories[i].name),
+            IconButton(
+              icon: Icon(Icons.cancel),
+              onPressed: () {
+                controllerAddCategories
+                    .removeCategories(controllerAddCategories.categories[i]);
+              },
+            ),
+          ],
+        ),
+      ));
+    }
+    return categories;
   }
 
   toProduct() {

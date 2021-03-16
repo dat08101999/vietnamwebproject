@@ -7,8 +7,6 @@ import 'package:flutter_back_end/configs/configs_placeholder.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/screens/customers_page.dart';
-import 'package:flutter_back_end/screens/oders_page.dart';
-import 'package:flutter_back_end/screens/products_page.dart';
 import 'package:flutter_back_end/widgets/widget_chart.dart';
 import 'package:get/get.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';

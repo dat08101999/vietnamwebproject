@@ -24,8 +24,6 @@ class BarChartSample2State extends State<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-
-              ///* đăng xuất
               onPressed: () async {
                 await SharedPerferencesFunction.deleteData(
                     ConfigsVAWAY.keyUserInformation);
