@@ -8,20 +8,24 @@ class WidgetTextFormField extends StatelessWidget {
   final Icon icon;
   final bool isHide;
   final int maxLine;
+  final bool isNumberField;
 
-  const WidgetTextFormField({
-    Key key,
-    this.title,
-    this.controller,
-    this.readonly,
-    this.onTap,
-    this.icon,
-    this.isHide,
-    this.maxLine,
-  }) : super(key: key);
+  const WidgetTextFormField(
+      {Key key,
+      this.title,
+      this.controller,
+      this.readonly,
+      this.onTap,
+      this.icon,
+      this.isHide,
+      this.maxLine,
+      this.isNumberField})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool isnumbertext = false;
+    if (isNumberField != null) isnumbertext = isNumberField;
     return Container(
       margin: EdgeInsets.all(8),
       padding: EdgeInsets.all(8),
@@ -30,6 +34,7 @@ class WidgetTextFormField extends StatelessWidget {
         color: Colors.grey[200],
       ),
       child: TextFormField(
+        keyboardType: isnumbertext ? TextInputType.number : TextInputType.text,
         maxLines: maxLine ?? 1,
         obscureText: isHide ?? false,
         onTap: onTap,

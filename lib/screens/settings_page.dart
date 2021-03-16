@@ -5,7 +5,6 @@ import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/shared_preferences_func.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
-import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 import 'package:get/get.dart';
 
 class SettingsPage extends StatefulWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/screens/variations_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dropdow_list.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
@@ -55,6 +56,14 @@ class _ProductInfoState extends State<ProductInfo> {
       appBar: AppBar(
         title: Text('Thông Tin Sản Phẩm'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Get.to(VariationPage(widget.product.variations[0] ?? null));
+            },
+          )
+        ],
       ),
       body: Builder(
           builder: (context) => Container(
