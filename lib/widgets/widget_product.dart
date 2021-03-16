@@ -71,6 +71,7 @@ class WidgetProduct extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                //* số lượng
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
@@ -81,6 +82,7 @@ class WidgetProduct extends StatelessWidget {
                       text: product.stock.toString(),
                       style: TextStyle(color: Colors.black54))
                 ])),
+                //* giá bán
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
