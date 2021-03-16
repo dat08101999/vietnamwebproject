@@ -3,5 +3,6 @@
      "terminal.integrated.fontFamily": "Cascadia Code",
      "debug.console.fontFamily": "Cascadia Code",
      "editor.inlineHints.fontFamily": "Cascadia Code",
-     "editor.fontLigatures": true
+     "editor.fontLigatures": true,
+     "editor.tabCompletion": "onlySnippets"
 }
