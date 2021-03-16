@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/screens/variations_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dropdow_list.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
@@ -133,19 +134,23 @@ class _ProductInfoState extends State<ProductInfo> {
                                     icon: Icon(Icons.article_outlined),
                                     maxLine: 5,
                                     readonly: widget.readOnly),
-                                WidgetTextFormField(
-                                    title: 'Giá Bán Gốc',
-                                    controller: _productController
-                                        .controllerTextPriceRegular,
-                                    icon: Icon(Icons.attach_money_rounded),
-                                    readonly: widget.readOnly),
-                                WidgetTextFormField(
-                                  title: 'Giá Bán Hiện Tại',
-                                  controller: _productController
-                                      .controllerTextPriceSale,
-                                  icon: Icon(Icons.attach_money_rounded),
-                                  readonly: widget.readOnly,
-                                ),
+                                widget.product.variations.length == 0
+                                    ? WidgetTextFormField(
+                                        title: 'Giá Bán Gốc',
+                                        controller: _productController
+                                            .controllerTextPriceRegular,
+                                        icon: Icon(Icons.attach_money_rounded),
+                                        readonly: widget.readOnly)
+                                    : Container(),
+                                widget.product.variations.length == 0
+                                    ? WidgetTextFormField(
+                                        title: 'Giá Bán Hiện Tại',
+                                        controller: _productController
+                                            .controllerTextPriceSale,
+                                        icon: Icon(Icons.attach_money_rounded),
+                                        readonly: widget.readOnly,
+                                      )
+                                    : Container(),
                                 WidgetTextFormField(
                                     title: 'Số Lượng Còn Lại',
                                     controller:
@@ -157,13 +162,27 @@ class _ProductInfoState extends State<ProductInfo> {
                           ),
                         ),
                         widget.readOnly == false
-                            ? ButtonCustom.buttonSubmit(
-                                name: 'Cập Nhập Thông Tin',
-                                onPress: () async {
-                                  this.toProduct();
-                                  Product.updateProduct(
-                                      widget.product, _productController);
-                                })
+                            ? Column(
+                                children: [
+                                  widget.product.variations.length > 0
+                                      ? ButtonCustom.buttonSubmit(
+                                          name: 'Danh Sách Biến Thể',
+                                          onPress: () {
+                                            Get.to(() => VariationsPage(
+                                                  variations:
+                                                      widget.product.variations,
+                                                ));
+                                          })
+                                      : Container(),
+                                  ButtonCustom.buttonSubmit(
+                                      name: 'Cập Nhập Thông Tin',
+                                      onPress: () async {
+                                        this.toProduct();
+                                        Product.updateProduct(
+                                            widget.product, _productController);
+                                      }),
+                                ],
+                              )
                             : Container(),
                       ],
                     );
