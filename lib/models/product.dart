@@ -43,6 +43,24 @@ class Product {
     this.link,
   });
 
+  static Future<Product> getInfo(String id) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      var response = await RequestDio.get(
+          url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
+      if (response['success'] == true) {
+        return Product.fromMap(response['data'][0]);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      ShowNotifi.showToast(title: 'Thông tin đơn hàng bị trống');
+      return null;
+    }
+  }
+
   static updateProduct(
       Product product, ProductController productController) async {
     Loading.show();

@@ -31,7 +31,6 @@ class ControllerMainPage extends GetxController {
           getDashBoardInfo();
           name = info[0]['name'];
           basic = info[0]['plan']['expried'].toString();
-          print(infoDashBoard);
           basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
           update();
         }

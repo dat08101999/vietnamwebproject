@@ -12,12 +12,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> listpage = [
-    // BlogsAndChart(),
     MainPage(),
     OrdersPage(),
     ProductsPage(),
     SettingsPage()
   ];
+
   @override
   void initState() {
     super.initState();

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/configs/config_theme.dart';
@@ -87,10 +88,12 @@ class _OdersPageState extends State<OrdersPage>
       children: [
         Container(
           margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: TabBar(
             indicator: BoxDecoration(
               borderRadius: BorderRadius.circular(
-                10.0,
+                5.0,
               ),
               color: ConfigTheme.primaryColor,
             ),
@@ -123,7 +126,7 @@ class _OdersPageState extends State<OrdersPage>
           child: TabBarView(
             controller: _tabController,
             children: [
-              ///* Tất cả
+              //* Tất cả
               ListView.builder(
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
