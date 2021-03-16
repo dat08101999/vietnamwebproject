@@ -87,7 +87,8 @@ class _ProductInfoState extends State<ProductInfo> {
                                     title: 'Tên Sản Phẩm',
                                     controller:
                                         _productController.controllerTextName,
-                                    icon: Icon(Icons.all_inbox_rounded)),
+                                    icon: Icon(Icons.all_inbox_rounded),
+                                    readonly: widget.readOnly),
                                 WidgetTextFormField(
                                     title: 'Mã Sản Phẩm',
                                     controller:
@@ -108,20 +109,21 @@ class _ProductInfoState extends State<ProductInfo> {
                                             listValue: _listCategoriesProduct,
                                             //* set Dropdow
                                             onChanged: (id) {
-                                              _firstValue =
-                                                  _listCategoriesProduct
-                                                      .singleWhere(
-                                                          (element) =>
-                                                              element.id == id,
-                                                          orElse: () {
-                                                return null;
-                                              });
-                                              _productController
-                                                  .idCategoriesSelected = id;
-                                              controllerAddCategories
-                                                  .addCategories(_firstValue);
+                                              if (!widget.readOnly) {
+                                                _firstValue =
+                                                    _listCategoriesProduct
+                                                        .singleWhere(
+                                                            (element) =>
+                                                                element.id ==
+                                                                id, orElse: () {
+                                                  return null;
+                                                });
+                                                _productController
+                                                    .idCategoriesSelected = id;
+                                              }
                                             });
                                       } else {
+                                        print(snapshot.error);
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
@@ -129,21 +131,25 @@ class _ProductInfoState extends State<ProductInfo> {
                                 buildCategoriesTextField(),
                                 //* end dropdow list
                                 WidgetTextFormField(
-                                    title: 'Chi Tiết Mô Tả',
+                                    title: 'Mô Tả Ngắn',
                                     controller: _productController
-                                        .controllerTextContent,
+                                        .controllerTextDescription,
                                     icon: Icon(Icons.article_outlined),
-                                    maxLine: 5),
+                                    maxLine: 5,
+                                    readonly: widget.readOnly),
                                 WidgetTextFormField(
                                     title: 'Giá Bán Gốc',
                                     controller: _productController
                                         .controllerTextPriceRegular,
-                                    icon: Icon(Icons.attach_money_rounded)),
+                                    icon: Icon(Icons.attach_money_rounded),
+                                    readonly: widget.readOnly),
                                 WidgetTextFormField(
-                                    title: 'Giá Bán Hiện Tại',
-                                    controller: _productController
-                                        .controllerTextPriceSale,
-                                    icon: Icon(Icons.attach_money_rounded)),
+                                  title: 'Giá Bán Hiện Tại',
+                                  controller: _productController
+                                      .controllerTextPriceSale,
+                                  icon: Icon(Icons.attach_money_rounded),
+                                  readonly: widget.readOnly,
+                                ),
                                 WidgetTextFormField(
                                     title: 'Số Lượng Còn Lại',
                                     controller:
@@ -206,7 +212,8 @@ class _ProductInfoState extends State<ProductInfo> {
         int.parse(_productController.controllerTextPriceRegular.text);
     widget.product.priceSale =
         int.parse(_productController.controllerTextPriceSale.text);
-    widget.product.content = _productController.controllerTextContent.text;
+    widget.product.description =
+        _productController.controllerTextDescription.text;
   }
 }
 
@@ -216,14 +223,46 @@ Future<List<CategoriesProduct>> getCategoriesProduct() async {
     'limit': 10,
     'offset': 0
   };
+  List<CategoriesProduct> _list = [];
+
   var response = await RequestDio.get(
       url: ConfigsMywebvietnam.getCategoriesApi, parames: paramas);
-  if (response['success']) {
-    List _ordres = response['data'] ?? [];
-    return List.generate(
-        _ordres.length, (index) => CategoriesProduct.fromMap(_ordres[index]));
-  } else {
-    print('lấy dữ liệu lỗi');
+
+  try {
+    if (response['success']) {
+      List _categoriesProduct = response['data'] ?? [];
+      _categoriesProduct.forEach((element) {
+        _list.add(CategoriesProduct.fromMap(element));
+        if (element['child'] != null &&
+            _list.indexWhere((elementWhere) =>
+                    elementWhere.id == element['child']['id']) ==
+                -1) {
+          _list.add(CategoriesProduct.fromMap(element['child']));
+        }
+        if (element['child']['child'] != null &&
+            element['child']['child'] is List<dynamic> &&
+            element['child']['child'].length > 0) {
+          element['child']['child'].forEach((elementChild) {
+            if (_list.indexWhere((elementWhere) =>
+                    elementWhere.id == element['child']['child']['id']) ==
+                -1) _list.add(CategoriesProduct.fromMap(elementChild));
+          });
+        }
+        if (element['child']['child'] != null &&
+            element['child']['child'] is Map &&
+            _list.indexWhere((elementWhere) =>
+                    elementWhere.id == element['child']['child']['id']) ==
+                -1) {
+          _list.add(CategoriesProduct.fromMap(element['child']['child']));
+        }
+      });
+      return _list;
+    } else {
+      print('lấy dữ liệu lỗi');
+      return null;
+    }
+  } catch (e, trace) {
+    print(trace);
     return null;
   }
 }

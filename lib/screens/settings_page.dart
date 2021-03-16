@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_user.dart';
 import 'package:flutter_back_end/configs/config_vaway.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/main.dart';
 import 'package:flutter_back_end/models/shared_preferences_func.dart';
+import 'package:flutter_back_end/widgets/widget_button.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 import 'package:get/get.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -23,15 +26,17 @@ class BarChartSample2State extends State<SettingsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextButton(
-              onPressed: () async {
-                await SharedPerferencesFunction.deleteData(
-                    ConfigsVAWAY.keyUserInformation);
-                ConfigUser.token = null;
-                ConfigUser.userProfile = null;
-                Get.offAll(Launch());
-              },
-              child: Text('Đăng Xuất')),
+          ButtonCustom.buttonSubmit(
+            name: 'đăng xuất',
+            onPress: () async {
+              await SharedPerferencesFunction.deleteData(
+                  ConfigsVAWAY.keyUserInformation);
+              ConfigUser.token = null;
+              ConfigUser.userProfile = null;
+              Get.find<ControllerMainPage>().setTokenWeb(null);
+              Get.offAll(Launch());
+            },
+          )
         ],
       ),
     );

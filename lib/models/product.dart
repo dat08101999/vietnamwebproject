@@ -5,7 +5,7 @@ import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 
 class Product {
   int id;
@@ -43,6 +43,24 @@ class Product {
     this.link,
   });
 
+  static Future<Product> getInfo(String id) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      var response = await RequestDio.get(
+          url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
+      if (response['success'] == true) {
+        return Product.fromMap(response['data'][0]);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      ShowNotifi.showToast(title: 'Thông tin đơn hàng bị trống');
+      return null;
+    }
+  }
+
   static updateProduct(
       Product product, ProductController productController) async {
     Loading.show();
@@ -70,10 +88,10 @@ class Product {
       );
       Loading.dismiss();
       if (response['success'] == true) {
-        ShowToast.show(title: 'Cập Nhập Thành Công');
+        ShowNotifi.showToast(title: 'Cập Nhập Thành Công');
         return true;
       } else {
-        ShowToast.show(title: response['message']);
+        ShowNotifi.showToast(title: response['message']);
         return false;
       }
       // ignore: unused_catch_stack

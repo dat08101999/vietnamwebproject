@@ -57,15 +57,15 @@ class WidgetOrder extends StatelessWidget {
                   Row(
                     children: [
                       //* id đơn hàng
-                      TextInColor(
-                        text: order.id.toString(),
-                        color: Colors.teal,
-                        textStyle: TextStyle(fontSize: 10, color: Colors.white),
-                        width: 120,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      // TextInColor(
+                      //   text: order.id.toString(),
+                      //   color: Colors.teal,
+                      //   textStyle: TextStyle(fontSize: 10, color: Colors.white),
+                      //   width: 120,
+                      // ),
+                      // SizedBox(
+                      //   width: 5,
+                      // ),
                       // * trạng thái thanh toán
                       TextInColor(
                           text: order.timeline['purchased'] > 1
@@ -75,7 +75,12 @@ class WidgetOrder extends StatelessWidget {
                               TextStyle(fontSize: 10, color: Colors.black54),
                           color: order.timeline['purchased'] > 1
                               ? Colors.green[200]
-                              : Colors.orange[200])
+                              : Colors.orange[200]),
+                      //* order Code
+                      order.orderCode != null
+                          ? TextInColor(
+                              text: order.orderCode, color: Colors.greenAccent)
+                          : Container(),
                     ],
                   ),
                 ],
@@ -97,7 +102,7 @@ class WidgetOrder extends StatelessWidget {
                 ),
                 //* giá tiền
                 Text(
-                  Format.moneyFormat(order.amount['payment'].toString()),
+                  Format.moneyFormat(order.amount['payment'].toString()) + 'đ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 //* kênh

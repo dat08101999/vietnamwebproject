@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
-import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/format.dart';
+import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/models/product.dart';
-import 'package:flutter_back_end/models/request_dio.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/product_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dialog_info_customer.dart';
@@ -110,9 +108,11 @@ class _OrderInfoState extends State<OrderInfo> {
                           itemBuilder: (context, index) => Card(
                             child: ListTile(
                               onTap: () async {
-                                Product _product = await getInfo(widget
+                                Loading.show();
+                                Product _product = await Product.getInfo(widget
                                     .order.product[index]['id']
                                     .toString());
+                                Loading.dismiss();
                                 if (_product != null)
                                   Get.to(() => ProductInfo(
                                       product: _product, readOnly: true));
@@ -232,23 +232,5 @@ class _OrderInfoState extends State<OrderInfo> {
         ),
       ),
     );
-  }
-
-  Future<Product> getInfo(String id) async {
-    try {
-      var params = {
-        'token': ControllerMainPage.webToken,
-      };
-      var response = await RequestDio.get(
-          url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
-      if (response['success'] == true) {
-        return Product.fromMap(response['data'][0]);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      ShowToast.show(title: 'Thông tin đơn hàng bị trống');
-      return null;
-    }
   }
 }
