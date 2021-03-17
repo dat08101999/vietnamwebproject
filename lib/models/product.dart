@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:dio/dio.dart' show MultipartFile;
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
@@ -193,5 +193,24 @@ class Product {
   @override
   String toString() {
     return 'Product(id: $id, thumbnail: $thumbnail, pictures: $pictures, name: $name, description: $description, keyword: $keyword, content: $content, sku: $sku, categories: $categories, groups: $groups, brands: $brands, priceSale: $priceSale, priceRegular: $priceRegular, stock: $stock, variations: $variations, link: $link)';
+  }
+
+  static getimageFromPath(path, filename, {url, params}) async {
+    var response = await RequestDio.post(url: url, params: params, data: {
+      'img_file[]': await MultipartFile.fromFile(path, filename: filename)
+    });
+    return response;
+  }
+
+  static updateVariation(id, data, List<String> picterList) async {
+    var tempData = data;
+    for (int i = 0; i < picterList.length; i++) {
+      tempData['pictures[${i.toString()}]'] = picterList[i];
+    }
+    var response = await RequestDio.post(
+        params: {'token': ControllerMainPage.webToken},
+        url: ConfigsMywebvietnam.variaTionApi + '/' + id.toString(),
+        data: tempData);
+    return response;
   }
 }

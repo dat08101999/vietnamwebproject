@@ -44,4 +44,17 @@ class ButtonCustom {
       ),
     );
   }
+
+  static Widget buttonWithIcon(Icon icon, String text, Function() ontap) {
+    return Container(
+      height: 50,
+      child: InkWell(
+        onTap: ontap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [icon, Text(text)],
+        ),
+      ),
+    );
+  }
 }
