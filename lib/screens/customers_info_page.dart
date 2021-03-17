@@ -61,6 +61,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
 
   Customer getCustomer() {
     return Customer(
+        id: customer.id,
         name: controllerCustomers.name.text,
         phone: controllerCustomers.phone.text,
         address: controllerCustomers.addressRecie.text,

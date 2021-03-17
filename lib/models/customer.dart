@@ -110,6 +110,7 @@ class Customer {
   static String requestError;
   static updateCustomer(Customer customer) async {
     try {
+      print(customer.id);
       requestError = '';
       var response = await RequestDio.post(
         url: ConfigsMywebvietnam.getCustomers +
