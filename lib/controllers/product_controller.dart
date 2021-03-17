@@ -9,6 +9,15 @@ class ProductController extends GetxController {
   TextEditingController controllerTextPriceSale = TextEditingController();
   TextEditingController controllerTextStock = TextEditingController();
   TextEditingController controllerTextDescription = TextEditingController();
+  // List<Product> _products = [];
+
+  // List<Product> get products => _products;
+
+  // set products(List<Product> products) {
+  //   _products = products;
+  //   update();
+  // }
+
   int _limit = 0;
   static int _idCategoriesSelected = 0;
 

@@ -109,9 +109,9 @@ class _OrderInfoState extends State<OrderInfo> {
                             child: ListTile(
                               onTap: () async {
                                 Loading.show();
-                                Product _product = await Product.getInfo(widget
-                                    .order.product[index]['id']
-                                    .toString());
+                                Product _product = await Product.getProduct(
+                                    widget.order.product[index]['id']
+                                        .toString());
                                 Loading.dismiss();
                                 if (_product != null)
                                   Get.to(() => ProductInfo(

@@ -1,4 +1,4 @@
-import 'package:flutter/gestures.dart';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/configs/config_theme.dart';
@@ -8,7 +8,10 @@ import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/screens/search_order_page.dart';
 import 'package:flutter_back_end/widgets/widget_order.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+
+AsyncMemoizer<List<Order>> _cacheOrders = AsyncMemoizer();
 
 class OrdersPage extends StatefulWidget {
   @override
@@ -18,12 +21,13 @@ class OrdersPage extends StatefulWidget {
 class _OdersPageState extends State<OrdersPage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  OdersController _odersController;
-  List<Order> orders;
+  OdersController _ordersController;
+  List<Order> _orders;
+
   @override
   void initState() {
     super.initState();
-    _odersController = Get.put(OdersController());
+    _ordersController = Get.put(OdersController());
     _tabController = TabController(length: 3, initialIndex: 0, vsync: this);
   }
 
@@ -36,7 +40,7 @@ class _OdersPageState extends State<OrdersPage>
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                Get.to(() => SearchOrder(orders: this.orders));
+                Get.to(() => SearchOrder(orders: _orders));
               }),
         ],
       ),
@@ -47,26 +51,27 @@ class _OdersPageState extends State<OrdersPage>
               if (ctlScroll is ScrollEndNotification) if (ctlScroll
                       .metrics.pixels ==
                   ctlScroll.metrics.maxScrollExtent) {
-                if (_odersController.limit < orders.length) {
-                  _odersController.limit = 10;
+                if (_ordersController.limit < _orders.length) {
+                  _cacheOrders = new AsyncMemoizer();
+                  _ordersController.limit = 10;
                 }
                 return true;
               }
               return false;
             },
-            child: _buildBlogs(),
+            child: _buildOrders(),
           )),
     );
   }
 
-  Widget _buildBlogs() {
+  Widget _buildOrders() {
     return GetBuilder<OdersController>(builder: (ctl) {
       return FutureBuilder(
           future: getOrders(limit: ctl.limit),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              orders = snapshot.data;
-              return orders.length == 0
+              _orders = snapshot.data;
+              return _orders.length == 0
                   ? Center(
                       child: Text(
                       'Không có đơn hàng nào cả :((',
@@ -127,30 +132,51 @@ class _OdersPageState extends State<OrdersPage>
             controller: _tabController,
             children: [
               //* Tất cả
-              ListView.builder(
-                  itemCount: orders.length,
-                  itemBuilder: (context, index) {
-                    return WidgetOrder(order: orders[index]);
-                  }),
+              RefreshIndicator(
+                onRefresh: () async {
+                  _cacheOrders = new AsyncMemoizer();
+                  _ordersController.update();
+                },
+                child: ListView.builder(
+                    itemCount: _orders.length,
+                    itemBuilder: (context, index) {
+                      return _buildItem(
+                          WidgetOrder(order: _orders[index]), _orders[index]);
+                    }),
+              ),
               //* Đã Thanh Toán
-              ListView.builder(
-                  itemCount: orders.length,
-                  itemBuilder: (context, index) {
-                    if (orders[index].timeline['purchased'] > 1) {
-                      return WidgetOrder(order: orders[index]);
-                    } else {
-                      return Container();
-                    }
-                  }),
-              ListView.builder(
-                  itemCount: orders.length,
-                  itemBuilder: (context, index) {
-                    if (orders[index].timeline['purchased'] == 0) {
-                      return WidgetOrder(order: orders[index]);
-                    } else {
-                      return Container();
-                    }
-                  }),
+              RefreshIndicator(
+                onRefresh: () async {
+                  _cacheOrders = new AsyncMemoizer();
+                  _ordersController.update();
+                },
+                child: ListView.builder(
+                    itemCount: _orders.length,
+                    itemBuilder: (context, index) {
+                      if (_orders[index].timeline['purchased'] > 1) {
+                        return _buildItem(
+                            WidgetOrder(order: _orders[index]), _orders[index]);
+                      } else {
+                        return Container();
+                      }
+                    }),
+              ),
+              RefreshIndicator(
+                onRefresh: () async {
+                  _cacheOrders = new AsyncMemoizer();
+                  _ordersController.update();
+                },
+                child: ListView.builder(
+                    itemCount: _orders.length,
+                    itemBuilder: (context, index) {
+                      if (_orders[index].timeline['purchased'] == 0) {
+                        return _buildItem(
+                            WidgetOrder(order: _orders[index]), _orders[index]);
+                      } else {
+                        return Container();
+                      }
+                    }),
+              ),
             ],
           ),
         ),
@@ -159,21 +185,62 @@ class _OdersPageState extends State<OrdersPage>
   }
 
   Future<List<Order>> getOrders({int limit = 0}) async {
-    // var token = await User.getToken();
-    var paramas = {
-      'token': ControllerMainPage.webToken,
-      'limit': 10 + limit,
-      'offset': 0
-    };
-    var response = await RequestDio.get(
-        url: ConfigsMywebvietnam.getOders, parames: paramas);
-    if (response['success']) {
-      List _ordres = response['data'] ?? [];
-      return List.generate(
-          _ordres.length, (index) => Order.fromMap(_ordres[index]));
-    } else {
-      print('lấy dữ liệu lỗi');
-      return null;
-    }
+    return _cacheOrders.runOnce(() async {
+      var paramas = {
+        'token': ControllerMainPage.webToken,
+        'limit': 10 + limit,
+        'offset': 0
+      };
+      var response = await RequestDio.get(
+          url: ConfigsMywebvietnam.getOders, parames: paramas);
+      if (response['success']) {
+        List _ordres = response['data'] ?? [];
+        return List.generate(
+            _ordres.length, (index) => Order.fromMap(_ordres[index]));
+      } else {
+        print('lấy dữ liệu lỗi');
+        return null;
+      }
+    });
   }
+
+  Widget _buildItem(
+    Widget child,
+    dynamic item,
+  ) =>
+      Slidable(
+        child: child,
+        showAllActionsThreshold: 1,
+        secondaryActions: [
+          IconSlideAction(
+              caption: 'Xóa',
+              color: Colors.red[400],
+              icon: Icons.delete,
+              onTap: () async {
+                var delete = await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Xác Nhận'),
+                    content: Text('Sản phẩm này sẽ bị xóa ?'),
+                    actions: [
+                      FlatButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text('Đồng Ý')),
+                      FlatButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text('Hủy Bỏ')),
+                    ],
+                  ),
+                );
+                if (delete) {
+                  var deleted = await Order.deleteOrders(item);
+                  if (deleted) {
+                    _cacheOrders.future.then((list) => list.remove(item));
+                    _ordersController.update();
+                  }
+                }
+              })
+        ],
+        actionPane: SlidableDrawerActionPane(),
+      );
 }

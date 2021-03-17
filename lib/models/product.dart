@@ -43,7 +43,7 @@ class Product {
     this.link,
   });
 
-  static Future<Product> getInfo(String id) async {
+  static Future<Product> getProduct(String id) async {
     try {
       var params = {
         'token': ControllerMainPage.webToken,
@@ -58,6 +58,28 @@ class Product {
     } catch (e) {
       ShowNotifi.showToast(title: 'Thông tin đơn hàng bị trống');
       return null;
+    }
+  }
+
+  static deleteProduct(Product product) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.delete(
+          url: '${ConfigsMywebvietnam.getProductsApi}/${product.id}',
+          paramas: params);
+      Loading.dismiss();
+      if (response['success']) {
+        ShowNotifi.showToast(title: 'Xóa Sản Phẩm Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message']);
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
     }
   }
 

@@ -26,6 +26,7 @@ dependencies:
   vaid:
     git:
       url: https://trongtin045@bitbucket.org/vaway/vaid.git
+  async: ^2.4.0
   cached_network_image: ^2.5.0
   crypto: ^2.1.5
   cupertino_icons: ^1.0.0
@@ -33,6 +34,7 @@ dependencies:
   dio: ^3.0.10
   fl_chart: ^0.12.3
   flutter_custom_dialog: ^1.0.20
+  flutter_slidable: ^0.5.7
   fluttertoast: ^7.1.8
   get: ^3.25.4
   intent: ^1.4.0

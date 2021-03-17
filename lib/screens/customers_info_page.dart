@@ -120,7 +120,12 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
               ),
             ),
             ButtonCustom.buttonSubmit(
-                name: textSubMitButon,
+                title: Text(
+                  textSubMitButon,
+                  style: TextStyle(color: Colors.white),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 onPress: () async {
                   Customer tempCustomer = getCustomer();
                   Loading.show();

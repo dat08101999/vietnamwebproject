@@ -19,7 +19,7 @@ class WidgetProduct extends StatelessWidget {
     return InkWell(
       onTap: () async {
         Loading.show();
-        Product _product = await Product.getInfo(this.product.id.toString());
+        Product _product = await Product.getProduct(this.product.id.toString());
         Loading.dismiss();
         if (_product != null)
           Get.to(() => ProductInfo(product: _product, readOnly: false));

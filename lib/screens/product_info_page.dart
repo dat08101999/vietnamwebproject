@@ -120,8 +120,23 @@ class _ProductInfoState extends State<ProductInfo> {
                                                     .idCategoriesSelected = id;
                                               }
                                             });
-                                      } else {
+                                      } else if (snapshot.hasError) {
                                         print(snapshot.error);
+                                        return Container(
+                                          alignment: Alignment.center,
+                                          margin: EdgeInsets.all(8),
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: Colors.grey[200],
+                                          ),
+                                          child: Text('Opp ! có lỗi gì đó',
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontWeight: FontWeight.w600)),
+                                        );
+                                      } else {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
@@ -162,25 +177,36 @@ class _ProductInfoState extends State<ProductInfo> {
                           ),
                         ),
                         widget.readOnly == false
-                            ? Column(
+                            ? Row(
                                 children: [
                                   widget.product.variations.length > 0
                                       ? ButtonCustom.buttonSubmit(
-                                          name: 'Danh Sách Biến Thể',
+                                          title: Icon(
+                                            Icons.list,
+                                            color: Colors.white,
+                                          ),
                                           onPress: () {
                                             Get.to(() => VariationsPage(
                                                   variations:
                                                       widget.product.variations,
                                                 ));
-                                          })
+                                          },
+                                          width: Get.width * 0.2)
                                       : Container(),
-                                  ButtonCustom.buttonSubmit(
-                                      name: 'Cập Nhập Thông Tin',
-                                      onPress: () async {
-                                        this.toProduct();
-                                        Product.updateProduct(
-                                            widget.product, _productController);
-                                      }),
+                                  Expanded(
+                                    child: ButtonCustom.buttonSubmit(
+                                        title: Text(
+                                          'Cập Nhập Thông Tin',
+                                          style: TextStyle(color: Colors.white),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        onPress: () async {
+                                          this.toProduct();
+                                          Product.updateProduct(widget.product,
+                                              _productController);
+                                        }),
+                                  ),
                                 ],
                               )
                             : Container(),

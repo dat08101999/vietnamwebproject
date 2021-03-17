@@ -1,7 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 
 import 'package:flutter_back_end/models/customer.dart';
+import 'package:flutter_back_end/models/loading.dart';
+import 'package:flutter_back_end/models/request_dio.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 
 class Order {
   String name;
@@ -63,6 +68,27 @@ class Order {
       Colors.green[600],
     ];
     return _colors[index];
+  }
+
+  static deleteOrders(Order order) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.delete(
+          url: '${ConfigsMywebvietnam.getOders}/${order.id}', paramas: params);
+      Loading.dismiss();
+      if (response['success']) {
+        ShowNotifi.showToast(title: 'Xóa Đon Hàng Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message']);
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
   }
 
   Order copyWith({
