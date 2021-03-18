@@ -6,7 +6,7 @@ class ButtonCustom {
   static Widget buttonBorder(
       {@required String name,
       @required Color borderColor,
-      @required Function onPress}) {
+      @required Function() onPress}) {
     return InkWell(
         onTap: onPress,
         splashColor: borderColor,
@@ -25,7 +25,7 @@ class ButtonCustom {
   }
 
   static Widget buttonSubmit(
-      {@required Widget title, @required Function onPress, double width}) {
+      {@required Widget title, @required Function() onPress, double width}) {
     return InkWell(
       onTap: () {},
       child: Container(
