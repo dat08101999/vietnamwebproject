@@ -33,6 +33,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
   final ControllerCustomers controllerCustomers =
       Get.put(ControllerCustomers());
   ControllerMessage _controllerMessage = Get.put(ControllerMessage());
+  final _formKey = GlobalKey<FormState>();
 
   Widget buildListviewItem(String title, TextEditingController controller,
       {bool readonly = false, Function() ontap}) {
@@ -99,24 +100,28 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
                 margin: EdgeInsets.all(5),
-                child: ListView(
-                  children: [
-                    buildMessage(),
-                    buildListviewItem('Tên đầy đủ ', controllerCustomers.name),
-                    buildListviewItem(
-                        'Số điện thoại', controllerCustomers.phone),
-                    buildListviewItem(
-                        'Địa chỉ email ', controllerCustomers.email),
-                    buildListviewItem(
-                        'Địa chỉ nhận hàng', controllerCustomers.addressRecie),
-                    buildListviewItem(
-                        'Địa chỉ chi tiết', controllerCustomers.address,
-                        readonly: true, ontap: () {
-                      Get.to(AddressPage(
-                        customer: controllerCustomers.customer,
-                      ));
-                    }),
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      buildMessage(),
+                      buildListviewItem(
+                          'Tên đầy đủ ', controllerCustomers.name),
+                      buildListviewItem(
+                          'Số điện thoại', controllerCustomers.phone),
+                      buildListviewItem(
+                          'Địa chỉ email ', controllerCustomers.email),
+                      buildListviewItem('Địa chỉ nhận hàng',
+                          controllerCustomers.addressRecie),
+                      buildListviewItem(
+                          'Địa chỉ chi tiết', controllerCustomers.address,
+                          readonly: true, ontap: () {
+                        Get.to(AddressPage(
+                          customer: controllerCustomers.customer,
+                        ));
+                      }),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -128,21 +133,23 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 onPress: () async {
-                  Customer tempCustomer = getCustomer();
-                  Loading.show();
-                  _controllerMessage.hideMessage();
-                  bool result = textSubMitButon == 'Thêm'
-                      ? await Customer.addCustomers(tempCustomer)
-                      : await Customer.updateCustomer(tempCustomer);
-                  if (result == false) {
-                    _controllerMessage.showMessage();
-                  }
-                  Loading.dismiss();
-                  if (result == true) {
-                    ShowNotifi.showToast(
-                        title: textSubMitButon == 'Thêm'
-                            ? 'Thêm Thành Công'
-                            : 'Cập Nhật Thành Công');
+                  if (_formKey.currentState.validate()) {
+                    Customer tempCustomer = getCustomer();
+                    Loading.show();
+                    _controllerMessage.hideMessage();
+                    bool result = textSubMitButon == 'Thêm'
+                        ? await Customer.addCustomers(tempCustomer)
+                        : await Customer.updateCustomer(tempCustomer);
+                    if (result == false) {
+                      _controllerMessage.showMessage();
+                    }
+                    Loading.dismiss();
+                    if (result == true) {
+                      ShowNotifi.showToast(
+                          title: textSubMitButon == 'Thêm'
+                              ? 'Thêm Thành Công'
+                              : 'Cập Nhật Thành Công');
+                    }
                   }
                 }),
           ],
