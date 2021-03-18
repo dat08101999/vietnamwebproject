@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/models/format.dart';
@@ -46,6 +47,25 @@ class ChartMonth extends StatelessWidget {
                         margin: EdgeInsets.only(top: 30),
                         child: BarChart(
                           BarChartData(
+                              barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                  tooltipBgColor: Colors.black54,
+                                  getTooltipItem:
+                                      (group, groupIndex, rod, rodIndex) {
+                                    const textStyle = TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    );
+                                    return BarTooltipItem(
+                                      Format.moneyFormat(
+                                              rod.y.ceil().toString()) +
+                                          ' đ',
+                                      textStyle,
+                                    );
+                                  },
+                                ),
+                              ),
                               borderData: FlBorderData(
                                   show: false,
                                   border: Border(
@@ -157,14 +177,15 @@ class ChartMonth extends StatelessWidget {
   }
 }
 
-final Color leftBarColor = const Color(0xff53fdd7);
-final Color rightBarColor = const Color(0xffff5182);
 BarChartGroupData makeGroupData(int x, double y1) {
   return BarChartGroupData(barsSpace: 4, x: x, barRods: [
     BarChartRodData(
       y: y1,
-      colors: [y1 > 200000 ? leftBarColor : rightBarColor],
-      borderRadius: BorderRadius.circular(0),
+      colors: [
+        y1 > 200000 ? ConfigTheme.hightBarColor : ConfigTheme.lowBarColor
+      ],
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(3), topRight: Radius.circular(3)),
       width: 2,
     ),
   ]);

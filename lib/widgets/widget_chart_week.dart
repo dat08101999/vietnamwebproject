@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
@@ -48,13 +49,34 @@ class WeekChart extends StatelessWidget {
                       margin: EdgeInsets.only(top: 30),
                       child: BarChart(
                         BarChartData(
+                          //* show Tip Khi nhấn vào cột bất kỳ
+                          barTouchData: BarTouchData(
+                            touchTooltipData: BarTouchTooltipData(
+                              tooltipBgColor: Colors.black54,
+                              getTooltipItem:
+                                  (group, groupIndex, rod, rodIndex) {
+                                const textStyle = TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                );
+                                return BarTooltipItem(
+                                  Format.moneyFormat(rod.y.ceil().toString()) +
+                                      ' đ',
+                                  textStyle,
+                                );
+                              },
+                            ),
+                          ),
+                          //* Border đường kẻ x,y
                           borderData: FlBorderData(
-                              show: false,
+                              show: false, //* đang tắt
                               border: Border(
                                   left: BorderSide(
                                       width: 1, color: Color(0xff7589a2)),
                                   bottom: BorderSide(
                                       width: 1, color: Color(0xff7589a2)))),
+                          //* dữ liệu cột y
                           titlesData: FlTitlesData(
                             leftTitles: SideTitles(
                               margin: 10,
@@ -79,8 +101,18 @@ class WeekChart extends StatelessWidget {
                                   return '1m';
                                 } else if (value == 2000000) {
                                   return '2m';
+                                } else if (value == 3000000) {
+                                  return '3m';
                                 } else if (value == 5000000) {
                                   return '5m';
+                                } else if (value == 6000000) {
+                                  return '6m';
+                                } else if (value == 7000000) {
+                                  return '7m';
+                                } else if (value == 8000000) {
+                                  return '8m';
+                                } else if (value == 9000000) {
+                                  return '9m';
                                 } else if (value == 10000000) {
                                   return '10m';
                                 } else if (value == 20000000) {
@@ -106,6 +138,7 @@ class WeekChart extends StatelessWidget {
                                 }
                               },
                             ),
+                            //* dữ liệu cột x
                             bottomTitles: SideTitles(
                                 showTitles: true,
                                 margin: 10,
@@ -133,8 +166,10 @@ class WeekChart extends StatelessWidget {
                                   }
                                 }),
                           ),
+                          //* danh sách các cột
                           barGroups: _barchartGroup,
                         ),
+                        //* thời gian animation thanh đổi
                         swapAnimationDuration: Duration(seconds: 1),
                       ),
                     ),
@@ -161,18 +196,20 @@ class WeekChart extends StatelessWidget {
   }
 }
 
-final Color leftBarColor = const Color(0xff53fdd7);
-final Color rightBarColor = const Color(0xffff5182);
+//* build dữ liệu cột
 BarChartGroupData makeGroupData(int x, double y1) {
   return BarChartGroupData(
     barsSpace: 1,
-    x: x,
+    x: x, //* tọa độ x
     barRods: [
       BarChartRodData(
-        y: y1,
-        colors: [y1 > 200000 ? leftBarColor : rightBarColor],
-        borderRadius: BorderRadius.circular(0),
-        width: 20,
+        y: y1, //* tọa độ y
+        colors: [
+          y1 > 200000 ? ConfigTheme.hightBarColor : ConfigTheme.lowBarColor
+        ],
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(3), topRight: Radius.circular(3)),
+        width: 20, //* kích cỡ của cột
       ),
     ],
   );
