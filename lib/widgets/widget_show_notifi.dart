@@ -6,7 +6,7 @@ class ShowNotifi {
   static void showToast({@required String title, IconData icon}) {
     if (!_isShow) {
       _isShow = true;
-      Get.snackbar(null, title,
+      Get.snackbar(null, title ?? 'không có nội dung !',
           colorText: Colors.white,
           backgroundColor: Colors.black87,
           borderRadius: 4,

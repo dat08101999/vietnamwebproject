@@ -4,7 +4,7 @@ import 'package:get/get.dart' show GetxController;
 
 class ProductController extends GetxController {
   TextEditingController controllerTextName = TextEditingController();
-  TextEditingController controllerTextID = TextEditingController();
+  TextEditingController controllerTextSKU = TextEditingController();
   TextEditingController controllerTextPriceRegular = TextEditingController();
   TextEditingController controllerTextPriceSale = TextEditingController();
   TextEditingController controllerTextStock = TextEditingController();
@@ -38,7 +38,7 @@ class ProductController extends GetxController {
   getProductInfo(Product product) {
     if (product != null) {
       controllerTextName.text = product.name;
-      controllerTextID.text = product.sku ?? product.id.toString();
+      controllerTextSKU.text = product.sku ?? '';
       controllerTextPriceRegular.text = product.priceRegular.toString();
       controllerTextPriceSale.text = product.priceSale.toString();
       controllerTextStock.text = product.stock.toString();

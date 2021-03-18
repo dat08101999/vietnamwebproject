@@ -6,6 +6,7 @@ import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
+import 'package:dio/dio.dart' show MultipartFile;
 
 class Product {
   int id;
@@ -102,6 +103,8 @@ class Product {
       'variations': product.variations,
       'content': product.content ?? ''
     };
+    print(product.id);
+    print(data);
     try {
       var response = await RequestDio.post(
         url: ConfigsMywebvietnam.getProductsApi + '/' + product.id.toString(),
@@ -215,5 +218,38 @@ class Product {
   @override
   String toString() {
     return 'Product(id: $id, thumbnail: $thumbnail, pictures: $pictures, name: $name, description: $description, keyword: $keyword, content: $content, sku: $sku, categories: $categories, groups: $groups, brands: $brands, priceSale: $priceSale, priceRegular: $priceRegular, stock: $stock, variations: $variations, link: $link)';
+  }
+
+  static getimageFromPath(path, filename, {url, params}) async {
+    var response = await RequestDio.post(url: url, params: params, data: {
+      'img_file[]': await MultipartFile.fromFile(path, filename: filename)
+    });
+    return response;
+  }
+
+  static updateVariation(
+      id, Map<String, dynamic> data, List<String> picterList) async {
+    Map<String, dynamic> tempData = data;
+    for (int i = 0; i < picterList.length; i++) {
+      tempData.addAll({'pictures[$i]': picterList[i]});
+    }
+    var response = await RequestDio.post(
+        params: {'token': ControllerMainPage.webToken},
+        url: ConfigsMywebvietnam.variationApi + '/' + id.toString(),
+        data: tempData);
+    return response;
+  }
+
+  static addVariation(
+      Map<String, dynamic> data, List<String> picterList) async {
+    Map<String, dynamic> tempData = data;
+    for (int i = 0; i < picterList.length; i++) {
+      tempData.addAll({'variations[0][pictures][$i]': picterList[i]});
+    }
+    var response = await RequestDio.post(
+        params: {'token': ControllerMainPage.webToken},
+        url: ConfigsMywebvietnam.variationApi,
+        data: tempData);
+    return response;
   }
 }

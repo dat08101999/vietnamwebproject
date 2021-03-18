@@ -27,6 +27,7 @@ class _ProductInfoState extends State<ProductInfo> {
   ProductController _productController;
   var _firstValue;
   final key = new GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -34,12 +35,13 @@ class _ProductInfoState extends State<ProductInfo> {
     _productController = Get.put(ProductController());
     _productController.getProductInfo(widget.product);
     _productController.idCategoriesSelected =
-        widget.product.categories.length > 1
+        widget.product.categories.length >= 1
             ? widget.product.categories[0]['id']
             : 0;
-    _firstValue = CategoriesProduct.fromMap(widget.product.categories.length > 1
-        ? widget.product.categories[0]
-        : null);
+    _firstValue = CategoriesProduct.fromMap(
+        widget.product.categories.length >= 1
+            ? widget.product.categories[0]
+            : null);
   }
 
   @override
@@ -79,100 +81,108 @@ class _ProductInfoState extends State<ProductInfo> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10)),
                             margin: EdgeInsets.all(5),
-                            child: ListView(
-                              children: [
-                                WidgetTextFormField(
-                                    title: 'Tên Sản Phẩm',
-                                    controller:
-                                        _productController.controllerTextName,
-                                    icon: Icon(Icons.all_inbox_rounded),
-                                    readonly: widget.readOnly),
-                                WidgetTextFormField(
-                                    title: 'Mã Sản Phẩm',
-                                    controller:
-                                        _productController.controllerTextID,
-                                    readonly: true,
-                                    icon: Icon(Icons.announcement)),
-                                //* dropdow list
-                                FutureBuilder(
-                                    future: getCategoriesProduct(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        List<CategoriesProduct>
-                                            _listCategoriesProduct =
-                                            snapshot.data;
-                                        return WidgetDropdowList(
-                                            firstValue: _firstValue ??
-                                                _listCategoriesProduct[0],
-                                            listValue: _listCategoriesProduct,
-                                            //* set Dropdow
-                                            onChanged: (id) {
-                                              if (!widget.readOnly) {
-                                                _firstValue =
-                                                    _listCategoriesProduct
-                                                        .singleWhere(
-                                                            (element) =>
-                                                                element.id ==
-                                                                id, orElse: () {
-                                                  return null;
-                                                });
-                                                _productController
-                                                    .idCategoriesSelected = id;
-                                              }
-                                            });
-                                      } else if (snapshot.hasError) {
-                                        print(snapshot.error);
-                                        return Container(
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.all(8),
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Colors.grey[200],
-                                          ),
-                                          child: Text('Opp ! có lỗi gì đó',
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.w600)),
-                                        );
-                                      } else {
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      }
-                                    }),
-                                //* end dropdow list
-                                WidgetTextFormField(
-                                    title: 'Mô Tả Ngắn',
-                                    controller: _productController
-                                        .controllerTextDescription,
-                                    icon: Icon(Icons.article_outlined),
-                                    maxLine: 5,
-                                    readonly: widget.readOnly),
-                                widget.product.variations.length == 0
-                                    ? WidgetTextFormField(
-                                        title: 'Giá Bán Gốc',
-                                        controller: _productController
-                                            .controllerTextPriceRegular,
-                                        icon: Icon(Icons.attach_money_rounded),
-                                        readonly: widget.readOnly)
-                                    : Container(),
-                                widget.product.variations.length == 0
-                                    ? WidgetTextFormField(
-                                        title: 'Giá Bán Hiện Tại',
-                                        controller: _productController
-                                            .controllerTextPriceSale,
-                                        icon: Icon(Icons.attach_money_rounded),
-                                        readonly: widget.readOnly,
-                                      )
-                                    : Container(),
-                                WidgetTextFormField(
-                                    title: 'Số Lượng Còn Lại',
-                                    controller:
-                                        _productController.controllerTextStock,
-                                    readonly: true,
-                                    icon: Icon(Icons.filter_alt_rounded))
-                              ],
+                            child: Form(
+                              key: _formKey,
+                              child: ListView(
+                                children: [
+                                  WidgetTextFormField(
+                                      title: 'Tên Sản Phẩm',
+                                      controller:
+                                          _productController.controllerTextName,
+                                      icon: Icon(Icons.all_inbox_rounded),
+                                      readonly: widget.readOnly),
+                                  WidgetTextFormField(
+                                      title: 'Mã SKU',
+                                      controller:
+                                          _productController.controllerTextSKU,
+                                      readonly: widget.readOnly,
+                                      icon: Icon(Icons.announcement)),
+                                  //* dropdow list
+                                  FutureBuilder(
+                                      future: getCategoriesProduct(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          List<CategoriesProduct>
+                                              _listCategoriesProduct =
+                                              snapshot.data;
+                                          return WidgetDropdowList(
+                                              firstValue: _firstValue ??
+                                                  _listCategoriesProduct[0],
+                                              listValue: _listCategoriesProduct,
+                                              //* set Dropdow
+                                              onChanged: (id) {
+                                                if (!widget.readOnly) {
+                                                  _firstValue =
+                                                      _listCategoriesProduct
+                                                          .singleWhere(
+                                                              (element) =>
+                                                                  element.id ==
+                                                                  id,
+                                                              orElse: () {
+                                                    return null;
+                                                  });
+                                                  _productController
+                                                      .idCategoriesSelected = id;
+                                                }
+                                              });
+                                        } else if (snapshot.hasError) {
+                                          print(snapshot.error);
+                                          return Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.all(8),
+                                            padding: EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.grey[200],
+                                            ),
+                                            child: Text('Opp ! có lỗi gì đó',
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                          );
+                                        } else {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+                                      }),
+                                  //* end dropdow list
+                                  WidgetTextFormField(
+                                      title: 'Mô Tả Ngắn',
+                                      controller: _productController
+                                          .controllerTextDescription,
+                                      icon: Icon(Icons.article_outlined),
+                                      maxLine: 5,
+                                      readonly: widget.readOnly),
+                                  widget.product.variations.length == 0
+                                      ? WidgetTextFormField(
+                                          title: 'Giá Bán Gốc',
+                                          controller: _productController
+                                              .controllerTextPriceRegular,
+                                          icon:
+                                              Icon(Icons.attach_money_rounded),
+                                          readonly: widget.readOnly)
+                                      : Container(),
+                                  widget.product.variations.length == 0
+                                      ? WidgetTextFormField(
+                                          title: 'Giá Bán Hiện Tại',
+                                          controller: _productController
+                                              .controllerTextPriceSale,
+                                          icon:
+                                              Icon(Icons.attach_money_rounded),
+                                          readonly: widget.readOnly,
+                                        )
+                                      : Container(),
+                                  WidgetTextFormField(
+                                      title: 'Số Lượng Còn Lại',
+                                      controller: _productController
+                                          .controllerTextStock,
+                                      readonly: true,
+                                      icon: Icon(Icons.filter_alt_rounded))
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -187,8 +197,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                           ),
                                           onPress: () {
                                             Get.to(() => VariationsPage(
-                                                  variations:
-                                                      widget.product.variations,
+                                                  product: widget.product,
                                                 ));
                                           },
                                           width: Get.width * 0.2)
@@ -202,9 +211,13 @@ class _ProductInfoState extends State<ProductInfo> {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         onPress: () async {
-                                          this.toProduct();
-                                          Product.updateProduct(widget.product,
-                                              _productController);
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            this.toProduct();
+                                            Product.updateProduct(
+                                                widget.product,
+                                                _productController);
+                                          }
                                         }),
                                   ),
                                 ],
@@ -226,6 +239,7 @@ class _ProductInfoState extends State<ProductInfo> {
         int.parse(_productController.controllerTextPriceSale.text);
     widget.product.description =
         _productController.controllerTextDescription.text;
+    widget.product.sku = _productController.controllerTextSKU.text;
   }
 }
 

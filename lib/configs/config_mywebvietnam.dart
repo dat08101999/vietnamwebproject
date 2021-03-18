@@ -12,16 +12,20 @@ class ConfigsMywebvietnam {
       'https://api.mywebvietnam.net/va-json/v1/products/categories';
   static final String getGroupProductApi =
       'https://api.mywebvietnam.net/va-json/v1/products/groups';
-  static final String getOders = 'https://api.mywebvietnam.net/va-json/v1/orders';
+  static final String getOders =
+      'https://api.mywebvietnam.net/va-json/v1/orders';
   static final String getCustomers =
       'https://api.mywebvietnam.net/va-json/v1/customers';
   static final String getCustomersSubscribe =
       'https://api.mywebvietnam.net/va-json/v1/customers/subscribe';
-  static final String getListPage = 'https://api.mywebvietnam.net/va-json/v1/pages';
+  static final String getListPage =
+      'https://api.mywebvietnam.net/va-json/v1/pages';
   static final String getBlogsCategories =
       'https://api.mywebvietnam.net/va-json/v1/blogs/categories';
-  static final String getBlogs = 'https://api.mywebvietnam.net/va-json/v1/blogs';
-  static final String getThemes = 'https://api.mywebvietnam.net/va-json/v1/themes';
+  static final String getBlogs =
+      'https://api.mywebvietnam.net/va-json/v1/blogs';
+  static final String getThemes =
+      'https://api.mywebvietnam.net/va-json/v1/themes';
   static final String getAddressProvince =
       'https://api.mywebvietnam.net/va-json/v1/address/province';
   static final String getAddressDistrict =
@@ -35,8 +39,12 @@ class ConfigsMywebvietnam {
       'Để chỉnh sửa nhiều thông tin hơn , quý khách vui lòng truy cập vào trang quản trị bằng máy tính';
   static final String urlAvatarDefalut =
       'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg';
-  static final String urlNoImage = 'https://thumbs.dreamstime.com/b/no-image-available-icon-vector-illustration-flat-design-140476186.jpg';
-
+  static final String urlNoImage =
+      'https://thumbs.dreamstime.com/b/no-image-available-icon-vector-illustration-flat-design-140476186.jpg';
+  static final String imageLibrary =
+      'https://api.mywebvietnam.net/va-json/v1/libraries';
+  static final String variationApi =
+      'https://api.mywebvietnam.net/va-json/v1/products/variations';
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {
     String urlDistrict = '$getAddressDistrict${mapAddress['province']}';
     String urlWard = '$getAddressWard${mapAddress['district']}';

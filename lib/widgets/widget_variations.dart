@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/models/format.dart';
+import 'package:flutter_back_end/screens/variations_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_text_in_color.dart';
+import 'package:get/get.dart';
 
 class WidgetVariations extends StatelessWidget {
   final Map<String, dynamic> variation;
@@ -11,7 +13,12 @@ class WidgetVariations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => VariationInfoPage(
+              variation: this.variation,
+              isAdd: false,
+            ));
+      },
       child: Container(
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(5),
@@ -33,9 +40,8 @@ class WidgetVariations extends StatelessWidget {
                       variation['name'],
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                     ),
                   ),
                   RichText(
