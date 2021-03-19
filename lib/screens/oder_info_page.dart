@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
 import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/order.dart';
@@ -103,51 +104,63 @@ class _OrderInfoState extends State<OrderInfo> {
                         ),
                       ),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: widget.order.product.length,
-                          itemBuilder: (context, index) => Card(
-                            child: ListTile(
-                              onTap: () async {
-                                Loading.show();
-                                Product _product = await Product.getProduct(
-                                    widget.order.product[index]['id']
-                                        .toString());
-                                Loading.dismiss();
-                                if (_product != null)
-                                  Get.to(() => ProductInfo(
-                                      product: _product, readOnly: true));
-                              },
-                              leading: AspectRatio(
-                                aspectRatio: 1,
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.order.product[index]
-                                          ['thumbnail'] ??
-                                      ConfigsMywebvietnam.urlNoImage,
-                                  placeholder: (context, string) => Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                        child: widget.order.product.length >= 1
+                            ? ListView.builder(
+                                itemCount: widget.order.product.length,
+                                itemBuilder: (context, index) => Card(
+                                  child: ListTile(
+                                    onTap: () async {
+                                      Loading.show();
+                                      Product _product =
+                                          await Product.getProduct(widget
+                                              .order.product[index]['id']
+                                              .toString());
+                                      Loading.dismiss();
+                                      if (_product != null)
+                                        Get.to(() => ProductInfo(
+                                            product: _product, readOnly: true));
+                                    },
+                                    leading: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget.order.product[index]
+                                                ['thumbnail'] ??
+                                            ConfigsMywebvietnam.urlNoImage,
+                                        placeholder: (context, string) =>
+                                            Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        ),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      widget.order.product[index]['name'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(Format.moneyFormat(widget
+                                        .order.product[index]['price']
+                                        .toString())),
+                                    trailing: Text(
+                                      widget.order.product[index]['quantity']
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              title: Text(
-                                widget.order.product[index]['name'],
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(Format.moneyFormat(widget
-                                  .order.product[index]['price']
-                                  .toString())),
-                              trailing: Text(
-                                widget.order.product[index]['quantity']
-                                    .toString(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
+                              )
+                            : SizedBox(
+                                width: double.infinity,
+                                child: Center(
+                                    child: Text(
+                                  'Không có Sản Phẩm nào cả !',
+                                  style: ConfigTheme.textTitle,
+                                ))),
                       )
                     ],
                   ),

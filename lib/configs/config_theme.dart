@@ -6,4 +6,6 @@ class ConfigTheme {
   static final Color backgroundColor = Color(0xffe5e5e5);
   static final Color hightBarColor = const Color(0xff36b9de);
   static final Color lowBarColor = const Color(0xffff5182);
+  static final TextStyle textTitle = const TextStyle(
+      color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 15);
 }
