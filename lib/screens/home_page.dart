@@ -3,6 +3,8 @@ import 'package:flutter_back_end/screens/main_page.dart';
 import 'package:flutter_back_end/screens/oders_page.dart';
 import 'package:flutter_back_end/screens/products_page.dart';
 import 'package:flutter_back_end/screens/settings_page.dart';
+import 'package:get/get.dart';
+import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,10 +19,38 @@ class _HomePageState extends State<HomePage> {
     ProductsPage(),
     SettingsPage()
   ];
+  ControllerMainPage controllerMainPage = Get.put(ControllerMainPage());
 
   @override
   void initState() {
     super.initState();
+  }
+
+  buildNew() {
+    return Obx(() => Container(
+          alignment: Alignment.center,
+          height: controllerMainPage.newOder.value != 0 ? 15 : 0,
+          width: controllerMainPage.newOder.value != 0 ? 15 : 0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.red,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: controllerMainPage.newOder.value != 0
+              ? Text(
+                  controllerMainPage.newOder.value.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 10),
+                )
+              : Container(),
+        ));
   }
 
   @override
@@ -32,7 +62,10 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang Chủ'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_rounded), label: 'Đơn Hàng'),
+              icon: Stack(
+                  alignment: AlignmentDirectional.topEnd,
+                  children: [Icon(Icons.assignment_rounded), buildNew()]),
+              label: 'Đơn Hàng'),
           BottomNavigationBarItem(
               icon: Icon(Icons.all_inbox), label: 'Sản Phẩm'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Cài Đặt'),

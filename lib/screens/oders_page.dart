@@ -23,12 +23,13 @@ class _OdersPageState extends State<OrdersPage>
   TabController _tabController;
   OdersController _ordersController;
   List<Order> _orders;
+  List<Order> _ordersStatus0 = [];
 
   @override
   void initState() {
     super.initState();
     _ordersController = Get.put(OdersController());
-    _tabController = TabController(length: 3, initialIndex: 0, vsync: this);
+    _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -42,6 +43,15 @@ class _OdersPageState extends State<OrdersPage>
               onPressed: () {
                 Get.to(() => SearchOrder(orders: _orders));
               }),
+          // _tabController.index == 1 ?
+          IconButton(
+              icon: Icon(Icons.done_all_rounded),
+              onPressed: () {
+                _ordersStatus0.forEach((element) {
+                  print(element.id);
+                });
+              })
+          // : Container(),
         ],
       ),
       body: Container(
@@ -53,6 +63,7 @@ class _OdersPageState extends State<OrdersPage>
                   ctlScroll.metrics.maxScrollExtent) {
                 if (_ordersController.limit < _orders.length) {
                   _cacheOrders = new AsyncMemoizer();
+                  if (_tabController.index == 1) _ordersStatus0.clear();
                   _ordersController.limit = 10;
                 }
                 return true;
@@ -114,6 +125,12 @@ class _OdersPageState extends State<OrdersPage>
               )),
               Tab(
                   child: Text(
+                'Chờ Duyệt',
+                style: TextStyle(fontSize: 12),
+                textAlign: TextAlign.center,
+              )),
+              Tab(
+                  child: Text(
                 'Đã Thanh Toán',
                 style: TextStyle(fontSize: 12),
                 textAlign: TextAlign.center,
@@ -144,6 +161,30 @@ class _OdersPageState extends State<OrdersPage>
                           WidgetOrder(order: _orders[index]), _orders[index]);
                     }),
               ),
+              //* Đang Chờ Duyệt
+              RefreshIndicator(
+                onRefresh: () async {
+                  _cacheOrders = new AsyncMemoizer();
+                  _ordersController.update();
+                  _ordersStatus0.clear();
+                },
+                child: ListView.builder(
+                    itemCount: _orders.length,
+                    itemBuilder: (context, index) {
+                      if ((_orders[index].status is int
+                              ? _orders[index].status
+                              : int.parse(_orders[index].status)) ==
+                          0) {
+                        if (_ordersStatus0.indexWhere(
+                                (element) => element.id == _orders[index].id) ==
+                            -1) _ordersStatus0.add(_orders[index]);
+                        return _buildItem(
+                            WidgetOrder(order: _orders[index]), _orders[index]);
+                      } else {
+                        return Container();
+                      }
+                    }),
+              ),
               //* Đã Thanh Toán
               RefreshIndicator(
                 onRefresh: () async {
@@ -161,6 +202,7 @@ class _OdersPageState extends State<OrdersPage>
                       }
                     }),
               ),
+              //* Chưa thanh toán
               RefreshIndicator(
                 onRefresh: () async {
                   _cacheOrders = new AsyncMemoizer();
