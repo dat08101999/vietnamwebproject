@@ -18,7 +18,16 @@ class ConfigsMywebvietnam {
   static final String getAddressProvince = apiSever + '/address/province';
   static final String getAddressDistrict = apiSever + '/address/district/';
   static final String getAddressWard = apiSever + '/address/ward/';
-  static final String getRepostRevenue = apiSever + '//reports/revenue';
+  static final String getRepostRevenue = apiSever + '/reports/revenue';
+  static final String imageLibrary = apiSever + '/libraries';
+  static final String variationApi = apiSever + '/products/variations';
+  static final String getDashboard = apiSever + '/reports/dashboard';
+  static final String getInfoCustomer = apiSever + '/customers';
+  static final String confirmOrder = getOrders + '/confirm';
+  static final String cancelOrder = getOrders + '/cancel';
+  static final String sendedOrder = getOrders + '/sended';
+  static final String successOrder = getOrders + '/success';
+  static final String purchaseOrder = getOrders + '/purchase';
 
   static final String title =
       'Để chỉnh sửa nhiều thông tin hơn , quý khách vui lòng truy cập vào trang quản trị bằng máy tính';
@@ -26,15 +35,6 @@ class ConfigsMywebvietnam {
       'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg';
   static final String urlNoImage =
       'https://thumbs.dreamstime.com/b/no-image-available-icon-vector-illustration-flat-design-140476186.jpg';
-  static final String imageLibrary = apiSever + '/libraries';
-  static final String variationApi = apiSever + '/products/variations';
-  static String getDashboard = apiSever + '/reports/dashboard';
-  static String getInfoCustomer = apiSever + '/customers';
-  static final String confirmOrder = getOrders + '/confirm';
-  static final String cancelOrder = getOrders + '/cancel';
-  static final String sendedOrder = getOrders + '/sended';
-  static final String successOrder = getOrders + '/success';
-  static final String purchaseOrder = getOrders + '/purchase';
 
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {
     String urlDistrict = '$getAddressDistrict${mapAddress['province']}';

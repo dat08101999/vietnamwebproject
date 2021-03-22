@@ -57,7 +57,7 @@ class Product {
         return null;
       }
     } catch (e) {
-      ShowNotifi.showToast(title: 'Thông tin đơn hàng bị trống');
+      ShowNotifi.showToast(title: 'Thông tin sản phẩm bị trống');
       return null;
     }
   }

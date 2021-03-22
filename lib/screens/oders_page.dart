@@ -21,14 +21,14 @@ class OrdersPage extends StatefulWidget {
 class _OdersPageState extends State<OrdersPage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  OdersController _ordersController;
+  OrdersController _ordersController;
   List<Order> _orders;
   List<Order> _ordersStatus0 = [];
 
   @override
   void initState() {
     super.initState();
-    _ordersController = Get.put(OdersController());
+    _ordersController = Get.put(OrdersController());
     _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
   }
 
@@ -76,7 +76,7 @@ class _OdersPageState extends State<OrdersPage>
   }
 
   Widget _buildOrders() {
-    return GetBuilder<OdersController>(builder: (ctl) {
+    return GetBuilder<OrdersController>(builder: (ctl) {
       return FutureBuilder(
           future: getOrders(limit: ctl.limit),
           builder: (context, snapshot) {
@@ -234,7 +234,7 @@ class _OdersPageState extends State<OrdersPage>
         'offset': 0
       };
       var response = await RequestDio.get(
-          url: ConfigsMywebvietnam.getOders, parames: paramas);
+          url: ConfigsMywebvietnam.getOrders, parames: paramas);
       if (response['success']) {
         List _ordres = response['data'] ?? [];
         return List.generate(

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/configs/config_theme.dart';
+import 'package:flutter_back_end/controllers/oders_controller.dart';
 import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/order.dart';
@@ -19,6 +20,21 @@ class OrderInfo extends StatefulWidget {
 }
 
 class _OrderInfoState extends State<OrderInfo> {
+  final OrdersController _ordersController = Get.find();
+
+  @override
+  void initState() {
+    print(widget.order.id);
+    _ordersController.status = widget.order.status is int
+        ? widget.order.status
+        : int.parse(widget.order.status);
+    print(_ordersController.status);
+
+    _ordersController.purchase = widget.order.timeline['purchased'];
+    print(_ordersController.purchase);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,26 +235,65 @@ class _OrderInfoState extends State<OrderInfo> {
                     ],
                   ),
                 ),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập Đơn Hàng',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'xác nhận đã thanh toán',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập đã gửi hàng',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập đã thành công',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập đã hủy bỏ',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
+                GetBuilder<OrdersController>(
+                  init: OrdersController(),
+                  initState: (_) {},
+                  builder: (_) {
+                    return Column(
+                      children: [
+                        _ordersController.status == 0
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận Đơn Hàng',
+                                borderColor: Colors.blueAccent,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.confirmOrders(widget.order);
+                                  if (response) _ordersController.setStatus = 1;
+                                })
+                            : Container(),
+                        _ordersController.purchase == 0
+                            ? ButtonCustom.buttonBorder(
+                                name: 'xác nhận đã thanh toán',
+                                borderColor: Colors.blueAccent,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.purchaseOrders(widget.order);
+                                  if (response)
+                                    _ordersController.setPurchase = 1;
+                                })
+                            : Container(),
+                        _ordersController.status == 1
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận đang gửi hàng',
+                                borderColor: Colors.teal,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.sendedOrders(widget.order);
+                                  if (response) _ordersController.setStatus = 2;
+                                })
+                            : Container(),
+                        _ordersController.status == 2
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận Giao Hàng thành công',
+                                borderColor: Colors.green,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.successOrders(widget.order);
+                                  if (response) _ordersController.setStatus = 3;
+                                })
+                            : Container(),
+                        _ordersController.status <= 2
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận đã hủy bỏ',
+                                borderColor: Colors.red,
+                                onPress: () {
+                                  Order.cancelOrders(widget.order);
+                                })
+                            : Container(),
+                      ],
+                    );
+                  },
+                )
               ],
             ),
           ),

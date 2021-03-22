@@ -70,6 +70,24 @@ class Order {
     return _colors[index];
   }
 
+  static Future<Order> getOrder(String id) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      var response = await RequestDio.get(
+          url: ConfigsMywebvietnam.getOrders + '/' + id, parames: params);
+      if (response['success'] == true) {
+        return Order.fromMap(response['data'][0]);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      ShowNotifi.showToast(title: 'Thông tin đơn hàng bị trống');
+      return null;
+    }
+  }
+
   static deleteOrders(Order order) async {
     try {
       var params = {
@@ -77,13 +95,122 @@ class Order {
       };
       Loading.show();
       var response = await RequestDio.delete(
-          url: '${ConfigsMywebvietnam.getOders}/${order.id}', paramas: params);
+          url: '${ConfigsMywebvietnam.getOrders}/${order.id}', paramas: params);
       Loading.dismiss();
       if (response['success']) {
         ShowNotifi.showToast(title: 'Xóa Đon Hàng Thành Công');
         return true;
       } else
-        ShowNotifi.showToast(title: response['message']);
+        ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
+  }
+
+  static confirmOrders(Order order) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.post(
+          url: '${ConfigsMywebvietnam.confirmOrder}/${order.id}', data: params);
+      Loading.dismiss();
+      if (response['success'] == true) {
+        print(response);
+        ShowNotifi.showToast(title: 'Xác Nhận Đơn Hàng Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
+  }
+
+  static cancelOrders(Order order) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.post(
+          url: '${ConfigsMywebvietnam.cancelOrder}/${order.id}', data: params);
+      Loading.dismiss();
+      if (response['success'] == true) {
+        ShowNotifi.showToast(title: 'Hủy Đơn Hàng Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
+  }
+
+  static sendedOrders(Order order) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.post(
+          url: '${ConfigsMywebvietnam.sendedOrder}/${order.id}', data: params);
+      Loading.dismiss();
+      if (response['success'] == true) {
+        print(response);
+        ShowNotifi.showToast(title: 'Xác Nhận Đã Gửi Đơn Hàng Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
+  }
+
+  static purchaseOrders(Order order) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.post(
+          url: '${ConfigsMywebvietnam.purchaseOrder}/${order.id}',
+          data: params);
+      Loading.dismiss();
+      if (response['success'] == true) {
+        ShowNotifi.showToast(
+            title: 'Xác Nhận Đã Thanh Toán Đơn Hàng Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
+  }
+
+  static successOrders(Order order) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.post(
+          url: '${ConfigsMywebvietnam.successOrder}/${order.id}', data: params);
+      Loading.dismiss();
+      if (response['success'] == true) {
+        ShowNotifi.showToast(title: 'Xác Nhận Hoàn Thành Đơn Hàng Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
       print(trace);
