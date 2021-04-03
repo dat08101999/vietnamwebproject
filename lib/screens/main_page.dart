@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   dropdown() {
-    List<InkWell> list = List<InkWell>();
+    List<InkWell> list = [];
     try {
       for (int i = 0; i < controllerMainPage.info.length; i++) {
         list.add(InkWell(

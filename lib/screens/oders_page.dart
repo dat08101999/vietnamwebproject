@@ -257,10 +257,10 @@ class _OdersPageState extends State<OrdersPage>
                     title: Text('Xác Nhận'),
                     content: Text('Sản phẩm này sẽ bị xóa ?'),
                     actions: [
-                      FlatButton(
+                      TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
                           child: Text('Đồng Ý')),
-                      FlatButton(
+                      TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
                           child: Text('Hủy Bỏ')),
                     ],

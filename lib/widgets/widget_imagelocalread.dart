@@ -230,7 +230,7 @@ class _WidgetReadimageState extends State<WidgetReadimage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FlatButton(
+        TextButton(
           child: Container(
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(

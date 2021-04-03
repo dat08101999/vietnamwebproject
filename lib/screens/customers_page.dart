@@ -72,7 +72,7 @@ class _CustomersPageState extends State<CustomersPage> {
   }
 
   List<Widget> customerLisst() {
-    List<Widget> list = List<Widget>();
+    List<Widget> list = [];
     for (Customer customer in _controllerListCustomer.customers) {
       list.add(WidgetCustomers(
         customer: customer,

@@ -57,10 +57,10 @@ class VariationsPage extends StatelessWidget {
                     title: Text('Xác Nhận'),
                     content: Text('Biến thể này sẽ bị xóa ?'),
                     actions: [
-                      FlatButton(
+                      TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
                           child: Text('Đồng Ý')),
-                      FlatButton(
+                      TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
                           child: Text('Hủy Bỏ')),
                     ],
