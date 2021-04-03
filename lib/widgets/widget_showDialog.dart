@@ -7,7 +7,7 @@ class WidgetShowDialog {
       {Function() cancelTap, void Function() acceptTap}) {
     showDialog(
       context: currentContext,
-      child: AlertDialog(
+      builder: (curentContext) => AlertDialog(
         title: Text(title),
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +33,7 @@ class WidgetShowDialog {
   static dialogDetail(String title, String subtitle, {Function() cancelTap}) {
     showDialog(
       context: currentContext,
-      child: AlertDialog(
+      builder: (curentContext) => AlertDialog(
         title: Text(title),
         content: Text(subtitle),
         actions: [
@@ -53,7 +53,7 @@ class WidgetShowDialog {
     showDialog(
       barrierDismissible: false,
       context: currentContext,
-      child: GetBuilder(
+      builder: (curentContext) => GetBuilder(
           init: controller,
           builder: (builder) {
             return AlertDialog(

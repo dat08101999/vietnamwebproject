@@ -29,6 +29,7 @@ class _OdersPageState extends State<OrdersPage>
   void initState() {
     super.initState();
     _ordersController = Get.put(OrdersController());
+    Get.find<ControllerMainPage>().getInforMation();
     _tabController = TabController(length: 4, initialIndex: 0, vsync: this);
   }
 
@@ -43,15 +44,6 @@ class _OdersPageState extends State<OrdersPage>
               onPressed: () {
                 Get.to(() => SearchOrder(orders: _orders));
               }),
-          // _tabController.index == 1 ?
-          IconButton(
-              icon: Icon(Icons.done_all_rounded),
-              onPressed: () {
-                _ordersStatus0.forEach((element) {
-                  print(element.id);
-                });
-              })
-          // : Container(),
         ],
       ),
       body: Container(

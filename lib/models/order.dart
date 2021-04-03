@@ -96,7 +96,7 @@ class Order {
       Loading.show();
       var response = await RequestDio.delete(
           url: '${ConfigsMywebvietnam.getOrders}/${order.id}', paramas: params);
-      Loading.dismiss();
+
       if (response['success']) {
         ShowNotifi.showToast(title: 'Xóa Đon Hàng Thành Công');
         return true;
@@ -104,6 +104,8 @@ class Order {
         ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
+      Loading.dismiss();
+      ShowNotifi.showToast(title: e.toString() ?? 'Có lỗi gì đó !');
       print(trace);
       return false;
     }
@@ -114,9 +116,10 @@ class Order {
       var params = {
         'token': ControllerMainPage.webToken,
       };
+      var url = '${ConfigsMywebvietnam.confirmOrder}/${order.id}';
+      print(url);
       Loading.show();
-      var response = await RequestDio.post(
-          url: '${ConfigsMywebvietnam.confirmOrder}/${order.id}', data: params);
+      var response = await RequestDio.post(url: url, params: params);
       Loading.dismiss();
       if (response['success'] == true) {
         print(response);
@@ -126,6 +129,8 @@ class Order {
         ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
+      Loading.dismiss();
+      ShowNotifi.showToast(title: e.toString() ?? 'Có lỗi gì đó !');
       print(trace);
       return false;
     }
@@ -138,7 +143,8 @@ class Order {
       };
       Loading.show();
       var response = await RequestDio.post(
-          url: '${ConfigsMywebvietnam.cancelOrder}/${order.id}', data: params);
+          url: '${ConfigsMywebvietnam.cancelOrder}/${order.id}',
+          params: params);
       Loading.dismiss();
       if (response['success'] == true) {
         ShowNotifi.showToast(title: 'Hủy Đơn Hàng Thành Công');
@@ -147,6 +153,8 @@ class Order {
         ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
+      Loading.dismiss();
+      ShowNotifi.showToast(title: e.toString() ?? 'Có lỗi gì đó !');
       print(trace);
       return false;
     }
@@ -159,7 +167,8 @@ class Order {
       };
       Loading.show();
       var response = await RequestDio.post(
-          url: '${ConfigsMywebvietnam.sendedOrder}/${order.id}', data: params);
+          url: '${ConfigsMywebvietnam.sendedOrder}/${order.id}',
+          params: params);
       Loading.dismiss();
       if (response['success'] == true) {
         print(response);
@@ -169,6 +178,8 @@ class Order {
         ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
+      Loading.dismiss();
+      ShowNotifi.showToast(title: e.toString() ?? 'Có lỗi gì đó !');
       print(trace);
       return false;
     }
@@ -182,7 +193,7 @@ class Order {
       Loading.show();
       var response = await RequestDio.post(
           url: '${ConfigsMywebvietnam.purchaseOrder}/${order.id}',
-          data: params);
+          params: params);
       Loading.dismiss();
       if (response['success'] == true) {
         ShowNotifi.showToast(
@@ -192,6 +203,8 @@ class Order {
         ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
+      Loading.dismiss();
+      ShowNotifi.showToast(title: e.toString() ?? 'Có lỗi gì đó !');
       print(trace);
       return false;
     }
@@ -204,7 +217,8 @@ class Order {
       };
       Loading.show();
       var response = await RequestDio.post(
-          url: '${ConfigsMywebvietnam.successOrder}/${order.id}', data: params);
+          url: '${ConfigsMywebvietnam.successOrder}/${order.id}',
+          params: params);
       Loading.dismiss();
       if (response['success'] == true) {
         ShowNotifi.showToast(title: 'Xác Nhận Hoàn Thành Đơn Hàng Thành Công');
@@ -213,6 +227,8 @@ class Order {
         ShowNotifi.showToast(title: response['message'] ?? 'Có lỗi gì đó !');
       return false;
     } catch (e, trace) {
+      Loading.dismiss();
+      ShowNotifi.showToast(title: e.toString() ?? 'Có lỗi gì đó !');
       print(trace);
       return false;
     }
