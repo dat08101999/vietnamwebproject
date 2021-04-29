@@ -6,6 +6,7 @@ import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/models/format.dart';
 
+//* vẽ biểu đồ tài chính tháng
 class ChartMonth extends StatelessWidget {
   final DateTime startday;
   final DateTime endday;

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
@@ -9,6 +7,7 @@ import 'package:flutter_back_end/models/format.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 import 'package:flutter_back_end/widgets/widget_chart_month.dart';
 
+//* vẽ biểu đồ tài chính tuần
 class WeekChart extends StatelessWidget {
   final DateTime startday;
   final DateTime endday;
@@ -231,9 +230,9 @@ Future<List<BarChartGroupData>> _getRevenueData(
     List counts = response['data']['counts'];
     return List.generate(counts.length, (index) {
       summary += int.parse(counts[index].toString());
-      return makeGroupData(
-          index, double.parse(new Random().nextInt(10000000).toString()));
-      // return makeGroupData(index, double.parse(counts[index].toString()));
+      // return makeGroupData(
+      //     index, double.parse(new Random().nextInt(10000000).toString()));
+      return makeGroupData(index, double.parse(counts[index].toString()));
     });
   } else {
     print('lỗi getRevenueWeek');

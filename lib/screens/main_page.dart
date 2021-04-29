@@ -309,8 +309,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     controllerMainPage.getInforMation();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
