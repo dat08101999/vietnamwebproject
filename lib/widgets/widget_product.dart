@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/models/format.dart';
+import 'package:flutter_back_end/models/loading.dart';
 
 import 'package:flutter_back_end/models/product.dart';
 import 'package:flutter_back_end/screens/product_info_page.dart';
@@ -16,8 +17,12 @@ class WidgetProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.to(() => ProductInfo(product: this.product, readOnly: false));
+      onTap: () async {
+        Loading.show();
+        Product _product = await Product.getProduct(this.product.id.toString());
+        Loading.dismiss();
+        if (_product != null)
+          Get.to(() => ProductInfo(product: _product, readOnly: false));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
@@ -66,6 +71,7 @@ class WidgetProduct extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                //* số lượng
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
@@ -76,6 +82,7 @@ class WidgetProduct extends StatelessWidget {
                       text: product.stock.toString(),
                       style: TextStyle(color: Colors.black54))
                 ])),
+                //* giá bán
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(

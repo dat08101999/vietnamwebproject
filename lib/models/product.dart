@@ -5,7 +5,8 @@ import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/controllers/product_controller.dart';
 import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
+import 'package:dio/dio.dart' show MultipartFile;
 
 class Product {
   int id;
@@ -43,6 +44,46 @@ class Product {
     this.link,
   });
 
+  static Future<Product> getProduct(String id) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      var response = await RequestDio.get(
+          url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
+      if (response['success'] == true) {
+        return Product.fromMap(response['data'][0]);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      ShowNotifi.showToast(title: 'Thông tin sản phẩm bị trống');
+      return null;
+    }
+  }
+
+  static deleteProduct(Product product) async {
+    try {
+      var params = {
+        'token': ControllerMainPage.webToken,
+      };
+      Loading.show();
+      var response = await RequestDio.delete(
+          url: '${ConfigsMywebvietnam.getProductsApi}/${product.id}',
+          paramas: params);
+      Loading.dismiss();
+      if (response['success']) {
+        ShowNotifi.showToast(title: 'Xóa Sản Phẩm Thành Công');
+        return true;
+      } else
+        ShowNotifi.showToast(title: response['message']);
+      return false;
+    } catch (e, trace) {
+      print(trace);
+      return false;
+    }
+  }
+
   static updateProduct(
       Product product, ProductController productController) async {
     Loading.show();
@@ -62,6 +103,8 @@ class Product {
       'variations': product.variations,
       'content': product.content ?? ''
     };
+    print(product.id);
+    print(data);
     try {
       var response = await RequestDio.post(
         url: ConfigsMywebvietnam.getProductsApi + '/' + product.id.toString(),
@@ -70,10 +113,10 @@ class Product {
       );
       Loading.dismiss();
       if (response['success'] == true) {
-        ShowToast.show(title: 'Cập Nhập Thành Công');
+        ShowNotifi.showToast(title: 'Cập Nhập Thành Công');
         return true;
       } else {
-        ShowToast.show(title: response['message']);
+        ShowNotifi.showToast(title: response['message']);
         return false;
       }
       // ignore: unused_catch_stack
@@ -175,5 +218,38 @@ class Product {
   @override
   String toString() {
     return 'Product(id: $id, thumbnail: $thumbnail, pictures: $pictures, name: $name, description: $description, keyword: $keyword, content: $content, sku: $sku, categories: $categories, groups: $groups, brands: $brands, priceSale: $priceSale, priceRegular: $priceRegular, stock: $stock, variations: $variations, link: $link)';
+  }
+
+  static getimageFromPath(path, filename, {url, params}) async {
+    var response = await RequestDio.post(url: url, params: params, data: {
+      'img_file[]': await MultipartFile.fromFile(path, filename: filename)
+    });
+    return response;
+  }
+
+  static updateVariation(
+      id, Map<String, dynamic> data, List<String> picterList) async {
+    Map<String, dynamic> tempData = data;
+    for (int i = 0; i < picterList.length; i++) {
+      tempData.addAll({'pictures[$i]': picterList[i]});
+    }
+    var response = await RequestDio.post(
+        params: {'token': ControllerMainPage.webToken},
+        url: ConfigsMywebvietnam.variationApi + '/' + id.toString(),
+        data: tempData);
+    return response;
+  }
+
+  static addVariation(
+      Map<String, dynamic> data, List<String> picterList) async {
+    Map<String, dynamic> tempData = data;
+    for (int i = 0; i < picterList.length; i++) {
+      tempData.addAll({'variations[0][pictures][$i]': picterList[i]});
+    }
+    var response = await RequestDio.post(
+        params: {'token': ControllerMainPage.webToken},
+        url: ConfigsMywebvietnam.variationApi,
+        data: tempData);
+    return response;
   }
 }

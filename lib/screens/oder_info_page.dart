@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
-import 'package:flutter_back_end/controllers/controller_mainpage.dart';
+import 'package:flutter_back_end/configs/config_theme.dart';
+import 'package:flutter_back_end/controllers/oders_controller.dart';
 import 'package:flutter_back_end/models/format.dart';
+import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/models/product.dart';
-import 'package:flutter_back_end/models/request_dio.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/product_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
 import 'package:flutter_back_end/widgets/widget_dialog_info_customer.dart';
@@ -20,6 +20,21 @@ class OrderInfo extends StatefulWidget {
 }
 
 class _OrderInfoState extends State<OrderInfo> {
+  final OrdersController _ordersController = Get.find();
+
+  @override
+  void initState() {
+    print(widget.order.id);
+    _ordersController.status = widget.order.status is int
+        ? widget.order.status
+        : int.parse(widget.order.status);
+    print(_ordersController.status);
+
+    _ordersController.purchase = widget.order.timeline['purchased'];
+    print(_ordersController.purchase);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,49 +120,63 @@ class _OrderInfoState extends State<OrderInfo> {
                         ),
                       ),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: widget.order.product.length,
-                          itemBuilder: (context, index) => Card(
-                            child: ListTile(
-                              onTap: () async {
-                                Product _product = await getInfo(widget
-                                    .order.product[index]['id']
-                                    .toString());
-                                if (_product != null)
-                                  Get.to(() => ProductInfo(
-                                      product: _product, readOnly: true));
-                              },
-                              leading: AspectRatio(
-                                aspectRatio: 1,
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.order.product[index]
-                                          ['thumbnail'] ??
-                                      ConfigsMywebvietnam.urlNoImage,
-                                  placeholder: (context, string) => Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                        child: widget.order.product.length >= 1
+                            ? ListView.builder(
+                                itemCount: widget.order.product.length,
+                                itemBuilder: (context, index) => Card(
+                                  child: ListTile(
+                                    onTap: () async {
+                                      Loading.show();
+                                      Product _product =
+                                          await Product.getProduct(widget
+                                              .order.product[index]['id']
+                                              .toString());
+                                      Loading.dismiss();
+                                      if (_product != null)
+                                        Get.to(() => ProductInfo(
+                                            product: _product, readOnly: true));
+                                    },
+                                    leading: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget.order.product[index]
+                                                ['thumbnail'] ??
+                                            ConfigsMywebvietnam.urlNoImage,
+                                        placeholder: (context, string) =>
+                                            Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        ),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      widget.order.product[index]['name'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(Format.moneyFormat(widget
+                                        .order.product[index]['price']
+                                        .toString())),
+                                    trailing: Text(
+                                      widget.order.product[index]['quantity']
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              title: Text(
-                                widget.order.product[index]['name'],
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(Format.moneyFormat(widget
-                                  .order.product[index]['price']
-                                  .toString())),
-                              trailing: Text(
-                                widget.order.product[index]['quantity']
-                                    .toString(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
+                              )
+                            : SizedBox(
+                                width: double.infinity,
+                                child: Center(
+                                    child: Text(
+                                  'Không có Sản Phẩm nào cả !',
+                                  style: ConfigTheme.textTitle,
+                                ))),
                       )
                     ],
                   ),
@@ -206,49 +235,70 @@ class _OrderInfoState extends State<OrderInfo> {
                     ],
                   ),
                 ),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập Đơn Hàng',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'xác nhận đã thanh toán',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập đã gửi hàng',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập đã thành công',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
-                ButtonCustom.buttonBorder(
-                    name: 'Xác Nhập đã hủy bỏ',
-                    borderColor: Colors.deepPurple,
-                    onPress: () {}),
+                GetBuilder<OrdersController>(
+                  init: OrdersController(),
+                  initState: (_) {},
+                  builder: (_) {
+                    return Column(
+                      children: [
+                        _ordersController.status == 0
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận Đơn Hàng',
+                                borderColor: Colors.blueAccent,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.confirmOrders(widget.order);
+                                  if (response) _ordersController.setStatus = 1;
+                                })
+                            : Container(),
+                        _ordersController.purchase == 0
+                            ? ButtonCustom.buttonBorder(
+                                name: 'xác nhận đã thanh toán',
+                                borderColor: Colors.blueAccent,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.purchaseOrders(widget.order);
+                                  if (response)
+                                    _ordersController.setPurchase = 1;
+                                })
+                            : Container(),
+                        _ordersController.status == 1
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận đang gửi hàng',
+                                borderColor: Colors.teal,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.sendedOrders(widget.order);
+                                  if (response) _ordersController.setStatus = 2;
+                                })
+                            : Container(),
+                        _ordersController.status == 2
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận Giao Hàng thành công',
+                                borderColor: Colors.green,
+                                onPress: () async {
+                                  bool response =
+                                      await Order.successOrders(widget.order);
+                                  if (response) _ordersController.setStatus = 3;
+                                })
+                            : Container(),
+                        _ordersController.status <= 2
+                            ? ButtonCustom.buttonBorder(
+                                name: 'Xác Nhận đã hủy bỏ',
+                                borderColor: Colors.red,
+                                onPress: () {
+                                  Order.cancelOrders(widget.order);
+                                })
+                            : Container(),
+                      ],
+                    );
+                  },
+                )
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future<Product> getInfo(String id) async {
-    try {
-      var params = {
-        'token': ControllerMainPage.webToken,
-      };
-      var response = await RequestDio.get(
-          url: ConfigsMywebvietnam.getProductsApi + '/' + id, parames: params);
-      if (response['success'] == true) {
-        return Product.fromMap(response['data'][0]);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      ShowToast.show(title: 'Thông tin đơn hàng bị trống');
-      return null;
-    }
   }
 }

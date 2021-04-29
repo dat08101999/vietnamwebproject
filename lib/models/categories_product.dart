@@ -60,11 +60,12 @@ class CategoriesProduct {
       thumbnail: map['thumbnail'],
       keyword: map['keyword'],
       description: map['description'],
-      child: map['child'] is String
+      child: map['child'] is Map
           ? map['child']
-          : map['child'] != null
-              ? Map<String, dynamic>.from(map['child'])
-              : '',
+          : map['child'] is List && map['child'].length > 0
+              ? List<Map<String, dynamic>>.from(
+                  map['variations']?.map((x) => x))
+              : null,
     );
   }
 

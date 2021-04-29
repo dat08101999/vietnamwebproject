@@ -60,7 +60,7 @@ class ControllerMessage extends GetxController {
 
 class ControllerCheckBox extends GetxController {
   bool isShow = false;
-  List<Customer> markedCustomers = List<Customer>();
+  List<Customer> markedCustomers = [];
   changeState() {
     isShow = !isShow;
     if (isShow == false) {
@@ -85,7 +85,7 @@ class ControllerCheckBox extends GetxController {
 }
 
 class ControllerListCustomer extends GetxController {
-  List<Customer> customers = List<Customer>();
+  List<Customer> customers = [];
 
   getAllCustomer() async {
     customers = await getCustomer(limit: _limit);

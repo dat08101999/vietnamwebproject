@@ -1,6 +1,6 @@
 import 'package:flutter_back_end/models/models_revenue.dart';
 import 'package:flutter_back_end/models/models_signinInfo.dart';
-import 'package:get/get.dart' show GetxController;
+import 'package:get/get.dart';
 
 class ControllerMainPage extends GetxController {
   static String webToken;
@@ -12,11 +12,12 @@ class ControllerMainPage extends GetxController {
   int products = 0;
   int titlelabel = 0;
   int money = 0;
-  var basic = '';
+  var basic;
   int valueOders = 0;
   int valueCustomers = 0;
   int valueMoney = 0;
-  String name = '';
+  String name;
+  RxInt newOder = 0.obs;
   var info;
   var infoDashBoard;
 
@@ -31,7 +32,6 @@ class ControllerMainPage extends GetxController {
           getDashBoardInfo();
           name = info[0]['name'];
           basic = info[0]['plan']['expried'].toString();
-          print(infoDashBoard);
           basic = Revenue.dateformat(formatTimestamp(int.parse(basic)));
           update();
         }
@@ -42,24 +42,29 @@ class ControllerMainPage extends GetxController {
   }
 
   getDashBoardInfo() {
-    infoDashBoard = infoDashBoard['data'];
-    //oder
-    oders = int.parse(infoDashBoard['orders']['count'].toString());
-    valueOders = infoDashBoard['orders']['value'];
-    //
-    products = infoDashBoard['products']['count'];
-    //money
-    money = infoDashBoard['money']['count'];
-    valueMoney = infoDashBoard['money']['value'];
-    //
-    //customer
-    customers = infoDashBoard['customers']['count'];
-    valueCustomers = infoDashBoard['customers']['value'];
-    //
-    oderIncrease = isDataIncrease(infoDashBoard['orders']['type'].toString());
-    customerIncease =
-        isDataIncrease(infoDashBoard['customers']['type'].toString());
-    moneyIncrase = isDataIncrease(infoDashBoard['money']['type'].toString());
+    try {
+      infoDashBoard = infoDashBoard['data'];
+      //oder
+      oders = int.parse(infoDashBoard['orders']['count'].toString());
+      valueOders = infoDashBoard['orders']['value'];
+      //
+      products = infoDashBoard['products']['count'];
+      //money
+      money = infoDashBoard['money']['count'];
+      valueMoney = infoDashBoard['money']['value'];
+      newOder.value = infoDashBoard['orders']['new'] ?? 0;
+      //
+      //customer
+      customers = infoDashBoard['customers']['count'];
+      valueCustomers = infoDashBoard['customers']['value'];
+      //
+      oderIncrease = isDataIncrease(infoDashBoard['orders']['type'].toString());
+      customerIncease =
+          isDataIncrease(infoDashBoard['customers']['type'].toString());
+      moneyIncrase = isDataIncrease(infoDashBoard['money']['type'].toString());
+    } catch (ex) {
+      print(ex);
+    }
   }
 
   changeData(index) async {

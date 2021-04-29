@@ -19,10 +19,12 @@ class WidgetCustomers extends StatelessWidget {
         Get.find<ControllerCheckBox>().changeState();
       },
       onTap: () {
-        Get.to(CustomerInfoPage(
-          customer: customer,
-          textSubMitButon: 'Cập nhật thông tin',
-        ));
+        if (!Get.find<ControllerCheckBox>().isShow) {
+          Get.to(CustomerInfoPage(
+            customer: customer,
+            textSubMitButon: 'Cập nhật thông tin',
+          ));
+        }
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 5),

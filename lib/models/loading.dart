@@ -21,15 +21,6 @@ class Loading {
     return _loadingShow;
   }
 
-  ///* nameFunction phải ở dạng void hoặc Future <T>.
-  static showAwait(
-      {String newTitle = 'Đang Tải ...',
-      @required Function nameFunction}) async {
-    getIntance()._showloading(title: newTitle);
-    await nameFunction();
-    getIntance()._dismiss();
-  }
-
   static show({String newTitle = 'Đang Tải ...'}) {
     if (!getIntance()._isLoading)
       return getIntance()._showloading(title: newTitle);
@@ -40,35 +31,35 @@ class Loading {
   }
 
   void _showloading({@required String title}) {
-    _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       _dismiss();
     });
     showDialog(
         context: currentContext,
         barrierDismissible: false,
-        child: Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: Container(
-            height: MediaQuery.of(currentContext).size.height * 0.1,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CircularProgressIndicator(
-                  backgroundColor: Colors.grey.withOpacity(0.1),
+        builder: (curentContext) => Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                height: MediaQuery.of(currentContext).size.height * 0.1,
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircularProgressIndicator(
+                      backgroundColor: Colors.grey.withOpacity(0.1),
+                    ),
+                    Text(
+                      title,
+                      style: _textStyle,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                Text(
-                  title,
-                  style: _textStyle,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            ));
     _isLoading = true;
   }
 

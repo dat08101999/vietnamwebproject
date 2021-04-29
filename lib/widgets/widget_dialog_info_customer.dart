@@ -6,7 +6,6 @@ import 'package:flutter_back_end/widgets/widget_button.dart';
 
 class DialogInfoCustomer extends StatelessWidget {
   final Order order;
-
   const DialogInfoCustomer({Key key, this.order}) : super(key: key);
 
   @override

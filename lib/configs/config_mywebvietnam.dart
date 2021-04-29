@@ -2,40 +2,39 @@ import 'package:flutter_back_end/controllers/controller_mainpage.dart';
 import 'package:flutter_back_end/models/request_dio.dart';
 
 class ConfigsMywebvietnam {
-  static final String signInApi =
-      'https://api.mywebvietnam.net/va-json/v1/accounts/signin';
-  static final String getProductsApi =
-      'https://api.mywebvietnam.net/va-json/v1/products';
-  static final String getProductsBRANDS =
-      'https://api.mywebvietnam.net/va-json/v1/products/brands';
-  static final String getCategoriesApi =
-      'https://api.mywebvietnam.net/va-json/v1/products/categories';
-  static final String getGroupProductApi =
-      'https://api.mywebvietnam.net/va-json/v1/products/groups';
-  static final String getOders = 'https://api.mywebvietnam.net/va-json/v1/orders';
-  static final String getCustomers =
-      'https://api.mywebvietnam.net/va-json/v1/customers';
-  static final String getCustomersSubscribe =
-      'https://api.mywebvietnam.net/va-json/v1/customers/subscribe';
-  static final String getListPage = 'https://api.mywebvietnam.net/va-json/v1/pages';
-  static final String getBlogsCategories =
-      'https://api.mywebvietnam.net/va-json/v1/blogs/categories';
-  static final String getBlogs = 'https://api.mywebvietnam.net/va-json/v1/blogs';
-  static final String getThemes = 'https://api.mywebvietnam.net/va-json/v1/themes';
-  static final String getAddressProvince =
-      'https://api.mywebvietnam.net/va-json/v1/address/province';
-  static final String getAddressDistrict =
-      'https://api.mywebvietnam.net/va-json/v1/address/district/';
-  static final String getAddressWard =
-      'https://api.mywebvietnam.net/va-json/v1/address/ward/';
-  static final String getRepostRevenue =
-      'https://api.mywebvietnam.net/va-json/v1//reports/revenue';
+  static final String apiSever = 'https://api.mywebvietnam.net/va-json/v1';
+  static final String signInApi = apiSever + '/accounts/signin';
+  static final String getProductsApi = apiSever + '/products';
+  static final String getProductsBRANDS = apiSever + '/products/brands';
+  static final String getCategoriesApi = apiSever + '/products/categories';
+  static final String getGroupProductApi = apiSever + '/products/groups';
+  static final String getOrders = apiSever + '/orders';
+  static final String getCustomers = apiSever + '/customers';
+  static final String getCustomersSubscribe = apiSever + '/customers/subscribe';
+  static final String getListPage = apiSever + '/pages';
+  static final String getBlogsCategories = apiSever + '/blogs/categories';
+  static final String getBlogs = apiSever + '/blogs';
+  static final String getThemes = apiSever + '/themes';
+  static final String getAddressProvince = apiSever + '/address/province';
+  static final String getAddressDistrict = apiSever + '/address/district/';
+  static final String getAddressWard = apiSever + '/address/ward/';
+  static final String getRepostRevenue = apiSever + '/reports/revenue';
+  static final String imageLibrary = apiSever + '/libraries';
+  static final String variationApi = apiSever + '/products/variations';
+  static final String getDashboard = apiSever + '/reports/dashboard';
+  static final String getInfoCustomer = apiSever + '/customers';
+  static final String confirmOrder = getOrders + '/confirm';
+  static final String cancelOrder = getOrders + '/cancel';
+  static final String sendedOrder = getOrders + '/sended';
+  static final String successOrder = getOrders + '/success';
+  static final String purchaseOrder = getOrders + '/purchase';
 
   static final String title =
       'Để chỉnh sửa nhiều thông tin hơn , quý khách vui lòng truy cập vào trang quản trị bằng máy tính';
   static final String urlAvatarDefalut =
       'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg';
-  static final String urlNoImage = 'https://thumbs.dreamstime.com/b/no-image-available-icon-vector-illustration-flat-design-140476186.jpg';
+  static final String urlNoImage =
+      'https://thumbs.dreamstime.com/b/no-image-available-icon-vector-illustration-flat-design-140476186.jpg';
 
   static Future<String> getAddress(Map<String, dynamic> mapAddress) async {
     String urlDistrict = '$getAddressDistrict${mapAddress['province']}';
@@ -77,9 +76,4 @@ class ConfigsMywebvietnam {
       return null;
     }
   }
-
-  static String getDashboard =
-      'https://api.mywebvietnam.net/va-json/v1/reports/dashboard';
-  static String getInfoCustomer =
-      'https://api.mywebvietnam.net/va-json/v1/customers';
 }

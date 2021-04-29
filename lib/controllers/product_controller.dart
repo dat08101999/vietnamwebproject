@@ -4,11 +4,20 @@ import 'package:get/get.dart' show GetxController;
 
 class ProductController extends GetxController {
   TextEditingController controllerTextName = TextEditingController();
-  TextEditingController controllerTextID = TextEditingController();
+  TextEditingController controllerTextSKU = TextEditingController();
   TextEditingController controllerTextPriceRegular = TextEditingController();
   TextEditingController controllerTextPriceSale = TextEditingController();
   TextEditingController controllerTextStock = TextEditingController();
-  TextEditingController controllerTextContent = TextEditingController();
+  TextEditingController controllerTextDescription = TextEditingController();
+  // List<Product> _products = [];
+
+  // List<Product> get products => _products;
+
+  // set products(List<Product> products) {
+  //   _products = products;
+  //   update();
+  // }
+
   int _limit = 0;
   static int _idCategoriesSelected = 0;
 
@@ -29,12 +38,11 @@ class ProductController extends GetxController {
   getProductInfo(Product product) {
     if (product != null) {
       controllerTextName.text = product.name;
-      controllerTextID.text = product.sku ?? product.id.toString();
+      controllerTextSKU.text = product.sku ?? '';
       controllerTextPriceRegular.text = product.priceRegular.toString();
       controllerTextPriceSale.text = product.priceSale.toString();
       controllerTextStock.text = product.stock.toString();
-      controllerTextContent.text = product.content;
-      update();
+      controllerTextDescription.text = product.description;
     }
   }
 }

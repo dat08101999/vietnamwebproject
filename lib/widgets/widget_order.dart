@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_back_end/models/format.dart';
+import 'package:flutter_back_end/models/loading.dart';
 import 'package:flutter_back_end/models/order.dart';
 import 'package:flutter_back_end/screens/oder_info_page.dart';
 import 'package:flutter_back_end/widgets/widget_text_in_color.dart';
@@ -11,10 +12,14 @@ class WidgetOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.to(() => OrderInfo(
-              order: this.order,
-            ));
+      onTap: () async {
+        Loading.show();
+        Order _order = await Order.getOrder(this.order.id.toString());
+        Loading.dismiss();
+        if (_order != null)
+          Get.to(() => OrderInfo(
+                order: _order,
+              ));
       },
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
@@ -57,15 +62,15 @@ class WidgetOrder extends StatelessWidget {
                   Row(
                     children: [
                       //* id đơn hàng
-                      TextInColor(
-                        text: order.id.toString(),
-                        color: Colors.teal,
-                        textStyle: TextStyle(fontSize: 10, color: Colors.white),
-                        width: 120,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      // TextInColor(
+                      //   text: order.id.toString(),
+                      //   color: Colors.teal,
+                      //   textStyle: TextStyle(fontSize: 10, color: Colors.white),
+                      //   width: 120,
+                      // ),
+                      // SizedBox(
+                      //   width: 5,
+                      // ),
                       // * trạng thái thanh toán
                       TextInColor(
                           text: order.timeline['purchased'] > 1
@@ -75,7 +80,12 @@ class WidgetOrder extends StatelessWidget {
                               TextStyle(fontSize: 10, color: Colors.black54),
                           color: order.timeline['purchased'] > 1
                               ? Colors.green[200]
-                              : Colors.orange[200])
+                              : Colors.orange[200]),
+                      //* order Code
+                      order.orderCode != null
+                          ? TextInColor(
+                              text: order.orderCode, color: Colors.greenAccent)
+                          : Container(),
                     ],
                   ),
                 ],
@@ -97,7 +107,7 @@ class WidgetOrder extends StatelessWidget {
                 ),
                 //* giá tiền
                 Text(
-                  Format.moneyFormat(order.amount['payment'].toString()),
+                  Format.moneyFormat(order.amount['payment'].toString()) + 'đ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 //* kênh

@@ -3,9 +3,9 @@ import 'package:flutter_back_end/configs/config_mywebvietnam.dart';
 import 'package:flutter_back_end/controllers/controller_customers.dart';
 import 'package:flutter_back_end/models/customer.dart';
 import 'package:flutter_back_end/models/loading.dart';
-import 'package:flutter_back_end/models/show_toast.dart';
 import 'package:flutter_back_end/screens/address_page.dart';
 import 'package:flutter_back_end/widgets/widget_button.dart';
+import 'package:flutter_back_end/widgets/widget_show_notifi.dart';
 import 'package:flutter_back_end/widgets/widget_textformfield.dart';
 import 'package:get/get.dart';
 
@@ -33,6 +33,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
   final ControllerCustomers controllerCustomers =
       Get.put(ControllerCustomers());
   ControllerMessage _controllerMessage = Get.put(ControllerMessage());
+  final _formKey = GlobalKey<FormState>();
 
   Widget buildListviewItem(String title, TextEditingController controller,
       {bool readonly = false, Function() ontap}) {
@@ -61,6 +62,7 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
 
   Customer getCustomer() {
     return Customer(
+        id: customer.id,
         name: controllerCustomers.name.text,
         phone: controllerCustomers.phone.text,
         address: controllerCustomers.addressRecie.text,
@@ -98,45 +100,56 @@ class _StateCustomerInfoPage extends State<CustomerInfoPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
                 margin: EdgeInsets.all(5),
-                child: ListView(
-                  children: [
-                    buildMessage(),
-                    buildListviewItem('Tên đầy đủ ', controllerCustomers.name),
-                    buildListviewItem(
-                        'Số điện thoại', controllerCustomers.phone),
-                    buildListviewItem(
-                        'Địa chỉ email ', controllerCustomers.email),
-                    buildListviewItem(
-                        'Địa chỉ nhận hàng', controllerCustomers.addressRecie),
-                    buildListviewItem(
-                        'Địa chỉ chi tiết', controllerCustomers.address,
-                        readonly: true, ontap: () {
-                      Get.to(AddressPage(
-                        customer: controllerCustomers.customer,
-                      ));
-                    }),
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      buildMessage(),
+                      buildListviewItem(
+                          'Tên đầy đủ ', controllerCustomers.name),
+                      buildListviewItem(
+                          'Số điện thoại', controllerCustomers.phone),
+                      buildListviewItem(
+                          'Địa chỉ email ', controllerCustomers.email),
+                      buildListviewItem('Địa chỉ nhận hàng',
+                          controllerCustomers.addressRecie),
+                      buildListviewItem(
+                          'Địa chỉ chi tiết', controllerCustomers.address,
+                          readonly: true, ontap: () {
+                        Get.to(AddressPage(
+                          customer: controllerCustomers.customer,
+                        ));
+                      }),
+                    ],
+                  ),
                 ),
               ),
             ),
             ButtonCustom.buttonSubmit(
-                name: textSubMitButon,
+                title: Text(
+                  textSubMitButon,
+                  style: TextStyle(color: Colors.white),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 onPress: () async {
-                  Customer tempCustomer = getCustomer();
-                  Loading.show();
-                  _controllerMessage.hideMessage();
-                  bool result = textSubMitButon == 'Thêm'
-                      ? await Customer.addCustomers(tempCustomer)
-                      : await Customer.updateCustomer(tempCustomer);
-                  if (result == false) {
-                    _controllerMessage.showMessage();
-                  }
-                  Loading.dismiss();
-                  if (result == true) {
-                    ShowToast.show(
-                        title: textSubMitButon == 'Thêm'
-                            ? 'Thêm Thành Công'
-                            : 'Cập Nhật Thành Công');
+                  if (_formKey.currentState.validate()) {
+                    Customer tempCustomer = getCustomer();
+                    Loading.show();
+                    _controllerMessage.hideMessage();
+                    bool result = textSubMitButon == 'Thêm'
+                        ? await Customer.addCustomers(tempCustomer)
+                        : await Customer.updateCustomer(tempCustomer);
+                    if (result == false) {
+                      _controllerMessage.showMessage();
+                    }
+                    Loading.dismiss();
+                    if (result == true) {
+                      ShowNotifi.showToast(
+                          title: textSubMitButon == 'Thêm'
+                              ? 'Thêm Thành Công'
+                              : 'Cập Nhật Thành Công');
+                    }
                   }
                 }),
           ],

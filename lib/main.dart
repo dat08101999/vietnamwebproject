@@ -50,7 +50,7 @@ class _LaunchState extends State<Launch> {
   void initState() {
     super.initState();
     getUserProfile();
-    Timer.periodic(Duration(milliseconds: 500), (timer) {
+    Timer.periodic(Duration(milliseconds: 1000), (timer) {
       if (ConfigUser.userProfile == null) {
         _onload();
       } else {
@@ -64,23 +64,11 @@ class _LaunchState extends State<Launch> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        alignment: Alignment.center,
-        // decoration: BoxDecoration(color: Colors.blue[200]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.teal,
-              maxRadius: 100,
-            ),
-            Text(
-              'Chào mừng tới VAWAY-APP',
-              style: TextStyle(color: Colors.white70, fontSize: 24),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
+          alignment: Alignment.center,
+          child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: Image.asset('assets/images/vaweb.vn.png'))),
     );
   }
 
